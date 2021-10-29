@@ -1,6 +1,8 @@
 # Discordia
 ##### The best PROJECT EVER MADE BY DI_BERARDINI'S STUDENS
 
+### This is not just a simple Client to Client through Server but... IS CLIENT TO CLIENT THROUGH SERVER CRYPTED BY RSA
+
 ## Built With
 
 - Java
