@@ -1,12 +1,12 @@
-# discordiaNotGui
+# Discordia
  
 <h1 align="center"><project-name></h1>
 
 <p align="center"><project-description></p>
 
-## Links
+## Members
 
-- [Repo](https://github.com/Rohit19060/<project-name> "<project-name> Repo")
+- [Repo](https://www.google.com/url?sa=i&url=https%3A%2F%2Fit.m.wikipedia.org%2Fwiki%2FFile%3AThe_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%2527s_Solar_Dynamics_Observatory_-_20100819.jpg&psig=AOvVaw0Tzz7U0njxW1yyqQP-O4VR&ust=1635608176678000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCPCe5JT57_MCFQAAAAAdAAAAABAD "Sunyx")
 
 - [Live](<Homepage url> "Live View")
 
