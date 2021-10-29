@@ -15,11 +15,6 @@
 
 - [ ] What the teacher will say about this project.
 
-
-
-
-## Members
-
 ## Members
 
 - [Sunxy](https://www.google.com/url?sa=i&url=https%3A%2F%2Fit.m.wikipedia.org%2Fwiki%2FFile%3AThe_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%2527s_Solar_Dynamics_Observatory_-_20100819.jpg&psig=AOvVaw0Tzz7U0njxW1yyqQP-O4VR&ust=1635608176678000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCPCe5JT57_MCFQAAAAAdAAAAABAD "Sunyx")
@@ -31,19 +26,19 @@
 - [Uonc](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.startmag.it%2Finvestimenti%2Fforza-dollaro%2F&psig=AOvVaw0vHQ0w9D6fiKGcTayf8Ckm&ust=1635608352013000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCMDHsOj57_MCFQAAAAAdAAAAABAD "Uonc")
 
 
-### Author
+#### Author
 
 **Sunyx**
 
-### Programmers
+#### Programmers
 -**Sunyx**
 -**Shu4**
 -**Valloz**
 
-### Designer 
+#### Designer 
 -**Uonc**
 
-### Writers
+#### Writers
 -**Uonc**
 
 ## 🤝 Support
