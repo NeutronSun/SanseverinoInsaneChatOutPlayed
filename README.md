@@ -1,5 +1,5 @@
 # Discordia
-####The best PROJECT EVER MADE BY DI_BERARDINI'S STUDENS
+##### The best PROJECT EVER MADE BY DI_BERARDINI'S STUDENS
 
 ## Built With
 
