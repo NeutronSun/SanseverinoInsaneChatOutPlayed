@@ -43,19 +43,23 @@
 
 
 #### Programmers
--**Sunyx**
--**Shu4**
--**Valloz**
+- **Sunyx**
+- **Shu4**
+- **Valloz**
 
 #### Designer 
--**Uonc**
+- **Uonc**
 
 #### Writers
--**Uonc**
+- **Uonc**
+#### Never write a line of code
+- **Uonc**
+- **Fallito**
+- **Il_Riccone_Figlio_Del_Papi**
 
 ## 🤝 Support
 
 Contributions, issues, and feature requests are welcome!
-Thanks prof to support us saying we suck everytime we do something, we appreciate it a lot ❤️
+We'll appreciate a good mark a lot ❤️
 
 Give a 10 if you liked this project!
