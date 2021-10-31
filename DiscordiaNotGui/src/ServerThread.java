@@ -12,10 +12,13 @@ public class ServerThread implements Runnable {
     public String userName;
     public Encryptor rsa = new Encryptor();
 
+    public String chattingInto = null;
+    public static ArrayList<String> rooms = new ArrayList<String>();
+
     ServerThread(Socket socket, ArrayList<ServerThread> clients) throws IOException{
         this.socket = socket;
         this.clients = clients;
-        dataFile = new File("data.txt");
+        dataFile = new File("./FileServer/DataUser/data.txt");
         if(!dataFile.exists()){
             dataFile.createNewFile();
         }
@@ -40,6 +43,7 @@ public class ServerThread implements Runnable {
 
             synchronized(this){
                 sendUserName();
+                getRoomsFromFile();
             }
             String line;
             synchronized(this){
@@ -108,6 +112,24 @@ public class ServerThread implements Runnable {
         userName = usr;
         out.println("swemps");
     }
+
+    public void getRoomsFromFile() throws IOException{
+        File roomFile = new File("./FileServer/RoomSetting/roomsList.txt");
+        BufferedReader br = new BufferedReader(new FileReader(roomFile));
+        String line;
+        String[] data = new String[2];
+        int cont = 0;
+        while((line = br.readLine()) != null){
+            cont = 0;
+            for(String s : line.split("-")){
+                data[cont] = s;
+                cont++;
+            }
+            out.println("Room: " + data[0]);
+            rooms.add(line);
+        }
+    }
+
 
 }
 
