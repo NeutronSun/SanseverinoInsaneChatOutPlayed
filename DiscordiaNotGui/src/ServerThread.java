@@ -10,6 +10,7 @@ public class ServerThread implements Runnable {
     private static File dataFile;
 
     public String userName;
+    public Encryptor rsa = new Encryptor();
 
     ServerThread(Socket socket, ArrayList<ServerThread> clients) throws IOException{
         this.socket = socket;
@@ -24,6 +25,8 @@ public class ServerThread implements Runnable {
         try{
             out = new PrintWriter(socket.getOutputStream(), true);
         	in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            out.println("//" + rsa.getD());
+            out.println("//" + rsa.getN());
             out.println("Do you have already an account?");
             String password;
             if(in.readLine().equals("y")){

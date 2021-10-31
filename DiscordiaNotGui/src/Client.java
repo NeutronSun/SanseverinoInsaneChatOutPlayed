@@ -23,13 +23,13 @@ public class Client {
             Socket echoSocket = new Socket(hostName, portNumber);
             putInServer = new PrintWriter(echoSocket.getOutputStream(), true);
             BufferedReader inKey = new BufferedReader(new InputStreamReader(System.in));
-            BufferedReader inServer = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
             ClientThreadReader read = new ClientThreadReader(echoSocket);
             new Thread(read).start();
-            //here the user has to answer if he has an account
-            inServer.readLine();
-            //here the server says what the client has to do
             
+            String userInput;
+            while ((userInput = inKey.readLine()) != null) {
+                putInServer.println(userInput);
+            }
 
             putInServer.close();
             inKey.close();
