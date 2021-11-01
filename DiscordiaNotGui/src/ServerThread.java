@@ -10,10 +10,11 @@ public class ServerThread implements Runnable {
     private static File dataFile;
 
     public String userName;
+    public String chattingInto = "nowhere";
     public Encryptor rsa = new Encryptor();
 
-    public String chattingInto = null;
     public static ArrayList<String> rooms = new ArrayList<String>();
+    public static ArrayList<UserData> users = new ArrayList<UserData>();
 
     ServerThread(Socket socket, ArrayList<ServerThread> clients) throws IOException{
         this.socket = socket;
@@ -45,10 +46,19 @@ public class ServerThread implements Runnable {
                 sendUserName();
                 getRoomsFromFile();
             }
+            users.add(new UserData(userName, "nowhere"));
+            setRoom(in.readLine());
             String line;
             synchronized(this){
             while ((line = in.readLine()) != null) {
-                
+                if(!line.startsWith("/"))
+                sendMessage(line);
+                if(line.startsWith("/changeRoom")){
+                    sendMessage("has left the chat");
+                    this.chattingInto = "nowhere";
+                    getRoomsFromFile();
+                    setRoom(in.readLine());
+                }
             }
         }
 
@@ -84,6 +94,7 @@ public class ServerThread implements Runnable {
         String[] data = new String[3];
         int cont = 0;
         while((line = br.readLine()) != null){
+            cont = 0;
             for(String s : line.split("/")){
                 data[cont] = s;
                 cont++;
@@ -127,6 +138,23 @@ public class ServerThread implements Runnable {
             }
             out.println("Room: " + data[0]);
             rooms.add(line);
+        }
+    }
+
+    public void setRoom(String s){
+        for(UserData arr : users){
+            if(arr.userName.equals(this.userName))
+                arr.chattingInto = s; 
+        }
+        chattingInto = s;
+        sendMessage("has joined the chat");
+    }
+
+    public void sendMessage(String msg){
+        msg = "<" + userName + ">" + msg;
+        for(ServerThread user : clients){
+            if(user.chattingInto.equals(this.chattingInto) && !user.userName.equals(this.userName))
+            user.out.println(msg);
         }
     }
 
