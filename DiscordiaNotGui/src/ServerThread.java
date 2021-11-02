@@ -14,7 +14,7 @@ public class ServerThread implements Runnable {
     public Encryptor rsa = new Encryptor();
 
     public static ArrayList<String> rooms = new ArrayList<String>();
-    public static ArrayList<UserData> users = new ArrayList<UserData>();
+    public UserData data = new UserData("bot", "nowhere");
 
     ServerThread(Socket socket, ArrayList<ServerThread> clients) throws IOException{
         this.socket = socket;
@@ -29,26 +29,30 @@ public class ServerThread implements Runnable {
         try{
             out = new PrintWriter(socket.getOutputStream(), true);
         	in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            //send the privateKey to the client and he will storage it
             out.println("//" + rsa.getD());
             out.println("//" + rsa.getN());
+
+            //the first phase, the user has to login or signin
             out.println("Do you have already an account?");
-            String password;
+            String usr = "w", password;
             if(in.readLine().equals("y")){
                 do{
-                    userName = in.readLine();
+                    out.println("username:");
+                    usr = in.readLine();
+                    out.println("password");
                     password = in.readLine();
-                }while(!getData(password));
+                }while(!getData(usr, password));
+                //set the first values: the username
+                data.setUserName(usr);
             }else{
                 createNewAccount();
-            }
-
-            synchronized(this){
-                sendUserName();
-                getRoomsFromFile();
-            }
-            users.add(new UserData(userName, "nowhere"));
-            setRoom(in.readLine());
+            } 
+            //second phase, now the user has logged into is profile and has to choose the room where chat into 
+            sendRoomsToUser();
+            setRoom();
             String line;
+            //and finally he can chat
             synchronized(this){
             while ((line = in.readLine()) != null) {
                 if(!line.startsWith("/"))
@@ -56,9 +60,11 @@ public class ServerThread implements Runnable {
                 if(line.startsWith("/changeRoom")){
                     sendMessage("has left the chat");
                     this.chattingInto = "nowhere";
-                    getRoomsFromFile();
-                    setRoom(in.readLine());
+                    sendRoomsToUser();
+                    setRoom();
                 }
+                if(line.startsWith("/help"))
+                  listCommands();
             }
         }
 
@@ -88,7 +94,7 @@ public class ServerThread implements Runnable {
         out.println("end");
     }
 
-    public boolean getData(String password) throws IOException{
+    public boolean getData(String usr, String password) throws IOException{
         BufferedReader br = new BufferedReader(new FileReader(dataFile));
         String line;
         String[] data = new String[3];
@@ -99,16 +105,16 @@ public class ServerThread implements Runnable {
                 data[cont] = s;
                 cont++;
             }
-            if(userName.equals(data[1]) && password.equals(data[2])){
-                out.println(userName + " welcome back");
+            if(usr.equals(data[1]) && password.equals(data[2])){
+                out.println(usr + " welcome back");
                 return true;
             }
         }
-        out.println(userName + " doesn't exist");
+        out.println(usr + " doesn't exist");
         return false;
     }
 
-    public void createNewAccount() throws IOException{
+    public synchronized void createNewAccount() throws IOException{
         String email, usr, pass;
         email = in.readLine();
         usr = in.readLine();
@@ -120,15 +126,15 @@ public class ServerThread implements Runnable {
         fw.newLine();
         fw.flush();
         fw.close();
-        userName = usr;
-        out.println("swemps");
+        out.println("logged into your account correctly");
+        this.data.setUserName(usr);
     }
 
-    public void getRoomsFromFile() throws IOException{
+    public void sendRoomsToUser() throws IOException{
         File roomFile = new File("./FileServer/RoomSetting/roomsList.txt");
         BufferedReader br = new BufferedReader(new FileReader(roomFile));
         String line;
-        String[] data = new String[2];
+        String[] data = new String[3];
         int cont = 0;
         while((line = br.readLine()) != null){
             cont = 0;
@@ -141,23 +147,61 @@ public class ServerThread implements Runnable {
         }
     }
 
-    public void setRoom(String s){
-        for(UserData arr : users){
-            if(arr.userName.equals(this.userName))
-                arr.chattingInto = s; 
+    public void setRoom() throws IOException{
+        File roomFile = new File("./FileServer/RoomSetting/roomsList.txt");
+        BufferedReader br = new BufferedReader(new FileReader(roomFile));
+        String line;
+        String[] data = new String[3];
+        int cont = 0;
+        while(true) {
+            String s = in.readLine();
+            while((line = br.readLine()) != null){
+                cont = 0;
+                for(String ss : line.split("-")){
+                    data[cont] = ss;
+                    cont++;
+                }
+                System.out.println("s: " + s + " data[0]: " + data[0]);
+                if(s.equalsIgnoreCase(data[0])){
+                this.data.setRoom(data[0]);
+                out.println("welcome in " + this.data.getName() + ", " + data[2]);
+                out.println("There are " + getNumberUserInRoom(data[0]) + " users online");
+                sendMessage("has joined the room");
+                return;
+                }
+            }
+            out.println("room doesn't exist");
+            sendRoomsToUser();
         }
-        chattingInto = s;
-        sendMessage("has joined the chat");
     }
 
     public void sendMessage(String msg){
-        msg = "<" + userName + ">" + msg;
+        msg = "<" + this.data.getName() + ">" + msg;
         for(ServerThread user : clients){
-            if(user.chattingInto.equals(this.chattingInto) && !user.userName.equals(this.userName))
+            if(user.data.getRoom().equalsIgnoreCase(this.data.getRoom()) && !user.data.getName().equals(this.data.getName()))
             user.out.println(msg);
         }
     }
 
+    public void listCommands(){
+        out.println("[/changeRoom] --> You will be disconnected from your actual room");
+        out.println("[/op] --> You will request to become an operator of Discordia");
+        out.println("[/changeUserName] --> You will change your userName");
+        out.println("-----OP COMMANDS-----");
+        out.println("[/ban @user] --> You will ban the user from the actual room");
+        out.println("[/destroy @user] --> You will ban the user from every room :D");
+        out.println("[/createNewRoom] --> You will create a new room");
+        
+    }
+
+    public int getNumberUserInRoom(String roomName){
+        int cont = 0;
+        for(ServerThread user : clients){
+            if(user.data.chattingInto.equalsIgnoreCase(roomName))
+            cont++;
+        }
+        return cont;
+    }
 
 }
 
