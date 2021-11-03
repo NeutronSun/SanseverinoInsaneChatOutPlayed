@@ -177,6 +177,18 @@ public class ServerThread implements Runnable {
 
     public void sendMessage(String msg){
         msg = "<" + this.data.getName() + ">" + msg;
+        msg = msg.replaceAll("<3", new StringBuilder().appendCodePoint(0x1F497).toString());
+        msg = msg.replaceAll(":143:", new StringBuilder().appendCodePoint(0x1F618).toString());
+        msg = msg.replaceAll(":pantano:", new StringBuilder().appendCodePoint(0x1F62C).toString());
+        msg = msg.replaceAll(":mario:", new StringBuilder().appendCodePoint(0x1F921).toString());
+        msg = msg.replaceAll(":safj:", new StringBuilder().appendCodePoint(0x1F41D).toString());
+        msg = msg.replaceAll(":skull:", new StringBuilder().appendCodePoint(0x1F480).toString());
+        msg = msg.replaceAll(":sad:", new StringBuilder().appendCodePoint(0x1F614).toString());
+        msg = msg.replaceAll(":merio:", new StringBuilder().appendCodePoint(0x1F533).toString());
+        msg = msg.replaceAll(":baco:", new StringBuilder().appendCodePoint(0x1F41B).toString());
+        msg = msg.replaceAll(":swag:", new StringBuilder().appendCodePoint(0x1F60E).toString());
+
+
         for(ServerThread user : clients){
             if(user.data.getRoom().equalsIgnoreCase(this.data.getRoom()) && !user.data.getName().equals(this.data.getName()))
             user.out.println(msg);

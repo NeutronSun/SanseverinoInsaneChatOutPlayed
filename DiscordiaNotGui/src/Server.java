@@ -8,7 +8,7 @@ public class Server {
         int portNumber = 77;
         ServerSocket serverSocket = new ServerSocket(portNumber);
         int contThread = 0;
-
+        System.out.println(new StringBuilder().appendCodePoint(0x1F9DC).toString() + " frake");
         ArrayList<Thread> threads = new ArrayList<Thread>();
         ArrayList<ServerThread> clients = new ArrayList<ServerThread>();
         System.out.println("ip: " + Inet4Address.getLocalHost().getHostAddress());
