@@ -8,13 +8,10 @@ public class ServerThread implements Runnable {
     private BufferedReader in;
     private ArrayList<ServerThread> clients;
     private static File dataFile;
-
-    public String userName;
-    public String chattingInto = "nowhere";
     public Encryptor rsa = new Encryptor();
 
     public static ArrayList<String> rooms = new ArrayList<String>();
-    public UserData data = new UserData("bot", "nowhere");
+    public UserData data = new UserData("df", "nowhere");
 
     ServerThread(Socket socket, ArrayList<ServerThread> clients) throws IOException{
         this.socket = socket;
@@ -59,7 +56,6 @@ public class ServerThread implements Runnable {
                 sendMessage(line);
                 if(line.startsWith("/changeRoom")){
                     sendMessage("has left the chat");
-                    this.chattingInto = "nowhere";
                     sendRoomsToUser();
                     setRoom();
                 }
@@ -70,9 +66,9 @@ public class ServerThread implements Runnable {
 
 
         }catch(IOException e){
-            System.out.println(userName + " has left the game");
+            System.out.println(this.data.getName() + " has left the game");
             clients.remove(Integer.parseInt(Thread.currentThread().getName()));
-            String msg = (userName + " has left the game\nThere are " + clients.size() + "player left.");
+            String msg = (this.data.getName() + " has left the game\nThere are " + clients.size() + "player left.");
 
         }
     }
