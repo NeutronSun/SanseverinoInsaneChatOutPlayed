@@ -4,6 +4,7 @@ import java.math.BigInteger;
 
 public class Encryptor {
     private static BigInteger lastPrime = new BigInteger("150000000000000000000000000000000000000000000000973");
+    private static int cont = 0;
     private BigInteger p = new BigInteger("47");
     private BigInteger q = new BigInteger("71");
     private BigInteger n = new BigInteger("0");
@@ -13,6 +14,7 @@ public class Encryptor {
 
     {
         lastPrime = newPrime(lastPrime);
+        cont++;
     }
 
     public Encryptor() {
@@ -22,6 +24,7 @@ public class Encryptor {
         e = coprimes();
         phi = phi();
         d = e.modInverse(phi);
+        System.out.println("contatore: " + cont);
     }
 
     public BigInteger findD() {
