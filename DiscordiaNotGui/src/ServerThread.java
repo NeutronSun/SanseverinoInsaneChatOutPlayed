@@ -73,23 +73,17 @@ public class ServerThread implements Runnable {
         }
     }
 
-
-    public void sendUserName() throws IOException{
-        BufferedReader br = new BufferedReader(new FileReader(dataFile));
-        String line;
-        String[] data = new String[3];
-        int cont = 0;
-        while((line = br.readLine()) != null){
-            cont = 0;
-            for(String s : line.split("/")){
-                data[cont] = s;
-                cont++;
-            }
-            out.println(data[1]);
-        }
-        out.println("end");
-    }
-
+    /**
+     * During the login, after the client has sent the username and the passoword, the server 
+     * will all the username/password and compare them with the user's ones.
+     * 
+     * @param usr
+     * the username got from the client
+     * @param passoword
+     * the password got from the client
+     * @return
+     * true if the usr and passoword are correct. 
+    */
     public boolean getData(String usr, String password) throws IOException{
         BufferedReader br = new BufferedReader(new FileReader(dataFile));
         String line;
@@ -110,6 +104,11 @@ public class ServerThread implements Runnable {
         return false;
     }
 
+    /**
+     * This method provide to add a new account into the data.txt. Is synchronized for avoid
+     * inconsistency and other concurrency issues.
+     * @throws IOException
+     */
     public synchronized void createNewAccount() throws IOException{
         String email, usr, pass;
         email = in.readLine();
@@ -126,6 +125,10 @@ public class ServerThread implements Runnable {
         this.data.setUserName(usr);
     }
 
+    /**
+     * This method send to the clients the full list of all the rooms. The data of the room is saved into roomsList.txt
+     * @throws IOException
+     */
     public void sendRoomsToUser() throws IOException{
         File roomFile = new File("./FileServer/RoomSetting/roomsList.txt");
         BufferedReader br = new BufferedReader(new FileReader(roomFile));
