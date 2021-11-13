@@ -53,7 +53,7 @@ public class ServerThread implements Runnable {
             synchronized(this){
             while ((line = in.readLine()) != null) {
                 if(!line.startsWith("/"))
-                sendMessage(line);
+                            sendMessage(line);
                 if(line.startsWith("/changeRoom")){
                     sendMessage("has left the chat");
                     sendRoomsToUser();
