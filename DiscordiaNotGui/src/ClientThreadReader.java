@@ -17,10 +17,6 @@ public class ClientThreadReader implements Runnable {
                 s = in.readLine();
                 if(s.startsWith("/"))
                     setPK(s);
-                if(s.equals("you got banned.")){
-                    socket.close();
-                    in.close();
-                }
                 else
                     System.out.println(s);
             } catch (IOException e) {

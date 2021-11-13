@@ -1,5 +1,5 @@
 # Discordia
-##### The best PROJECT EVER MADE BY DI_BERARDINI'S STUDENS
+##### Maybe a ten.
 
 ### This is not just a simple Client to Client through Server but... IS CLIENT TO CLIENT THROUGH SERVER CRYPTED BY RSA. 
 ### Everytime the server accepts a connection with a client it provides to generate the public and the private keys and send them to the client. The server saves only the public client's key.
@@ -30,7 +30,7 @@
 
 #### Author
 
-**Sanseverino**
+- ***Sanseverino**
 
 
 #### Programmers
