@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ServerThread implements Runnable {
     public Socket socket;
@@ -10,12 +11,15 @@ public class ServerThread implements Runnable {
     private static File dataFile;
     public Encryptor rsa = new Encryptor();
 
+    HashMap<String, HashMap<String, ArrayList<String>>> messageMap;
+
     public static ArrayList<String> rooms = new ArrayList<String>();
     public UserData data = new UserData("df", "nowhere");
 
-    ServerThread(Socket socket, ArrayList<ServerThread> clients) throws IOException{
+    ServerThread(Socket socket, ArrayList<ServerThread> clients, HashMap<String, HashMap<String, ArrayList<String>>> ash ) throws IOException{
         this.socket = socket;
         this.clients = clients;
+        messageMap = ash;
         dataFile = new File("./FileServer/DataUser/data.txt");
         if(!dataFile.exists()){
             dataFile.createNewFile();
@@ -44,6 +48,11 @@ public class ServerThread implements Runnable {
                 data.setUserName(usr);
             }else{
                 createNewAccount();
+            }
+            synchronized(this) {
+                messageMap.put(data.getName(), new HashMap<String,ArrayList<String>>());
+                TheWaiter wait = new TheWaiter(socket, messageMap, data);
+                new Thread(wait).start();
             } 
             //second phase, now the user has logged into is profile and has to choose the room where chat into 
             sendRoomsToUser();
@@ -187,10 +196,23 @@ public class ServerThread implements Runnable {
         msg = msg.replaceAll(":baco:", new StringBuilder().appendCodePoint(0x1F41B).toString());
         msg = msg.replaceAll(":swag:", new StringBuilder().appendCodePoint(0x1F60E).toString());
 
-
+        /*
         for(ServerThread user : clients){
             if(user.data.getRoom().equalsIgnoreCase(this.data.getRoom()) && !user.data.getName().equals(this.data.getName()))
             user.out.println(msg);
+        }
+        */
+        synchronized(this) {
+            for(ServerThread user : clients){
+                if(user.data.getRoom().equalsIgnoreCase(this.data.getRoom()) && !user.data.getName().equals(this.data.getName()))
+                    if(messageMap.get(user.data.getName()).containsKey(this.data.getName()))
+                        messageMap.get(user.data.getName()).get(this.data.getName()).add(msg);
+                    else{
+                        messageMap.get(user.data.getName()).put(this.data.getName(), new ArrayList<String>());
+                        messageMap.get(user.data.getName()).get(this.data.getName()).add(msg);
+                    }
+            }
+            notifyAll();
         }
     }
 

@@ -2,6 +2,7 @@
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Server {
     public static void main(String[] args) throws Exception {
@@ -14,10 +15,10 @@ public class Server {
         System.out.println("ip: " + Inet4Address.getLocalHost().getHostAddress());
         System.out.println("port: " + portNumber);
         System.out.println("Waiting for user..." );
-
+        HashMap<String, HashMap<String, ArrayList<String>>> messageMap = new HashMap<String, HashMap<String, ArrayList<String>>>();
         while (true) {
             Socket clientSocket = serverSocket.accept();
-            clients.add(new ServerThread(clientSocket, clients));
+            clients.add(new ServerThread(clientSocket, clients, messageMap));
             threads.add(new Thread(clients.get(contThread)));
             threads.get(contThread).setName(String.valueOf(contThread));
             threads.get(contThread).start();
