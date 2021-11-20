@@ -16,10 +16,10 @@ public class ServerThread implements Runnable {
     public static ArrayList<String> rooms = new ArrayList<String>();
     public UserData data = new UserData("df", "nowhere");
 
-    ServerThread(Socket socket, ArrayList<ServerThread> clients, HashMap<String, HashMap<String, ArrayList<String>>> ash ) throws IOException{
+    ServerThread(Socket socket, ArrayList<ServerThread> clients, HashMap<String, HashMap<String, ArrayList<String>>> ashe ) throws IOException{
         this.socket = socket;
         this.clients = clients;
-        messageMap = ash;
+        messageMap = ashe;
         dataFile = new File("./FileServer/DataUser/data.txt");
         if(!dataFile.exists()){
             dataFile.createNewFile();
@@ -204,15 +204,24 @@ public class ServerThread implements Runnable {
         */
         synchronized(this) {
             for(ServerThread user : clients){
-                if(user.data.getRoom().equalsIgnoreCase(this.data.getRoom()) && !user.data.getName().equals(this.data.getName()))
+                if(user.data.getRoom().equalsIgnoreCase(this.data.getRoom()) && !user.data.getName().equals(this.data.getName())){
                     if(messageMap.get(user.data.getName()).containsKey(this.data.getName()))
                         messageMap.get(user.data.getName()).get(this.data.getName()).add(msg);
                     else{
                         messageMap.get(user.data.getName()).put(this.data.getName(), new ArrayList<String>());
                         messageMap.get(user.data.getName()).get(this.data.getName()).add(msg);
                     }
+                }
             }
             notifyAll();
+        }
+        for(String key : messageMap.keySet()){
+            System.out.println("bigKey: " + key);
+            for(String internalKey : messageMap.get(key).keySet()){
+                System.out.println("internalKey: " + internalKey);
+                for(String a : messageMap.get(key).get(internalKey))
+                    System.out.println("msg: " + a);
+            }
         }
     }
 
