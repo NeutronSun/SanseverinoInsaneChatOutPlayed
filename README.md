@@ -1,4 +1,4 @@
-# Discordia
+# Project Dchat
 ##### Maybe a ten.
 
 ### This is not just a simple Client to Client through Server but... IS CLIENT TO CLIENT THROUGH SERVER CRYPTED BY RSA. 
@@ -20,7 +20,7 @@
 
 ## Future Updates
 
-- [x] What the teacher will say about this project.
+- [ ] What the teacher will say about this project.
 - [ ] Implements a gui
 - [ ] Save data in a database using sql
 - [ ] Study Verga and Primo Levi
@@ -30,7 +30,7 @@
 
 #### Author
 
-- ***Sanseverino**
+- **Sanseverino**
 
 
 #### Programmers
