@@ -20,7 +20,7 @@
 
 ## Future Updates
 
-- [ ] What the teacher will say about this project.
+- [x] What the teacher will say about this project.
 - [ ] Implements a gui
 - [ ] Save data in a database using sql
 - [ ] Study Verga and Primo Levi
