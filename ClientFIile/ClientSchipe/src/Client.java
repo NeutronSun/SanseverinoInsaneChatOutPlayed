@@ -6,25 +6,6 @@ import java.net.Inet4Address;
 import java.net.Socket;
 import java.util.ArrayList;
 
-
-
-import java.awt.*;
-
-/**
- * Sì, sì
-GM
-Panino del Mc Donald's
-Okay, okay
-GM
-Panino del Mc Donald con la mia gang
-Ci beviamo una Coca-Cola dentro al privè
-Fuck your opinion, non m'interessi
-Che di certo sei più basso di Lionel Messi
-Cinquantasei kili, non voglio dimagrire
-Trenta il peso, venti la mente, e il sei non si può dire
-I trenta kili procurati tutti dal Mc
-Vi mangiate un bel panino tutte quante con me, sì
- */
 public class Client {
     
     private static PrintWriter putInServer;
