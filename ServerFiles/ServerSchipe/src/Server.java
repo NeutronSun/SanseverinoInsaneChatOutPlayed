@@ -15,6 +15,7 @@ public class Server {
         ServerSocket serverSocket = new ServerSocket(portNumber);
         ArrayList<Thread> threads = new ArrayList<Thread>();
         ArrayList<ServerThread> clients = new ArrayList<ServerThread>();
+        FileManager fm = new FileManager();
         System.out.println("ip: " + Inet4Address.getLocalHost().getHostAddress());
         System.out.println("port: " + portNumber);
         System.out.println("Waiting for user..." );
@@ -23,7 +24,7 @@ public class Server {
         int contThread = 0;
         while (true) {
             Socket clientSocket = serverSocket.accept();
-            clients.add(new ServerThread(clientSocket, mailBox, users));
+            clients.add(new ServerThread(clientSocket, mailBox, users, fm));
             threads.add(new Thread(clients.get(contThread)));
             threads.get(contThread).setName(String.valueOf(contThread));
             threads.get(contThread).start();

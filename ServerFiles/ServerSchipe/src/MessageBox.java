@@ -1,33 +1,40 @@
 import java.util.*;
 
 public class MessageBox {
-    private  HashMap<String, HashMap<String, ArrayList<String>>> messageMap;
+    private int contReader;
+    private  HashMap<String, ArrayList<Message>> messageMap;
 
     public MessageBox(){
-        messageMap = new HashMap<String, HashMap<String, ArrayList<String>>>();
+        contReader = 0;
+        messageMap = new HashMap<String, ArrayList<Message>>();
     }
 
-    public synchronized void writeMessage(String msg, String sender, String receiver){
+    public synchronized void addUser(String name){
+        messageMap.put(name, new ArrayList<Message>());
+    }
 
-        if(!messageMap.get(sender).containsKey(receiver))
-            messageMap.get(sender).put(receiver, new ArrayList<String>());
-        messageMap.get(sender).get(receiver).add(msg);
+    public synchronized void writeMessage(Message msg, String recivier) throws InterruptedException{
+        while(contReader > 0){wait();}
+        System.out.println(msg.getPerfectMessage());
+        messageMap.get(recivier).add(msg);
         notifyAll();
     }
-
-    public synchronized void addUser(String sender){
-        messageMap.put(sender, new HashMap<String, ArrayList<String>>());
-    }
-
-    public String getMessage(String sender, String receiver) throws InterruptedException{
-        String msg = "";
-        synchronized(this) {
-            while(messageMap.get(sender).size() == 0){wait();}
-            for(String s : messageMap.get(sender).get(receiver))
-                msg = msg + "//" + s;
-            return msg;
+    
+    public Message[] getMessage(String sender) throws InterruptedException{
+        while(messageMap.get(sender).size() == 0){wait();
+            System.out.println("ciao");}
+        synchronized(this){
+            contReader++;
         }
-        
+        Message[] message = new Message[messageMap.get(sender).size()];
+        message = messageMap.get(sender).toArray(message);
+        synchronized(this){
+            contReader--;
+            messageMap.remove(sender);
+            messageMap.put(sender, new ArrayList<Message>());
+            notifyAll();
+        }
+        return message;
     }
     
 }
