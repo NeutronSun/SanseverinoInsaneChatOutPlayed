@@ -18,6 +18,7 @@ public class TheWaiter implements Runnable {
     public void run() {
         while(true){
             try {
+                System.out.println(data.getName());
                 Message[] msg = mailBox.getMessage(data.getName());
                 for(Message m : msg){
                     out.println(m.getPerfectMessage());

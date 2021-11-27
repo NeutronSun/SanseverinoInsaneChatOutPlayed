@@ -15,14 +15,23 @@ public class MessageBox {
 
     public synchronized void writeMessage(Message msg, String recivier) throws InterruptedException{
         while(contReader > 0){wait();}
-        System.out.println(msg.getPerfectMessage());
         messageMap.get(recivier).add(msg);
+        for(String key : messageMap.keySet()){
+            for(Message a : messageMap.get(key)){
+                System.out.println(key + ": " +  a.getPerfectMessage());
+            }
+        }
+        System.out.println(messageMap.get(recivier).size());
         notifyAll();
     }
     
     public Message[] getMessage(String sender) throws InterruptedException{
-        while(messageMap.get(sender).size() == 0){wait();
-            System.out.println("ciao");}
+        synchronized(this){
+            while(messageMap.get(sender).size() == 0){
+                wait();
+                System.out.println("ciao");}
+        }
+        
         synchronized(this){
             contReader++;
         }

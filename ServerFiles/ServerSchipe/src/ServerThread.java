@@ -51,8 +51,10 @@ public class ServerThread implements Runnable{
                 user = new UserData(n, "000");
             }
             mailBox.addUser(username);
-            new Thread(new TheWaiter(socket,mailBox,user));
+            new Thread(new TheWaiter(socket,mailBox,user)).start();
             String line = "";
+
+            out.println("Welcome in, digits /help for more infomation");
             while ((line = in.readLine()) != null) {
                 sendMessage(line);
             }
@@ -71,14 +73,10 @@ public class ServerThread implements Runnable{
     }
 
     public void sendMessage(String line) throws InterruptedException{
-        /*
-        String[] nameS = line.substring(0, line.indexOf(":")).split("/");
-        for(String n : nameS){
-            mailBox.
+        String[] names = line.substring(0, line.indexOf(":")).split("/");
+        String msg = line.substring(line.indexOf(":") + 1);
+        for(String name : names){
+            mailBox.writeMessage(new Message(this.username,msg), name);
         }
-        */
-        String sup[] = line.split(":");
-        System.out.println(sup[0] + " " + sup[1]);
-        mailBox.writeMessage(new Message(this.username,sup[1]), sup[0]);
     }
 }
