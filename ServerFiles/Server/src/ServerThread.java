@@ -53,11 +53,16 @@ public class ServerThread implements Runnable{
                 fileManager.addUser(n, p, "0000");
                 users.add(new UserData(n,p,"0000"));
             }
+            /**
+             * settings data user
+             */
             users.get(cont).setOnline(true);
             mailBox.addUser(username);
             new Thread(new TheWaiter(socket,mailBox,users.get(cont))).start();
             String line = "";
-
+            /**
+             * now the user can send messages or digits commands
+             */
             out.println("Welcome in, digits /help for more infomation");
             while ((line = in.readLine()) != null) {
                 if(line.equals("/help"))
