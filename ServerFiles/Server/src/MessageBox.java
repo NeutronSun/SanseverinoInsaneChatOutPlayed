@@ -16,25 +16,18 @@ public class MessageBox {
     public synchronized void writeMessage(Message msg, String recivier) throws InterruptedException{
         while(contReader > 0){wait();}
         messageMap.get(recivier).add(msg);
-        for(String key : messageMap.keySet()){
-            for(Message a : messageMap.get(key)){
-                System.out.println(key + ": " +  a.getPerfectMessage());
-            }
-        }
-        System.out.println(messageMap.get(recivier).size());
         notifyAll();
     }
     
     public Message[] getMessage(String sender) throws InterruptedException{
         synchronized(this){
-            while(messageMap.get(sender).size() == 0){
-                wait();
-                System.out.println("ciao");}
+            while(messageMap.get(sender).size() == 0){wait();}
         }
         
         synchronized(this){
             contReader++;
         }
+        
         Message[] message = new Message[messageMap.get(sender).size()];
         message = messageMap.get(sender).toArray(message);
         synchronized(this){

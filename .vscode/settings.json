@@ -1,6 +1,8 @@
 {
     "java.project.sourcePaths": [
         "ServerFiles/ServerSchipe/src",
-        "ClientFIile/ClientSchipe/src"
+        "ServerFiles/Server/src",
+        "ClientFIile/ClientSchipe/src",
+        "ClientFIile/Client/src"
     ]
 }

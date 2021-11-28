@@ -1,10 +1,12 @@
 public class UserData {
     private String userName;
+    private String password;
     private Boolean online = false;
     private String publicKey;
 
-    public UserData(String userName, String pk){
+    public UserData(String userName, String password, String pk){
         this.userName = userName;
+        this.password = password;
         publicKey = pk;
     }
 

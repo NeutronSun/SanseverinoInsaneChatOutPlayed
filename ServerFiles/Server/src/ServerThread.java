@@ -9,15 +9,18 @@ public class ServerThread implements Runnable{
     private BufferedReader in;
     private MessageBox mailBox;
     private ArrayList<UserData> users;
-    private UserData user;
     private FileManager fileManager;
     private String username;
+    private static int cont = -1;
+
+    {cont++;}
 
     public ServerThread(Socket sck, MessageBox mailBox, ArrayList<UserData> users, FileManager fm){
         socket = sck;
         this.mailBox = mailBox;
         this.users = users;
         fileManager = fm;
+        System.out.println(cont);
     }
 
     public void run() {
@@ -35,7 +38,7 @@ public class ServerThread implements Runnable{
                 out.println("Enter Password");
                 String p = in.readLine();
                 this.username = n;
-                user = new UserData(n, "000");
+                users.add(new UserData(n,p,"0000"));
                 //missing get key from the file
                 if(fileManager.checkUser(n))
                 System.out.println("no bro wait");
@@ -48,14 +51,19 @@ public class ServerThread implements Runnable{
                 out.println("Enter Password");
                 String p = in.readLine();
                 fileManager.addUser(n, p, "0000");
-                user = new UserData(n, "000");
+                users.add(new UserData(n,p,"0000"));
             }
+            users.get(cont).setOnline(true);
             mailBox.addUser(username);
-            new Thread(new TheWaiter(socket,mailBox,user)).start();
+            new Thread(new TheWaiter(socket,mailBox,users.get(cont))).start();
             String line = "";
 
             out.println("Welcome in, digits /help for more infomation");
             while ((line = in.readLine()) != null) {
+                if(line.equals("/help"))
+                    getListCommand();
+                if(line.equals("/list"));
+                getListUser();
                 sendMessage(line);
             }
         } catch (IOException | InterruptedException e) {
@@ -70,6 +78,23 @@ public class ServerThread implements Runnable{
             }
         }
         return false;
+    }
+
+    public void getListCommand(){
+        out.println("LIST     get a full list of online users");
+        out.println("OFFLINE      set your current state to offline");
+        out.println("ONLINE       set your current state to online");
+        out.println("@user      send a message to @user");
+        out.println("@user@user1@user2    send a message to more users");
+    }
+
+    public void getListUser() throws InterruptedException{
+        for(UserData dt : users){
+            if(dt.isOnline() && !dt.getName().equals(users.get(cont).getName())){
+                String msg = dt.getName() + " is online";
+                mailBox.writeMessage(new Message("server", msg), dt.getName());
+            }
+        }
     }
 
     public void sendMessage(String line) throws InterruptedException{
