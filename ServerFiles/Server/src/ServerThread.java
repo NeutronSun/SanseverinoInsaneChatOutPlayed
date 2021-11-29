@@ -11,15 +11,17 @@ public class ServerThread implements Runnable{
     private ArrayList<UserData> users;
     private FileManager fileManager;
     private String username;
-    private static int cont = -1;
+    private static int contT = -1;
+    private int cont;
 
-    {cont++;}
+    {contT++;}
 
     public ServerThread(Socket sck, MessageBox mailBox, ArrayList<UserData> users, FileManager fm){
         socket = sck;
         this.mailBox = mailBox;
         this.users = users;
         fileManager = fm;
+        cont = contT;
         System.out.println(cont);
     }
 
@@ -56,6 +58,8 @@ public class ServerThread implements Runnable{
             /**
              * settings data user
              */
+            System.out.println(cont);
+            System.out.println(users.size());
             users.get(cont).setOnline(true);
             mailBox.addUser(username);
             new Thread(new TheWaiter(socket,mailBox,users.get(cont))).start();
@@ -103,9 +107,10 @@ public class ServerThread implements Runnable{
     }
 
     public void sendMessage(String line) throws InterruptedException{
-        String[] names = line.substring(0, line.indexOf(":")).split("/");
+        String[] names = line.substring(1, line.indexOf(":")).split("/");
         String msg = line.substring(line.indexOf(":") + 1);
         for(String name : names){
+            System.out.println("name: " + name);
             mailBox.writeMessage(new Message(this.username,msg), name);
         }
     }
