@@ -1,9 +1,13 @@
-# Java Adapter Example
+# Progetto Discordia
 
-## Overview
-The following repo contains examples for OpenFin's Java adapter.
+## Disclaimers
+* Questo è un esempio di partenza e ha lo scopo di dimostrare un'applicazione-tipo per affrontare un'implementazione di una connessione con successiva comunicazione di più utenti (client) tramite messaggi criptati con l'algoritmo RSA. Ci sono potenzialmente altri modi per affrontarlo e potrebbero essere prese in considerazione alternative.
+* È possibile che il repository non venga mantenuto attivamente.
 
-## Guidelines
+## Panoramica
+Il seguente repository contiene un programma che rappresenta l'invio di messaggi tramite più utenti (Client) e gestiti da un Server, crittografati tramite l'algoritmo RSA.
+
+## Linee Guida
 Run the example of connecting to OpenFin and creating applications
 
 1. Clone this repository
@@ -160,23 +164,6 @@ Source code for the example is located in /src/main/java/com/openfin/desktop/dem
 	html5Wnd.embedInto(parentHWndId, this.embedCanvas.getWidth(), this.embedCanvas.getHeight(), new AckListener() {...});
 ```
 
-## More Info
-More information and API documentation can be found at https://openfin.co/java-api/
-
-## Disclaimers
-* This is a starter example and intended to demonstrate to app providers a sample of how to approach an implementation. There are potentially other ways to approach it and alternatives could be considered. 
-* Its possible that the repo is not actively maintained.
-
-## License
-MIT
-
-The code in this repository is covered by the included license.
-
-However, if you run this code, it may call on the OpenFin RVM or OpenFin Runtime, which are covered by OpenFin’s Developer, Community, and Enterprise licenses. You can learn more about OpenFin licensing at the links listed below or just email us at support@openfin.co with questions.
-
-https://openfin.co/developer-agreement/ <br/>
-https://openfin.co/licensing/
-
-## Support
-Please enter an issue in the repo for any questions or problems. 
-<br> Alternatively, please contact us at support@openfin.co
+## Ulteriori informazioni
+Inserisci un problema nel repository per qualsiasi domanda o problema.
+<br> In alternativa, contattaci all'indirizzo capriotti.bernadette@istitutomontani.edu.it/cococcioni.mattia@istitutomontani.edu.it/sanseverino.lorenzo@istitutomontani.edu.it
