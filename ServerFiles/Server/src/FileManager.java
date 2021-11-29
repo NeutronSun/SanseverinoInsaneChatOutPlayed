@@ -28,6 +28,7 @@ public class FileManager {
                 data[cont] = ss;
                 cont++;
             }
+            System.out.println(name + ": " + data[0]);
             if(name.equals(data[0]))
                 return false;
             

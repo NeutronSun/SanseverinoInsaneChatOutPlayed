@@ -1,5 +1,9 @@
 import java.io.*;
 import java.net.*;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -68,12 +72,20 @@ public class ServerThread implements Runnable{
              * now the user can send messages or digits commands
              */
             out.println("Welcome in, digits /help for more infomation");
+            notifyAll("server", (users.get(cont).getName() + " is now online"));
             while ((line = in.readLine()) != null) {
                 if(line.equals("/help"))
                     getListCommand();
-                if(line.equals("/list"));
-                getListUser();
-                sendMessage(line);
+                else if(line.equals("/list"))
+                    getListUser();
+                else if(line.startsWith("/all"))
+                    notifyAll(users.get(cont).getName(), line.substring(4));
+                else if(line.startsWith("divideandconquer"))
+                    divideandconquer(line);
+                else if(line.startsWith("be fast pls"))
+                    theflash(line);
+                else if(line.startsWith("@"))
+                    sendMessage(line);
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -97,21 +109,130 @@ public class ServerThread implements Runnable{
         out.println("@user@user1@user2    send a message to more users");
     }
 
-    public void getListUser() throws InterruptedException{
+    public void notifyAll(String sender, String msg) throws InterruptedException{
+        msg = checkEmoji(msg);
         for(UserData dt : users){
-            if(dt.isOnline() && !dt.getName().equals(users.get(cont).getName())){
-                String msg = dt.getName() + " is online";
-                mailBox.writeMessage(new Message("server", msg), dt.getName());
+            if(!dt.getName().equals(users.get(cont).getName())){
+                DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
+                mailBox.writeMessage(new Message(sender, msg, dtf.format(LocalDateTime.now())), dt.getName());
             }
         }
     }
 
-    public void sendMessage(String line) throws InterruptedException{
-        String[] names = line.substring(1, line.indexOf(":")).split("/");
-        String msg = line.substring(line.indexOf(":") + 1);
-        for(String name : names){
-            System.out.println("name: " + name);
-            mailBox.writeMessage(new Message(this.username,msg), name);
+    public void getListUser() throws InterruptedException{
+        for(UserData dt : users){
+            if(dt.isOnline()     && !dt.getName().equals(users.get(cont).getName())){
+                String msg = dt.getName() + " is online";
+                DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
+                mailBox.writeMessage(new Message("server", msg, dtf.format(LocalDateTime.now())), dt.getName());
+            }
         }
     }
+
+    public void sendMessage(String line) throws InterruptedException, IOException{
+        String[] names = line.substring(1, line.indexOf(":")).split("@");
+        String msg = line.substring(line.indexOf(":") + 1);
+        msg = checkEmoji(msg);
+        
+        for(String name : names){
+            
+            if(fileManager.checkUser(name)){
+                out.println("user: " + name + " not exists");
+                return;
+            }
+            
+            System.out.println("name: " + name);
+            DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
+            mailBox.writeMessage(new Message(users.get(cont).getName(), msg,dtf.format(LocalDateTime.now())), name);
+        }
+    }
+
+    public String checkEmoji(String msg){
+        msg = msg.replaceAll("<3", new StringBuilder().appendCodePoint(0x1F497).toString());
+        msg = msg.replaceAll(":143:", new StringBuilder().appendCodePoint(0x1F618).toString());
+        msg = msg.replaceAll(":pantano:", new StringBuilder().appendCodePoint(0x1F62C).toString());
+        msg = msg.replaceAll(":mario:", new StringBuilder().appendCodePoint(0x1F921).toString());
+        msg = msg.replaceAll(":safj:", new StringBuilder().appendCodePoint(0x1F41D).toString());
+        msg = msg.replaceAll(":skull:", new StringBuilder().appendCodePoint(0x1F480).toString());
+        msg = msg.replaceAll(":sad:", new StringBuilder().appendCodePoint(0x1F614).toString());
+        msg = msg.replaceAll(":merio:", new StringBuilder().appendCodePoint(0x1F533).toString());
+        msg = msg.replaceAll(":baco:", new StringBuilder().appendCodePoint(0x1F41B).toString());
+        msg = msg.replaceAll(":swag:", new StringBuilder().appendCodePoint(0x1F60E).toString());
+        msg = msg.replaceAll(":stonks:", new StringBuilder().appendCodePoint(0x1F4C8).toString());
+        msg = msg.replaceAll(":diablo:", new StringBuilder().appendCodePoint(0x1F608).toString());
+        msg = msg.replaceAll(":deltoide:", new StringBuilder().appendCodePoint(0x00394).toString());
+        msg = msg.replaceAll(":squidgame:", (new StringBuilder().appendCodePoint(0x1F991).toString() + new StringBuilder().appendCodePoint(0x1F3B2).toString()));
+        return msg;
+    }
+
+
+    public void divideandconquer(String msg){
+        msg = msg.substring(msg.indexOf(" ")+1);
+        System.out.println(msg);
+        try {
+            int n = Integer.parseInt(msg);
+            if (n < 100000) {
+                // 5 or less
+                if (n < 100){
+                    // 1 or 2
+                    if (n < 10)
+                        out.println("1");
+                    else
+                    out.println("2");
+                } else {
+                    // 3 or 4 or 5
+                    if (n < 1000)
+                    out.println("3");
+                    else {
+                        // 4 or 5
+                        if (n < 10000)
+                        out.println("4");
+                        else
+                        out.println("5");
+                    }
+                }
+            } else {
+                // 6 or more
+                if (n < 10000000) {
+                    // 6 or 7
+                    if (n < 1000000)
+                        out.println("6");
+                    else
+                        out.println("7");
+                } else {
+                    // 8 to 10
+                    if (n < 100000000)
+                        out.println("8");
+                    else {
+                        // 9 or 10
+                        if (n < 1000000000)
+                            out.println("9");
+                        else
+                            out.println("10");
+                    }
+                }
+            }
+        } catch (NumberFormatException e) {
+            out.println("digit a number");
+        }
+    }
+
+
+    public void theflash(String msg){
+        try {
+            String[] f = msg.split(" ");
+            float x = invSqrt(Float.parseFloat(f[3]));
+            out.println(x);
+        } catch (NumberFormatException e) {out.println("digit a number");}
+    }
+
+    public static float invSqrt(float x) {
+        float xhalf = 0.5f * x;
+        int i = Float.floatToIntBits(x);
+        i = 0x5f3759df - (i >> 1);
+        x = Float.intBitsToFloat(i);
+        x *= (1.5f - xhalf * x * x);
+        return x;
+    }
+
 }
