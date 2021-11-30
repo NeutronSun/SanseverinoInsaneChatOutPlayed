@@ -8,31 +8,57 @@ import java.io.IOException;
 
 public class FileManager {
     File userFile;
-    BufferedReader readerUser;
+    //BufferedReader readerUser;
     BufferedWriter writeUser;
 
     public FileManager() throws IOException{
         userFile = new File("./ServerFiles/Files/UsersData/data.txt");
-        readerUser = new BufferedReader(new FileReader(userFile));
+        //readerUser = new BufferedReader(new FileReader(userFile));
         writeUser = new BufferedWriter(new FileWriter(userFile, true));
     }
 
 
-    public boolean checkUser(String name) throws IOException{
+    public boolean checkUser(String name) {
         String line;
         String[] data = new String[3];
         int cont = 0;
-        while((line = readerUser.readLine()) != null){
-            cont = 0;
-            for(String ss : line.split("/")){
-                data[cont] = ss;
-                cont++;
+        try(BufferedReader readerUser = new BufferedReader(new FileReader(userFile));){
+            while((line = readerUser.readLine()) != null){
+                cont = 0;
+                for(String ss : line.split("/")){
+                    data[cont] = ss;
+                    cont++;
+                }
+                System.out.println(name + ": " + data[0]);
+                if(name.equals(data[0])){
+                    return false;
+                }
+                
             }
-            System.out.println(name + ": " + data[0]);
-            if(name.equals(data[0]))
-                return false;
-            
-        }
+        return true;
+        }catch(IOException e){}
+        return true;
+    }
+
+
+    public boolean checkPassword(String name, String password){
+        String line;
+        String[] data = new String[3];
+        int cont = 0;
+        try(BufferedReader readerUser = new BufferedReader(new FileReader(userFile));){
+            while((line = readerUser.readLine()) != null){
+                cont = 0;
+                for(String ss : line.split("/")){
+                    data[cont] = ss;
+                    cont++;
+                }
+                if(name.equals(data[0]) && password.equals(data[1])){
+                    return true;
+                }
+                
+            }
+        return false;
+        }catch(IOException e){}
         return true;
     }
 

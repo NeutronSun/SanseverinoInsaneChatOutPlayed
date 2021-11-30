@@ -24,7 +24,8 @@ public class Server {
         int contThread = 0;
         while (true) {
             Socket clientSocket = serverSocket.accept();
-            clients.add(new ServerThread(clientSocket, mailBox, users, fm));
+            users.add(new UserData("@", "@", "@"));
+            clients.add(new ServerThread(clientSocket, mailBox, users, fm, contThread));
             threads.add(new Thread(clients.get(contThread)));
             threads.get(contThread).setName(String.valueOf(contThread));
             threads.get(contThread).start();

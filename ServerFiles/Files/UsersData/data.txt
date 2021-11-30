@@ -4,3 +4,5 @@ shu4/111/0000
 leon/111/0000
 swamgwg/111/0000
 valloz/111/0000
+faker/111/000
+merioepria/111/000

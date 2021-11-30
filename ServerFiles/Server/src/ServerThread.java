@@ -13,14 +13,11 @@ public class ServerThread implements Runnable{
     private BufferedReader in;
     private MessageBox mailBox;
     private ArrayList<UserData> users;
+    private UserData data;
     private FileManager fileManager;
-    private String username;
-    private static int contT = -1;
     private int cont;
 
-    {contT++;}
-
-    public ServerThread(Socket sck, MessageBox mailBox, ArrayList<UserData> users, FileManager fm){
+    public ServerThread(Socket sck, MessageBox mailBox, ArrayList<UserData> users, FileManager fm, int contT){
         socket = sck;
         this.mailBox = mailBox;
         this.users = users;
@@ -37,35 +34,55 @@ public class ServerThread implements Runnable{
             /**
              * input dati utente
              */
+            String n,p;
+            boolean check = true;
             out.println("Do you have already an account?");
             if(in.readLine().equalsIgnoreCase("yes")) {
-                out.println("Enter UserName");
-                String n = in.readLine();
-                out.println("Enter Password");
-                String p = in.readLine();
-                this.username = n;
-                users.add(new UserData(n,p,"0000"));
-                //missing get key from the file
-                if(fileManager.checkUser(n))
-                System.out.println("no bro wait");
-                if(AlreadyOnline(n)) {
-                    System.out.println("faker");
-                }
+                do{
+                    check = true;
+                    out.println("Enter UserName");
+                    n = in.readLine();
+                    out.println("Enter Password");
+                    p = in.readLine();
+                    if(AlreadyOnline(n)){
+                        out.println(n + " is already online");
+                        check = false;
+                    }
+                    if(fileManager.checkUser(n)){
+                        out.println(n + " not exists as user");
+                        check = false;
+                    }
+                    else if(!fileManager.checkPassword(n, p)){
+                        out.println("wrong password");
+                        check = false;
+                    }
+                }while(!check);
             }else{
-                out.println("Enter UserName");
-                String n = in.readLine();
-                out.println("Enter Password");
-                String p = in.readLine();
-                fileManager.addUser(n, p, "0000");
-                users.add(new UserData(n,p,"0000"));
+                do{
+                    check = true;
+                    out.println("Enter UserName");
+                    n = in.readLine();
+                    out.println("Enter Password");
+                    p = in.readLine();
+                    if(AlreadyOnline(n)){
+                        out.println(n + " is already online");
+                        check = false;
+                    }
+                    if(!fileManager.checkUser(n)){
+                        out.println(n + " already exists as user");
+                        check = false;
+                    }else{fileManager.addUser(n, p, "000");}
+                }while(!check);
             }
             /**
              * settings data user
              */
+            users.add(cont, new UserData(n,p,"0000"));
+            out.println(users.get(cont).getName());
             System.out.println(cont);
             System.out.println(users.size());
             users.get(cont).setOnline(true);
-            mailBox.addUser(username);
+            mailBox.addUser(users.get(cont).getName());
             new Thread(new TheWaiter(socket,mailBox,users.get(cont))).start();
             String line = "";
             /**
@@ -95,6 +112,7 @@ public class ServerThread implements Runnable{
     public boolean AlreadyOnline(String name) {
         for(UserData usr : users){
             if(usr.getName().equals(name)){
+                out.println(name + " is already online");
                 return true;
             }
         }
@@ -112,7 +130,7 @@ public class ServerThread implements Runnable{
     public void notifyAll(String sender, String msg) throws InterruptedException{
         msg = checkEmoji(msg);
         for(UserData dt : users){
-            if(!dt.getName().equals(users.get(cont).getName())){
+            if(!dt.getName().equals("@") && !dt.getName().equals(users.get(cont).getName())){
                 DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
                 mailBox.writeMessage(new Message(sender, msg, dtf.format(LocalDateTime.now())), dt.getName());
             }
@@ -121,7 +139,7 @@ public class ServerThread implements Runnable{
 
     public void getListUser() throws InterruptedException{
         for(UserData dt : users){
-            if(dt.isOnline()     && !dt.getName().equals(users.get(cont).getName())){
+            if(!dt.getName().equals("@") && dt.isOnline() && !dt.getName().equals(users.get(cont).getName())){
                 String msg = dt.getName() + " is online";
                 DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
                 mailBox.writeMessage(new Message("server", msg, dtf.format(LocalDateTime.now())), dt.getName());
@@ -133,20 +151,25 @@ public class ServerThread implements Runnable{
         String[] names = line.substring(1, line.indexOf(":")).split("@");
         String msg = line.substring(line.indexOf(":") + 1);
         msg = checkEmoji(msg);
-        
+        msg = msg.replaceAll("<3", new StringBuilder().appendCodePoint(0x1F497).toString());
         for(String name : names){
             
-            if(fileManager.checkUser(name)){
-                out.println("user: " + name + " not exists");
-                return;
-            }
-            
-            System.out.println("name: " + name);
-            DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
-            mailBox.writeMessage(new Message(users.get(cont).getName(), msg,dtf.format(LocalDateTime.now())), name);
+            if(isConnected(name)){
+                System.out.println("name: " + name);
+                DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
+                mailBox.writeMessage(new Message(users.get(cont).getName(), msg,dtf.format(LocalDateTime.now())), name);
+            }else{out.println(name + " not exists");}
         }
     }
 
+
+    public boolean isConnected(String name){
+        for(UserData dt : users){
+            if(dt.getName().equals(name))
+                return true;
+        }
+        return false;
+    }
     public String checkEmoji(String msg){
         msg = msg.replaceAll("<3", new StringBuilder().appendCodePoint(0x1F497).toString());
         msg = msg.replaceAll(":143:", new StringBuilder().appendCodePoint(0x1F618).toString());
