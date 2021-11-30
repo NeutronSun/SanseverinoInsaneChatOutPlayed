@@ -13,23 +13,17 @@ public class Server {
     public static void main(String[] args) throws Exception {
         int portNumber = 77;
         ServerSocket serverSocket = new ServerSocket(portNumber);
-        ArrayList<Thread> threads = new ArrayList<Thread>();
-        ArrayList<ServerThread> clients = new ArrayList<ServerThread>();
         FileManager fm = new FileManager();
         System.out.println("ip: " + Inet4Address.getLocalHost().getHostAddress());
         System.out.println("port: " + portNumber);
         System.out.println("Waiting for user..." );
         MessageBox mailBox = new MessageBox();
-        ArrayList<UserData> users = new ArrayList<UserData>();
+        UserManager um = new UserManager();
         int contThread = 0;
         while (true) {
             Socket clientSocket = serverSocket.accept();
-            users.add(new UserData("@", "@", "@"));
-            clients.add(new ServerThread(clientSocket, mailBox, users, fm, contThread));
-            threads.add(new Thread(clients.get(contThread)));
-            threads.get(contThread).setName(String.valueOf(contThread));
-            threads.get(contThread).start();
-            System.out.println("Connection Accepted with client-" + threads.get(contThread).getName());
+            new Thread(new ServerThread(clientSocket, mailBox, um, fm, contThread)).start();
+            System.out.println("Connection Accepted with client-" + contThread);
             contThread++;
         }
     }

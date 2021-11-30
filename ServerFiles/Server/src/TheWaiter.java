@@ -8,8 +8,7 @@ import java.util.HashMap;
  * Classe che si occupa di "aspettare" una qualsiasi modifica dell'oggetto {@link TheWaiter#mailBox mailbox} 
  * e contattare poi il client corrispettivo
  * 
- * @author
- * sunyx 
+ * @author Sanseverino Lorenzo
  */
 public class TheWaiter implements Runnable {
     /**

@@ -1,26 +1,22 @@
 import java.io.*;
 import java.net.*;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
+
 
 public class ServerThread implements Runnable{
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
     private MessageBox mailBox;
-    private ArrayList<UserData> users;
-    private UserData data;
+    private UserManager um;
     private FileManager fileManager;
     private int cont;
 
-    public ServerThread(Socket sck, MessageBox mailBox, ArrayList<UserData> users, FileManager fm, int contT){
+    public ServerThread(Socket sck, MessageBox mailBox, UserManager um, FileManager fm, int contT){
         socket = sck;
         this.mailBox = mailBox;
-        this.users = users;
+        this.um = um;
         fileManager = fm;
         cont = contT;
         System.out.println(cont);
@@ -44,7 +40,7 @@ public class ServerThread implements Runnable{
                     n = in.readLine();
                     out.println("Enter Password");
                     p = in.readLine();
-                    if(AlreadyOnline(n)){
+                    if(um.isConnected(n)){
                         out.println(n + " is already online");
                         check = false;
                     }
@@ -64,7 +60,7 @@ public class ServerThread implements Runnable{
                     n = in.readLine();
                     out.println("Enter Password");
                     p = in.readLine();
-                    if(AlreadyOnline(n)){
+                    if(um.isConnected(n)){
                         out.println(n + " is already online");
                         check = false;
                     }
@@ -77,26 +73,23 @@ public class ServerThread implements Runnable{
             /**
              * settings data user
              */
-            users.add(cont, new UserData(n,p,"0000"));
-            out.println(users.get(cont).getName());
-            System.out.println(cont);
-            System.out.println(users.size());
-            users.get(cont).setOnline(true);
-            mailBox.addUser(users.get(cont).getName());
-            new Thread(new TheWaiter(socket,mailBox,users.get(cont))).start();
+            um.addUser(String.valueOf(cont), new UserData(n,p,"0000"));
+            um.setOnline(String.valueOf(cont));
+            mailBox.addUser(um.getName(String.valueOf(cont)));
+            new Thread(new TheWaiter(socket,mailBox,um.toObject(String.valueOf(cont)))).start();
             String line = "";
             /**
              * now the user can send messages or digits commands
              */
             out.println("Welcome in, digits /help for more infomation");
-            notifyAll("server", (users.get(cont).getName() + " is now online"));
+            notifyAll("server", (um.getName(String.valueOf(cont)) + " is now online"));
             while ((line = in.readLine()) != null) {
                 if(line.equals("/help"))
                     getListCommand();
                 else if(line.equals("/list"))
                     getListUser();
                 else if(line.startsWith("/all"))
-                    notifyAll(users.get(cont).getName(), line.substring(4));
+                    notifyAll(um.getName(String.valueOf(cont)), line.substring(4));
                 else if(line.startsWith("divideandconquer"))
                     divideandconquer(line);
                 else if(line.startsWith("be fast pls"))
@@ -109,15 +102,6 @@ public class ServerThread implements Runnable{
         }
     }
 
-    public boolean AlreadyOnline(String name) {
-        for(UserData usr : users){
-            if(usr.getName().equals(name)){
-                out.println(name + " is already online");
-                return true;
-            }
-        }
-        return false;
-    }
 
     public void getListCommand(){
         out.println("LIST     get a full list of online users");
@@ -129,8 +113,8 @@ public class ServerThread implements Runnable{
 
     public void notifyAll(String sender, String msg) throws InterruptedException{
         msg = checkEmoji(msg);
-        for(UserData dt : users){
-            if(!dt.getName().equals("@") && !dt.getName().equals(users.get(cont).getName())){
+        for(UserData dt : um.toArray()){
+            if(!dt.getName().equals("@") && !dt.getName().equals(um.getName(String.valueOf(cont)))){
                 DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
                 mailBox.writeMessage(new Message(sender, msg, dtf.format(LocalDateTime.now())), dt.getName());
             }
@@ -138,8 +122,8 @@ public class ServerThread implements Runnable{
     }
 
     public void getListUser() throws InterruptedException{
-        for(UserData dt : users){
-            if(!dt.getName().equals("@") && dt.isOnline() && !dt.getName().equals(users.get(cont).getName())){
+        for(UserData dt : um.toArray()){
+            if(!dt.getName().equals("@") && dt.isOnline() && !dt.getName().equals(um.getName(String.valueOf(cont)))){
                 String msg = dt.getName() + " is online";
                 DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
                 mailBox.writeMessage(new Message("server", msg, dtf.format(LocalDateTime.now())), dt.getName());
@@ -148,28 +132,21 @@ public class ServerThread implements Runnable{
     }
 
     public void sendMessage(String line) throws InterruptedException, IOException{
-        String[] names = line.substring(1, line.indexOf(":")).split("@");
-        String msg = line.substring(line.indexOf(":") + 1);
+        String[] names = line.substring(1, line.indexOf(" ")).split("@");
+        String msg = line.substring(line.indexOf(" ") + 1);
         msg = checkEmoji(msg);
-        msg = msg.replaceAll("<3", new StringBuilder().appendCodePoint(0x1F497).toString());
+        //msg = msg.replaceAll("<3", new StringBuilder().appendCodePoint(0x1F62C).toString());
         for(String name : names){
             
-            if(isConnected(name)){
+            if(um.isConnected(name)){
                 System.out.println("name: " + name);
                 DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
-                mailBox.writeMessage(new Message(users.get(cont).getName(), msg,dtf.format(LocalDateTime.now())), name);
+                mailBox.writeMessage(new Message(um.getName(String.valueOf(cont)), msg,dtf.format(LocalDateTime.now())), name);
             }else{out.println(name + " not exists");}
         }
     }
 
 
-    public boolean isConnected(String name){
-        for(UserData dt : users){
-            if(dt.getName().equals(name))
-                return true;
-        }
-        return false;
-    }
     public String checkEmoji(String msg){
         msg = msg.replaceAll("<3", new StringBuilder().appendCodePoint(0x1F497).toString());
         msg = msg.replaceAll(":143:", new StringBuilder().appendCodePoint(0x1F618).toString());
