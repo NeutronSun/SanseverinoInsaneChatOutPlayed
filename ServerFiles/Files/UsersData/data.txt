@@ -5,3 +5,5 @@ leon/111/0000
 valloz/111/0000
 faker/111/000
 merioepria/111/000
+Enter UserName/Enter Password/000
+Enter UserName already exists as user/Enter UserName/000
