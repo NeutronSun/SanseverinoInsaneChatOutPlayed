@@ -4,7 +4,7 @@ import java.util.*;
  * Classe che si occupa di gestire e smistare tutti i messaggi. I vari
  * sotto-thread di {@link ServerThread}({@link TheWaiter}) staranno sempre in attesa di una
  * possibile modifica della mappa {@link MessageBox#messageMap messageMap} e, in tal caso, 
- * leggeranno il messaggio. La mappa memorizza i messaggi (@link Message) per gli utenti connessi
+ * leggeranno il messaggio. La mappa memorizza i messaggi {@link Message} per gli utenti connessi
  al sistema. La mappa è indicizzata con lo username del destinatario del messaggio.
  * <p>Allo stesso modo ogni volta che un client vuole inviare un messaggio sara' il {@link ServerThread} 
  * a salvare il messaggio tramite il metodo {@link MessageBox#writeMessage writeMessage()}.

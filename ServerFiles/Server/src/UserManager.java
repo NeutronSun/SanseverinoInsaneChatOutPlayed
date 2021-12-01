@@ -3,7 +3,7 @@ import java.util.HashMap;
  * Classe che si occupa di gestire tutti i client collegati al server. 
  * I dati saranno memorizzati in una mappa(con chiave il numero del thread istanziato dalla classe {@link Server}) e come
  * valore un oggetto di tipo {@link UserData}.
- * @author Lorenzo Sanseverino @NeutronSun
+ * @author Lorenzo Sanseverino
  * @version 1
  * @since 2021-11-30 (aaaa-mm-gg)
  */

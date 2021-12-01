@@ -76,6 +76,7 @@ public class ServerThread implements Runnable{
             um.addUser(String.valueOf(cont), new UserData(n,p,"0000"));
             um.setOnline(String.valueOf(cont));
             mailBox.addUser(um.getName(String.valueOf(cont)));
+            System.out.println("log<" + um.getName(String.valueOf(cont)) + "> LOGGED CORRECTLY.");
             new Thread(new TheWaiter(socket,mailBox,um.toObject(String.valueOf(cont)))).start();
             String line = "";
             /**
@@ -119,6 +120,7 @@ public class ServerThread implements Runnable{
                 mailBox.writeMessage(new Message(sender, msg, dtf.format(LocalDateTime.now())), dt.getName());
             }
         }
+        System.out.println("log<" + um.getName(String.valueOf(cont)) + "> SENT CORRECTLY THE MESSAGE.");
     }
 
     public void getListUser() throws InterruptedException{
@@ -137,12 +139,14 @@ public class ServerThread implements Runnable{
         msg = checkEmoji(msg);
         //msg = msg.replaceAll("<3", new StringBuilder().appendCodePoint(0x1F62C).toString());
         for(String name : names){
-            
             if(um.isConnected(name)){
-                System.out.println("name: " + name);
                 DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
                 mailBox.writeMessage(new Message(um.getName(String.valueOf(cont)), msg,dtf.format(LocalDateTime.now())), name);
-            }else{out.println(name + " not exists");}
+                System.out.println("log<" + um.getName(String.valueOf(cont)) + "> SEND CORRECTLY THE MESSAGE TO " + name);
+            }else{
+                out.println(name + " not exists");
+                System.out.println("log<" + um.getName(String.valueOf(cont)) + "> SEND INCORRECTLY THE MESSAGE TO " + name + "[NOT EXISTS]");
+            }
         }
     }
 
@@ -168,7 +172,6 @@ public class ServerThread implements Runnable{
 
     public void divideandconquer(String msg){
         msg = msg.substring(msg.indexOf(" ")+1);
-        System.out.println(msg);
         try {
             int n = Integer.parseInt(msg);
             if (n < 100000) {

@@ -1,9 +1,40 @@
+/**
+ * {@code dati utenti} e' una classe che si occupa di memorizzare tutti i dati di un singolo utente:
+ * <p><ul>
+ * <li> {@link UserData#userName username}
+ * <li> {@link UserData#password password}
+ * <li> {@link UserData#online stato di online}
+ * <li> {@link UserData#publicKey chiave pubblica }
+ * </ul><p>
+ * @author Sanseverino Lorenzo
+ * @version 1
+ * @since 2021-12-1(aaaa-mm-gg)
+ */
+
 public class UserData {
+    /**
+     * {@code username} dell'utente, con cui sara' visualizzato da tutti gli altri client
+     */
     private String userName;
+    /**
+     * {@code password} dell'utente
+     */
     private String password;
+    /**
+     * Stato di {@code online} dell'utente, con cui sara' visualizzato da tutti gli altri client
+     */
     private Boolean online = false;
+    /**
+     * {@code publicKey} dell'utente, condivisa con tutti
+     */
     private String publicKey;
 
+    /**
+     * Costruttore di default
+     * @param userName
+     * @param password
+     * @param pk
+     */
     public UserData(String userName, String password, String pk){
         this.userName = userName;
         this.password = password;
@@ -26,5 +57,5 @@ public class UserData {
     public boolean isOnline() {
         return online;
     }
-    
+
 }

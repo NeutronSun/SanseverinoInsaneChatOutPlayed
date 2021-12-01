@@ -1,11 +1,17 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Classe sincronizzato 
+ * 
+ * @author Sanseverino Lorenzo
+ * @version 1
+ * @since 2021-11-29 (aaaa-mm-gg)
+ */
 public class FileManager {
     File userFile;
     //BufferedReader readerUser;
