@@ -29,6 +29,7 @@ public class ServerThread implements Runnable{
 
             /**
              * input dati utente
+             * --------------------------
              */
             String n,p;
             boolean check = true;
@@ -71,6 +72,7 @@ public class ServerThread implements Runnable{
                 }while(!check);
             }
             /**
+             * -----------------------------
              * settings data user
              */
             um.addUser(String.valueOf(cont), new UserData(n,p,"0000"));
@@ -78,13 +80,14 @@ public class ServerThread implements Runnable{
             mailBox.addUser(um.getName(String.valueOf(cont)));
             System.out.println("log<" + um.getName(String.valueOf(cont)) + "> LOGGED CORRECTLY.");
             new Thread(new TheWaiter(socket,mailBox,um.toObject(String.valueOf(cont)))).start();
-            String line = "";
             /**
+             * ----------------------------
              * now the user can send messages or digits commands
              */
+            String line = "";
             out.println("Welcome in, digits /help for more infomation");
             notifyAll("server", (um.getName(String.valueOf(cont)) + " is now online"));
-            while ((line = in.readLine()) != null) {
+            while (!(line = in.readLine()).equals("quit")) {
                 if(line.equals("/help"))
                     getListCommand();
                 else if(line.equals("/list"))

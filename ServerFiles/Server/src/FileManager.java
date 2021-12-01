@@ -23,7 +23,14 @@ public class FileManager {
         writeUser = new BufferedWriter(new FileWriter(userFile, true));
     }
 
-
+    /**
+     * Metodo che controlla che nel file {@code data.txt} sia presente il nome
+     * dell'utente richiesto
+     * @param name
+     * nome da controllare
+     * @return
+     * true se l'utente e' presente nel file
+     */
     public boolean checkUser(String name) {
         String line;
         String[] data = new String[3];
@@ -46,7 +53,15 @@ public class FileManager {
         return true;
     }
 
-
+    /**
+     * Metodo che controlla che nel file {@code data.txt} l'utente selezionato corrisponda la password inserita
+     * @param name
+     * nome dell'utente
+     * @param password
+     * password da controllare
+     * @return
+     * true se nel file le password corrispondono
+     */
     public boolean checkPassword(String name, String password){
         String line;
         String[] data = new String[3];
@@ -68,6 +83,16 @@ public class FileManager {
         return true;
     }
 
+    /**
+     * Metodo che consente la scrittura dei dati di un nuovo utente nel file
+     * @param name
+     * nome utente
+     * @param password
+     * password dell'utente
+     * @param key
+     * chiave pubblica dell'utente
+     * @throws IOException
+     */
     public synchronized void addUser(String name, String password, String key) throws IOException{
         String data = (name + "/" + password + "/" + key);
         writeUser.write(data);
