@@ -27,18 +27,15 @@ public class Client {
             String userInput;
             while ((userInput = inKey.readLine()) != null) {
                 if(userInput.startsWith("@")) {
-                    String[] names = userInput.substring(1, userInput.indexOf(" ")).split("@");
                     String msg = userInput.substring(userInput.indexOf(" ") + 1);
                     msg = checkEmoji(msg);
-                    ks.setNKeys(names.length);
-                    System.out.println(names.length);
-                    putInServer.println(userInput);
-                    if(ks.allOkay()){   
-                        String[] correctName = ks.getNames();
-                        for(String name : correctName){
-                            putInServer.println("msg-" + name + "-" + encrypt.encrypt(msg, ks.getKey(name)));
-                        }
+                    putInServer.println(userInput);  
+                    String[] names = ks.getNames();
+                    if(ks.isOkay()){
+                    for(String name : names){
+                        putInServer.println("msg-" + name + "-" + encrypt.encrypt(msg, ks.getKey(name)));
                     }
+                }
                 }else{
                     putInServer.println(userInput);
                 }

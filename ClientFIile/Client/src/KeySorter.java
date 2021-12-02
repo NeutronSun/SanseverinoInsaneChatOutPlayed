@@ -29,25 +29,30 @@ public class KeySorter {
      * variabile booleana che diventa true quando <p>{@link KeySorter#numberKeys} = {@link KeySorter#actualKeys}
      */
     private boolean ready;
-    private boolean canRead;
-    private int contReaders;
 
     /**
      * costruttore di defualt
      */
     public KeySorter(){
-        numberKeys = 0;
         keys = new HashMap<String, String>();
         ready = false;
-        actualKeys = 0;
-        canRead = true;
-        contReaders = 0;
     }
 
     public synchronized void setNKeys(int numberKeys){
-        canRead = false;
         this.numberKeys = numberKeys;
-        canRead = false;
+    }
+
+    public synchronized void isReady(){
+        System.out.println("les go");
+        ready = true;
+        notifyAll();
+    }
+
+    public synchronized boolean isOkay(){
+        if(keys.size() == 0)
+            return false;
+        else
+            return true;
     }
 
     /**
@@ -58,56 +63,17 @@ public class KeySorter {
      * chiave del client
      */
     public synchronized void setKey(String user, String key){
-        canRead = false;
         keys.put(user, key);
-        actualKeys++;
-        if(numberKeys == actualKeys){
-            ready = true;
-            canRead = true;
-            notifyAll();
-        }
-        canRead = true;
     }
 
-    public synchronized void wrongName(String user){
-        canRead = false;
-        System.out.println(user);
-        numberKeys--;
-        String frwg = keys.remove(user);
-        for(String key : keys.keySet()){
-            System.out.println(key);
-        }
-        if(numberKeys == actualKeys){
-            ready = true;
-            canRead = true;
-        }
-        if(keys.size() == 0){
-            numberKeys = 0;
-            actualKeys = 0;
-            ready = false;
-        }
-        canRead = true;
-        notifyAll();
-    }
+    
 
-    public boolean allOkay() {
-        try {
-            synchronized(this){
-                while(!ready && !canRead){wait();}
-                    if(keys.size() == 0)
-                        return false;
-                        else
-                        return true;
-            }
-        } catch (Exception e) {
-            return false;
-        }
-    }
 
     public String[] getNames(){
         try {
             synchronized(this){
-                while(!ready && !canRead){wait();}
+                while(!ready){wait();}
+                System.out.println(keys.size());
                 return keys.keySet().toArray(new String[keys.size()]);
             }
         } catch (Exception e) {
@@ -126,14 +92,11 @@ public class KeySorter {
         try {
             
             synchronized(this){
-                while(!ready && !canRead){wait();}
+                while(!ready){wait();}
                 String key = keys.get(name);
-                System.out.println(name + " " + keys.size());
                 keys.remove(name);
-                System.out.println(name + " " + keys.size());
                 if(keys.size() == 0){
                     ready = false;
-                    actualKeys = 0;
                 }
                 return key;
             }

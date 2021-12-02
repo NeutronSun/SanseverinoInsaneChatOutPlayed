@@ -24,10 +24,10 @@ public class ClientThreadReader implements Runnable {
                     String key = s.substring(s.indexOf("-")+1);
                     ks.setKey(name, key);
                 }
+                else if(s.startsWith("@end"))
+                    ks.isReady();
                 else if(s.startsWith("/ready"))
                     out.println(encr.getKey());
-                else if(s.startsWith("&"))
-                    ks.wrongName(s.substring(1));
                 else if(s.contains("@dec")){
                     String start = s.substring(0, s.indexOf("@dec"));
                     String[] shit = s.split("-");

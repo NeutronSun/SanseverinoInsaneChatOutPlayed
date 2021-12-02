@@ -120,11 +120,11 @@ public class ServerThread implements Runnable{
         for(String name : names){
             if(um.isConnected(name))
                 out.println("pk" + name + "-" +  um.getPk(name));
-            else{
-                out.println("&" + name);
+            else
                 out.println("<Server>" + name + " not exists");
-            }
+            
         }
+        out.println("@end");
     }
 
 
