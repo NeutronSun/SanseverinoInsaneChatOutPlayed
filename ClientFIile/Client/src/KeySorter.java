@@ -30,6 +30,7 @@ public class KeySorter {
      */
     private boolean ready;
 
+
     /**
      * costruttore di defualt
      */
@@ -38,12 +39,8 @@ public class KeySorter {
         ready = false;
     }
 
-    public synchronized void setNKeys(int numberKeys){
-        this.numberKeys = numberKeys;
-    }
-
+    
     public synchronized void isReady(){
-        System.out.println("les go");
         ready = true;
         notifyAll();
     }
@@ -73,7 +70,6 @@ public class KeySorter {
         try {
             synchronized(this){
                 while(!ready){wait();}
-                System.out.println(keys.size());
                 return keys.keySet().toArray(new String[keys.size()]);
             }
         } catch (Exception e) {

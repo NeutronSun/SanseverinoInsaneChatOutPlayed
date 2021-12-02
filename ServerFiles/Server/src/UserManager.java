@@ -162,6 +162,20 @@ public class UserManager {
         
     }
 
+    public String[] namesToArray(String except){
+        try {
+            while(!canRead) {wait();}
+            String[] names = new String[users.size()-1];
+            int cont = 0;
+            for(UserData user : toArray()){
+                if(!user.getName().equals(getName(except)))
+                names[cont] = user.getName();
+                cont++;
+            }
+            return names;
+        } catch (Exception e) {return null;}
+    }
+
     public UserData toObject(String key){
         try {
             while(!canRead) {wait();}

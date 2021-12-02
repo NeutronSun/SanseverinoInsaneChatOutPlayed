@@ -94,7 +94,7 @@ public class ServerThread implements Runnable{
                 else if(line.equals("/list"))
                     getListUser();
                 else if(line.startsWith("/all"))
-                    notifyAll(um.getName(String.valueOf(cont)), line.substring(4));
+                    sendKeys(line);
                 else if(line.startsWith("divideandconquer"))
                     divideandconquer(line);
                 else if(line.startsWith("be fast pls"))
@@ -115,10 +115,17 @@ public class ServerThread implements Runnable{
         /**
          * contorllo he eisdstani tutti i nomu
          */
-        String[] names = line.substring(1, line.indexOf(" ")).split("@");
+        String[] names;
+        if(line.startsWith("/all")){
+            names = um.namesToArray(String.valueOf(cont));
+        }else
+             names = line.substring(1, line.indexOf(" ")).split("@");
+        
         System.out.println(line);
         for(String name : names){
-            if(um.isConnected(name))
+            if(name.equals(um.getName(String.valueOf(cont))))
+                out.println("<Server> Avoid writing to yourself, not funny :L");
+            else if(um.isConnected(name))
                 out.println("pk" + name + "-" +  um.getPk(name));
             else
                 out.println("<Server>" + name + " not exists");

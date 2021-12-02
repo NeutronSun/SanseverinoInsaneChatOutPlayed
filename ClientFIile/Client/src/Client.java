@@ -26,7 +26,7 @@ public class Client {
            // putInServer.println(encrypt.getKey());
             String userInput;
             while ((userInput = inKey.readLine()) != null) {
-                if(userInput.startsWith("@")) {
+                if(userInput.startsWith("@") || userInput.startsWith("/all")) {
                     String msg = userInput.substring(userInput.indexOf(" ") + 1);
                     msg = checkEmoji(msg);
                     putInServer.println(userInput);  
