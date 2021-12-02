@@ -7,3 +7,5 @@ faker/111/000
 merioepria/111/000
 Enter UserName/Enter Password/000
 Enter UserName already exists as user/Enter UserName/000
+111/111/000
+merio/111/000

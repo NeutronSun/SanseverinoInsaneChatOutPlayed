@@ -57,5 +57,13 @@ public class UserData {
     public boolean isOnline() {
         return online;
     }
+    
+    public void setPk(String pk){
+        this.publicKey = pk;
+        System.out.println(pk);
+    }
 
+    public String getPk(){
+        return publicKey;
+    }
 }

@@ -84,6 +84,45 @@ public class UserManager {
         } catch (Exception e) {return false;}
     }
 
+    public void setPk(String key, String pk){
+        try {
+            while(!canRead) {wait();}
+            synchronized(this) {
+                contReader++;
+            }
+            users.get(key).setPk(pk);
+            synchronized(this){
+                contReader--;
+                notifyAll();
+            }
+        } catch (Exception e) {
+            //TODO: handle exception
+        }
+    }
+
+    public String getPk(String name) {
+        try {
+            while(!canRead) {wait();}
+            synchronized(this) {
+                contReader++;
+            }
+            for(UserData dt : users.values()) {
+                if(dt.getName().equals(name)){
+                    synchronized(this){
+                        contReader--;
+                        notifyAll();
+                    }
+                    return dt.getPk();
+                }
+            }
+            synchronized(this){
+                contReader--;
+                notifyAll();
+            }
+            return null;
+        } catch (Exception e) {return null;}
+    }
+
     /**
      * Setta lo stato del client ad online
      * @param key

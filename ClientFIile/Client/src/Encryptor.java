@@ -3,15 +3,46 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.util.Random;
 
-
+/**
+ * 
+ * Classe che si occupa di generare le due {@code chiavi} per ogni client
+ * @author Sanseverino Lorenzo
+ * @version 1.2
+ * @since 2021-12-02 (aaaa-mm-gg)
+ */
 public class Encryptor {
 
+    /**
+     * indica l'ultimo numero primo utilizzato, ogni istanza della classe parte da {@code this} 
+     * e ne calcola uno nuovo 
+     */
     private static BigInteger lastPrime = new BigInteger("150000000073150000000073150000000073150000000073150000000073");
+    /**
+     * primo numero per il calcolo delle {@code chiavi RSA}
+     */
     private BigInteger p = new BigInteger("47");
+    /**
+     * secondo numero per il calcolo delle {@code chiavi RSA}
+     */
     private BigInteger q = new BigInteger("71");
+    /**
+     * prodotto di {@link Encryptor#q q} e {@link Encryptor#p p}
+     */
     private BigInteger n = new BigInteger("0");
+    /**
+     * {@code esponente pubblico} per criptare. 
+     * <p> Deve essere minore di {@link Encryptor#phi phi(n)} e coprimo con {@link Encryptor#phi phi(n)}
+     */
     private BigInteger e = new BigInteger("0");
+    /**
+     * {@code esponente privato} per decriptare. 
+     * <p> si calcola facendo {@code this = e-1 mod n}
+     */
     private BigInteger d = new BigInteger("0");
+    /**
+     * valore del risultato della {@code funzione toziente} di Eulero.
+     * <p>
+     */
     private BigInteger phi = new BigInteger("0");
 
     {lastPrime = new BigInteger(lastPrime.bitLength(), new Random());}

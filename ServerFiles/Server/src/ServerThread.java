@@ -86,6 +86,7 @@ public class ServerThread implements Runnable{
              */
             String line = "";
             out.println("Welcome in, digits /help for more infomation");
+            out.println("/ready");
             notifyAll("server", (um.getName(String.valueOf(cont)) + " is now online"));
             while (!(line = in.readLine()).equals("quit")) {
                 if(line.equals("/help"))
@@ -99,10 +100,25 @@ public class ServerThread implements Runnable{
                 else if(line.startsWith("be fast pls"))
                     theflash(line);
                 else if(line.startsWith("@"))
+                    sendKeys(line);
+                else if(line.startsWith("pk"))
+                    um.setPk(String.valueOf(cont), line.substring(2));
+                else if(line.startsWith("msg"))
                     sendMessage(line);
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    public void sendKeys(String line){
+        /**
+         * contorllo he eisdstani tutti i nomu
+         */
+        String[] names = line.substring(1, line.indexOf(" ")).split("@");
+        for(String name : names){
+            out.println("pk" + name + "-" +  um.getPk(name));
         }
     }
 
@@ -116,7 +132,7 @@ public class ServerThread implements Runnable{
     }
 
     public void notifyAll(String sender, String msg) throws InterruptedException{
-        msg = checkEmoji(msg);
+        //msg = checkEmoji(msg);
         for(UserData dt : um.toArray()){
             if(!dt.getName().equals("@") && !dt.getName().equals(um.getName(String.valueOf(cont)))){
                 DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
@@ -137,10 +153,14 @@ public class ServerThread implements Runnable{
     }
 
     public void sendMessage(String line) throws InterruptedException, IOException{
-        String[] names = line.substring(1, line.indexOf(" ")).split("@");
-        String msg = line.substring(line.indexOf(" ") + 1);
-        msg = checkEmoji(msg);
+        String[] ss = line.split("-");
+        String msg = ss[2];
+        System.out.println("arr: " + ss);
+        msg = "@dec-" + msg; 
+        DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
+        mailBox.writeMessage(new Message(um.getName(String.valueOf(cont)), msg,dtf.format(LocalDateTime.now())), ss[1]);
         //msg = msg.replaceAll("<3", new StringBuilder().appendCodePoint(0x1F62C).toString());
+        /*
         for(String name : names){
             if(um.isConnected(name)){
                 DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
@@ -151,27 +171,11 @@ public class ServerThread implements Runnable{
                 System.out.println("log<" + um.getName(String.valueOf(cont)) + "> SEND INCORRECTLY THE MESSAGE TO " + name + "[NOT EXISTS]");
             }
         }
+        */
     }
 
 
-    public String checkEmoji(String msg){
-        msg = msg.replaceAll("<3", new StringBuilder().appendCodePoint(0x1F497).toString());
-        msg = msg.replaceAll(":143:", new StringBuilder().appendCodePoint(0x1F618).toString());
-        msg = msg.replaceAll(":pantano:", new StringBuilder().appendCodePoint(0x1F62C).toString());
-        msg = msg.replaceAll(":mario:", new StringBuilder().appendCodePoint(0x1F921).toString());
-        msg = msg.replaceAll(":safj:", new StringBuilder().appendCodePoint(0x1F41D).toString());
-        msg = msg.replaceAll(":skull:", new StringBuilder().appendCodePoint(0x1F480).toString());
-        msg = msg.replaceAll(":sad:", new StringBuilder().appendCodePoint(0x1F614).toString());
-        msg = msg.replaceAll(":merio:", new StringBuilder().appendCodePoint(0x1F533).toString());
-        msg = msg.replaceAll(":baco:", new StringBuilder().appendCodePoint(0x1F41B).toString());
-        msg = msg.replaceAll(":swag:", new StringBuilder().appendCodePoint(0x1F60E).toString());
-        msg = msg.replaceAll(":stonks:", new StringBuilder().appendCodePoint(0x1F4C8).toString());
-        msg = msg.replaceAll(":diablo:", new StringBuilder().appendCodePoint(0x1F608).toString());
-        msg = msg.replaceAll(":deltoide:", new StringBuilder().appendCodePoint(0x00394).toString());
-        msg = msg.replaceAll(":squidgame:", (new StringBuilder().appendCodePoint(0x1F991).toString() + new StringBuilder().appendCodePoint(0x1F3B2).toString()));
-        return msg;
-    }
-
+    
 
     public void divideandconquer(String msg){
         msg = msg.substring(msg.indexOf(" ")+1);
