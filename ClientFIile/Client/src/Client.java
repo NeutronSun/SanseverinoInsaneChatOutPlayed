@@ -33,9 +33,11 @@ public class Client {
                     ks.setNKeys(names.length);
                     System.out.println(names.length);
                     putInServer.println(userInput);
-                    String[] correctName = ks.getNames();
-                    for(String name : correctName){
-                        putInServer.println("msg-" + name + "-" + encrypt.encrypt(msg, ks.getKey(name)));
+                    if(ks.allOkay()){   
+                        String[] correctName = ks.getNames();
+                        for(String name : correctName){
+                            putInServer.println("msg-" + name + "-" + encrypt.encrypt(msg, ks.getKey(name)));
+                        }
                     }
                 }else{
                     putInServer.println(userInput);

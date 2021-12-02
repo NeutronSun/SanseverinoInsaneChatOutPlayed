@@ -71,14 +71,37 @@ public class KeySorter {
 
     public synchronized void wrongName(String user){
         canRead = false;
+        System.out.println(user);
         numberKeys--;
-        keys.remove(user);
+        String frwg = keys.remove(user);
+        for(String key : keys.keySet()){
+            System.out.println(key);
+        }
         if(numberKeys == actualKeys){
             ready = true;
             canRead = true;
         }
+        if(keys.size() == 0){
+            numberKeys = 0;
+            actualKeys = 0;
+            ready = false;
+        }
         canRead = true;
         notifyAll();
+    }
+
+    public boolean allOkay() {
+        try {
+            synchronized(this){
+                while(!ready && !canRead){wait();}
+                    if(keys.size() == 0)
+                        return false;
+                        else
+                        return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public String[] getNames(){
