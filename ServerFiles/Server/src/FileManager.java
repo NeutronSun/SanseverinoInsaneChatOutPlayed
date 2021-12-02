@@ -16,11 +16,15 @@ public class FileManager {
     File userFile;
     //BufferedReader readerUser;
     BufferedWriter writeUser;
+    private int contReaders;
+    private boolean canRead;
 
     public FileManager() throws IOException{
         userFile = new File("./ServerFiles/Files/UsersData/data.txt");
         //readerUser = new BufferedReader(new FileReader(userFile));
         writeUser = new BufferedWriter(new FileWriter(userFile, true));
+        contReaders = 0;
+        canRead = true;
     }
 
     /**
@@ -36,6 +40,10 @@ public class FileManager {
         String[] data = new String[3];
         int cont = 0;
         try(BufferedReader readerUser = new BufferedReader(new FileReader(userFile));){
+            synchronized(this){
+                while(!canRead){wait();}
+                contReaders++;
+            }
             while((line = readerUser.readLine()) != null){
                 cont = 0;
                 for(String ss : line.split("/")){
@@ -44,12 +52,20 @@ public class FileManager {
                 }
                 System.out.println(name + ": " + data[0]);
                 if(name.equals(data[0])){
+                    synchronized(this){
+                        contReaders--;
+                        notifyAll();
+                    }
                     return false;
                 }
                 
             }
+        synchronized(this){
+            contReaders--;
+            notifyAll();
+        }
         return true;
-        }catch(IOException e){}
+        }catch(IOException | InterruptedException e){}
         return true;
     }
 
@@ -67,6 +83,10 @@ public class FileManager {
         String[] data = new String[3];
         int cont = 0;
         try(BufferedReader readerUser = new BufferedReader(new FileReader(userFile));){
+            synchronized(this){
+                while(!canRead){wait();}
+                contReaders++;
+            }
             while((line = readerUser.readLine()) != null){
                 cont = 0;
                 for(String ss : line.split("/")){
@@ -74,12 +94,20 @@ public class FileManager {
                     cont++;
                 }
                 if(name.equals(data[0]) && password.equals(data[1])){
+                    synchronized(this){
+                        contReaders--;
+                        notifyAll();
+                    }
                     return true;
                 }
                 
             }
+        synchronized(this){
+            contReaders--;
+            notifyAll();
+        }
         return false;
-        }catch(IOException e){}
+        }catch(IOException | InterruptedException e){}
         return true;
     }
 
@@ -93,10 +121,18 @@ public class FileManager {
      * chiave pubblica dell'utente
      * @throws IOException
      */
-    public synchronized void addUser(String name, String password, String key) throws IOException{
+    public synchronized void addUser(String name, String password, String key){
+        canRead = false;
         String data = (name + "/" + password + "/" + key);
-        writeUser.write(data);
-        writeUser.newLine();
-        writeUser.flush();
+        try {
+            writeUser.write(data);
+            writeUser.newLine();
+            writeUser.flush();
+            canRead = true;
+            notifyAll();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

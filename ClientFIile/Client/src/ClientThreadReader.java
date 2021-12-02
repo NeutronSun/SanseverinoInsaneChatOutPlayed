@@ -26,6 +26,8 @@ public class ClientThreadReader implements Runnable {
                 }
                 else if(s.startsWith("/ready"))
                     out.println(encr.getKey());
+                else if(s.startsWith("&"))
+                    ks.wrongName(s.substring(1));
                 else if(s.contains("@dec")){
                     String start = s.substring(0, s.indexOf("@dec"));
                     String[] shit = s.split("-");

@@ -111,14 +111,19 @@ public class ServerThread implements Runnable{
         }
     }
 
-
     public void sendKeys(String line){
         /**
          * contorllo he eisdstani tutti i nomu
          */
         String[] names = line.substring(1, line.indexOf(" ")).split("@");
+        System.out.println(line);
         for(String name : names){
-            out.println("pk" + name + "-" +  um.getPk(name));
+            if(um.isConnected(name))
+                out.println("pk" + name + "-" +  um.getPk(name));
+            else{
+                out.println("&" + name);
+                out.println("<Server>" + name + " not exists");
+            }
         }
     }
 

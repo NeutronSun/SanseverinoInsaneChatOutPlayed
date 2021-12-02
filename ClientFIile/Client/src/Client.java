@@ -31,12 +31,15 @@ public class Client {
                     String msg = userInput.substring(userInput.indexOf(" ") + 1);
                     msg = checkEmoji(msg);
                     ks.setNKeys(names.length);
+                    System.out.println(names.length);
                     putInServer.println(userInput);
-                    for(String name : names){
+                    String[] correctName = ks.getNames();
+                    for(String name : correctName){
                         putInServer.println("msg-" + name + "-" + encrypt.encrypt(msg, ks.getKey(name)));
                     }
+                }else{
+                    putInServer.println(userInput);
                 }
-                putInServer.println(userInput);
             }
 
             putInServer.close();

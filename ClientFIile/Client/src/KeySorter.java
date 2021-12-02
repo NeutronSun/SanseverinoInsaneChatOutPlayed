@@ -29,6 +29,8 @@ public class KeySorter {
      * variabile booleana che diventa true quando <p>{@link KeySorter#numberKeys} = {@link KeySorter#actualKeys}
      */
     private boolean ready;
+    private boolean canRead;
+    private int contReaders;
 
     /**
      * costruttore di defualt
@@ -38,10 +40,14 @@ public class KeySorter {
         keys = new HashMap<String, String>();
         ready = false;
         actualKeys = 0;
+        canRead = true;
+        contReaders = 0;
     }
 
     public synchronized void setNKeys(int numberKeys){
+        canRead = false;
         this.numberKeys = numberKeys;
+        canRead = false;
     }
 
     /**
@@ -52,11 +58,37 @@ public class KeySorter {
      * chiave del client
      */
     public synchronized void setKey(String user, String key){
+        canRead = false;
         keys.put(user, key);
         actualKeys++;
         if(numberKeys == actualKeys){
             ready = true;
+            canRead = true;
             notifyAll();
+        }
+        canRead = true;
+    }
+
+    public synchronized void wrongName(String user){
+        canRead = false;
+        numberKeys--;
+        keys.remove(user);
+        if(numberKeys == actualKeys){
+            ready = true;
+            canRead = true;
+        }
+        canRead = true;
+        notifyAll();
+    }
+
+    public String[] getNames(){
+        try {
+            synchronized(this){
+                while(!ready && !canRead){wait();}
+                return keys.keySet().toArray(new String[keys.size()]);
+            }
+        } catch (Exception e) {
+            return null;
         }
     }
 
@@ -71,23 +103,20 @@ public class KeySorter {
         try {
             
             synchronized(this){
-                while(!ready){wait();}
-                return keys.get(name);
+                while(!ready && !canRead){wait();}
+                String key = keys.get(name);
+                System.out.println(name + " " + keys.size());
+                keys.remove(name);
+                System.out.println(name + " " + keys.size());
+                if(keys.size() == 0){
+                    ready = false;
+                    actualKeys = 0;
+                }
+                return key;
             }
         } catch (Exception e) {
             return null;
         }
     }
 
-    /**
-     * Restituisce una mappa contentente tutte le chiavi richieste
-     * @return
-     * HashMap
-     */
-    public synchronized HashMap<String, String> getKeys() {
-        try{
-            while(!ready){wait();}
-            return this.keys;
-        }catch(InterruptedException e){return null;}
-    }
 }
