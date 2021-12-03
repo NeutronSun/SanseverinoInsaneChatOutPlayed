@@ -24,7 +24,7 @@ public class MessageBox {
      * 
      * @param <String>
      * String key, il ricevente(es "client 1")
-     * @param <ArrayList<Message>>
+     * @param <<ArrayList<Message>>
      * il messaggio che ricevera'
      */
     private  HashMap<String, ArrayList<Message>> messageMap;
