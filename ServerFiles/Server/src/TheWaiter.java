@@ -1,8 +1,5 @@
 import java.io.*;
-import java.math.BigInteger;
 import java.net.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Classe che si occupa di "aspettare" una qualsiasi modifica dell'oggetto

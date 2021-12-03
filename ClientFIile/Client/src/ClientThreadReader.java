@@ -1,6 +1,4 @@
 import java.io.*;
-import java.math.BigInteger;
-import java.net.*;
 
 public class ClientThreadReader implements Runnable {
     private BufferedReader in;
@@ -26,6 +24,8 @@ public class ClientThreadReader implements Runnable {
                 }
                 else if(s.startsWith("@end"))
                     ks.isReady();
+                else if(s.equals("@quit"))
+                    return;
                 else if(s.startsWith("/ready"))
                     out.println(encr.getKey());
                 else if(s.contains("@dec")){

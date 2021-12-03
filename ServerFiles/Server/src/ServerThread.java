@@ -79,7 +79,8 @@ public class ServerThread implements Runnable{
             um.setOnline(String.valueOf(cont));
             mailBox.addUser(um.getName(String.valueOf(cont)));
             System.out.println("log<" + um.getName(String.valueOf(cont)) + "> LOGGED CORRECTLY.");
-            new Thread(new TheWaiter(socket,mailBox,um.toObject(String.valueOf(cont)))).start();
+           Thread t =  new Thread(new TheWaiter(socket,mailBox,um.toObject(String.valueOf(cont))));
+           t.start();
             /**
              * ----------------------------
              * now the user can send messages or digits commands
@@ -106,7 +107,12 @@ public class ServerThread implements Runnable{
                 else if(line.startsWith("msg"))
                     sendMessage(line);
             }
-        } catch (IOException | InterruptedException e) {
+            notifyAll("server", (um.getName(String.valueOf(cont)) + " left the chat"));
+            out.println("@quit");
+            socket.close();
+            System.out.println("swfwf");
+        } catch (Exception e) {
+            System.out.println("faekr");
             e.printStackTrace();
         }
     }

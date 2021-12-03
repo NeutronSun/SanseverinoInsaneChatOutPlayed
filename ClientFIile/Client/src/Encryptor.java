@@ -41,29 +41,36 @@ public class Encryptor {
     private BigInteger d = new BigInteger("0");
     /**
      * valore del risultato della {@code funzione toziente} di Eulero.
-     * <p>
      */
     private BigInteger phi = new BigInteger("0");
 
     {lastPrime = new BigInteger(lastPrime.bitLength(), new Random());}
 
+    /**
+     * Default constructor
+     */
     public Encryptor() {
         p = newPrime(lastPrime);
         q = newPrime(lastPrime);
         n = p.multiply(q);
-        e = coprimes();
-        phi = phi();
+        e = newPrime(lastPrime);
+        phi = phi(p).multiply(phi(q));
         d = e.modInverse(phi);
     }
 
-    public BigInteger phi() {
-        return p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE));
-    }
-
-
-    public BigInteger coprimes() {
-        BigInteger prm = q;
-        return newPrime(prm);
+    /**
+     * Funzione toziente di {@code Eulero}.
+     * <p>
+     * La funzione restituisce i<l {@code numero} dei numeri {@code coprimi} con n.
+     * Nel caso in cui n sia primo, allora il l {@code numero} dei numeri {@code coprimi} con n e'
+     * semplicemente {@code n-1}
+     * @param n
+     * bigInteger da analizzare
+     * @return
+     * il numero di numero coprimi con n
+     */
+    public BigInteger phi(BigInteger n) {
+        return n.subtract(BigInteger.ONE);
     }
 
     public BigInteger newPrime(BigInteger prime) {

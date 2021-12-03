@@ -1,5 +1,3 @@
-import javax.xml.crypto.Data;
-
 /**
  *  Il {@code Message} e' una classe che si occupa di memorizzare tutti i dati di un singolo messaggio:
  * <p><ul>
