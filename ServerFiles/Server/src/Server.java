@@ -15,7 +15,7 @@ public class Server {
         FileManager fm = new FileManager();
         System.out.println("ip: " + Inet4Address.getLocalHost().getHostAddress());
         System.out.println("port: " + portNumber);
-        System.out.println("Waiting for user..." +  new StringBuilder().appendCodePoint(0x1F497).toString());
+        System.out.println("Waiting for user..." +  new StringBuilder().appendCodePoint(0x1F920).toString());
         MessageBox mailBox = new MessageBox();
         UserManager um = new UserManager();
         int contThread = 0;
