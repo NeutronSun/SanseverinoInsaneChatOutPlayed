@@ -25,7 +25,7 @@ public class ClientThreadReader implements Runnable {
                 else if(s.startsWith("@end"))
                     ks.isReady();
                 else if(s.equals("@quit"))
-                    return;
+                    Thread.currentThread().interrupt();
                 else if(s.startsWith("/ready"))
                     out.println(encr.getKey());
                 else if(s.contains("@dec")){
@@ -35,8 +35,7 @@ public class ClientThreadReader implements Runnable {
                     System.out.println(start+encr.decrypt(msgToDec));
                 }else
                 System.out.println(s);
-            } catch (IOException e) {
-                System.out.println("wegweg");
+            } catch (Exception e) {
                 return;
             }
         }

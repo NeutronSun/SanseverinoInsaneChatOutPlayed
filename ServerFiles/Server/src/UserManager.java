@@ -183,4 +183,16 @@ public class UserManager {
         } catch (Exception e) {return null;}
     }
 
+    public synchronized void remove(String key){
+        try {
+            while(contReader > 0) {wait();}
+            canRead = false;
+            users.remove(key);
+            canRead = true;
+            notifyAll();
+        }catch (Exception e) {
+            return;
+        }
+    }
+
 }

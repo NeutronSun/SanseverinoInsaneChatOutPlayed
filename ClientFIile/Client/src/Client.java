@@ -12,7 +12,7 @@ public class Client {
     static Socket echoSocket;
 
     public static void main(String[] args) throws Exception{
-        int portNumber = 77;
+        int portNumber = 11700;
         Encryptor encrypt = new Encryptor();
         KeySorter ks = new KeySorter();
         try{
@@ -22,10 +22,11 @@ public class Client {
             BufferedReader in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
             BufferedReader inKey = new BufferedReader(new InputStreamReader(System.in));
             ClientThreadReader read = new ClientThreadReader(in, putInServer, ks, encrypt);
-            new Thread(read).start();
+            Thread t = new Thread(read);
+            t.start();
            // putInServer.println(encrypt.getKey());
             String userInput;
-            while ((userInput = inKey.readLine()) != null) {
+            while (!(userInput = inKey.readLine()).equals("quit")) {
                 if(userInput.startsWith("@") || userInput.startsWith("/all")) {
                     String msg = userInput.substring(userInput.indexOf(" ") + 1);
                     msg = checkEmoji(msg);
@@ -40,10 +41,11 @@ public class Client {
                     putInServer.println(userInput);
                 }
             }
-
+            echoSocket.close();
             putInServer.close();
             inKey.close();
-        } catch (IOException e) {
+            t.interrupt();
+        } catch (Exception e) {
             System.out.println("you got banned");
             return;
         }
@@ -66,5 +68,6 @@ public class Client {
         msg = msg.replaceAll(":squidgame:", (new StringBuilder().appendCodePoint(0x1F991).toString() + new StringBuilder().appendCodePoint(0x1F3B2).toString()));
         return msg;
     }
+
 
 }

@@ -107,13 +107,9 @@ public class ServerThread implements Runnable{
                 else if(line.startsWith("msg"))
                     sendMessage(line);
             }
-            notifyAll("server", (um.getName(String.valueOf(cont)) + " left the chat"));
-            out.println("@quit");
-            socket.close();
-            System.out.println("swfwf");
         } catch (Exception e) {
-            System.out.println("faekr");
-            e.printStackTrace();
+            notifyAll("server", (um.getName(String.valueOf(cont)) + " left the chat"));
+            um.remove(String.valueOf(cont));
         }
     }
 
@@ -149,15 +145,17 @@ public class ServerThread implements Runnable{
         out.println("@user@user1@user2    send a message to more users");
     }
 
-    public void notifyAll(String sender, String msg) throws InterruptedException{
+    public void notifyAll(String sender, String msg){
         //msg = checkEmoji(msg);
-        for(UserData dt : um.toArray()){
-            if(!dt.getName().equals("@") && !dt.getName().equals(um.getName(String.valueOf(cont)))){
-                DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
-                mailBox.writeMessage(new Message(sender, msg, dtf.format(LocalDateTime.now())), dt.getName());
+        try{
+            for(UserData dt : um.toArray()){
+                if(!dt.getName().equals("@") && !dt.getName().equals(um.getName(String.valueOf(cont)))){
+                    DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
+                    mailBox.writeMessage(new Message(sender, msg, dtf.format(LocalDateTime.now())), dt.getName());
+                }
             }
-        }
-        System.out.println("log<" + um.getName(String.valueOf(cont)) + "> SENT CORRECTLY THE MESSAGE.");
+            System.out.println("log<" + um.getName(String.valueOf(cont)) + "> SENT CORRECTLY THE MESSAGE.");
+        }catch(InterruptedException e) {return;}
     }
 
     public void getListUser() throws InterruptedException{
