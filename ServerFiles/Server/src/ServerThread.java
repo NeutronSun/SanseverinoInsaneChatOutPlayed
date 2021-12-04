@@ -108,7 +108,7 @@ public class ServerThread implements Runnable{
                     sendMessage(line);
             }
         } catch (Exception e) {
-            notifyAll("server", (um.getName(String.valueOf(cont)) + " left the chat"));
+            notifyAll("server", (um.getName(String.valueOf(cont)) + " has left the chat"));
             um.remove(String.valueOf(cont));
         }
     }
@@ -146,7 +146,6 @@ public class ServerThread implements Runnable{
     }
 
     public void notifyAll(String sender, String msg){
-        //msg = checkEmoji(msg);
         try{
             for(UserData dt : um.toArray()){
                 if(!dt.getName().equals("@") && !dt.getName().equals(um.getName(String.valueOf(cont)))){
@@ -163,7 +162,7 @@ public class ServerThread implements Runnable{
             if(!dt.getName().equals("@") && dt.isOnline() && !dt.getName().equals(um.getName(String.valueOf(cont)))){
                 String msg = dt.getName() + " is online";
                 DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
-                mailBox.writeMessage(new Message("server", msg, dtf.format(LocalDateTime.now())), dt.getName());
+                out.println("<Server>" + msg);
             }
         }
     }

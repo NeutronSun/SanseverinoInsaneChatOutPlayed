@@ -13,6 +13,7 @@ public class Server {
         int portNumber = 11700;
         ServerSocket serverSocket = new ServerSocket(portNumber);
         FileManager fm = new FileManager();
+        System.out.println(serverSocket.getInetAddress().getHostAddress());
         System.out.println("ip: " + Inet4Address.getLocalHost().getHostAddress());
         System.out.println("port: " + portNumber);
         System.out.println("Waiting for user..." +  new StringBuilder().appendCodePoint(0x1F920).toString());

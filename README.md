@@ -1,4 +1,4 @@
-# Progetto Discordia
+# Chat Client e Server
 
 ## Disclaimers
 * Questo è un esempio di partenza e ha lo scopo di dimostrare un'applicazione-tipo per affrontare un'implementazione di una connessione con successiva comunicazione di più utenti (client) tramite messaggi criptati con l'algoritmo RSA. Ci sono potenzialmente altri modi per affrontarlo e potrebbero essere prese in considerazione alternative.
