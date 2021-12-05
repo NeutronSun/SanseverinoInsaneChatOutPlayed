@@ -1,3 +1,13 @@
+/**
+ * Copyright (c) 22 Giugno anno 0, 2021, SafJNest and/or its affiliates. All rights reserved.
+ * SAFJNEST PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,7 +22,7 @@ public class Client {
     static Socket echoSocket;
 
     public static void main(String[] args) throws Exception{
-        int portNumber = 11700;
+        int portNumber = 11701;
         Encryptor encrypt = new Encryptor();
         KeySorter ks = new KeySorter();
         try{

@@ -1,3 +1,13 @@
+/**
+ * Copyright (c) 22 Giugno anno 0, 2021, SafJNest and/or its affiliates. All rights reserved.
+ * SAFJNEST PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -6,7 +16,7 @@ import java.util.Random;
 /**
  * 
  * Classe che si occupa di generare le due {@code chiavi} per ogni client
- * @author Sanseverino Lorenzo
+ * @author <a href="https://github.com/NeutronSun">NeutronSun</a>
  * @version 1.2
  * @since 2021-12-02 (aaaa-mm-gg)
  */
@@ -97,7 +107,7 @@ public class Encryptor {
         String[] supOne = keyFriend.split("/");
         BigInteger publicExp = new BigInteger(supOne[0]);
         BigInteger publicN = new BigInteger(supOne[1]); 
-        BigInteger plainText, cypher = new BigInteger("0");
+        BigInteger plainText;
         boolean lengthPrime = false;
         byte[] erbite = ss.getBytes("UTF-8");
         byte[] toSend = new byte[erbite.length+1];

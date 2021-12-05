@@ -1,3 +1,13 @@
+/**
+ * Copyright (c) 22 Giugno anno 0, 2021, SafJNest and/or its affiliates. All rights reserved.
+ * SAFJNEST PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+
 import java.io.*;
 import java.net.*;
 
@@ -6,7 +16,7 @@ import java.net.*;
  * {@link TheWaiter#mailBox mailbox}
  * e contattare poi il client corrispettivo
  * 
- * @author Sanseverino Lorenzo
+ * @author <a href="https://github.com/NeutronSun">NeutronSun</a>
  */
 public class TheWaiter implements Runnable {
     /**

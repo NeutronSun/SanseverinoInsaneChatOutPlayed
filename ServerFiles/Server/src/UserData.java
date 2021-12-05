@@ -1,4 +1,14 @@
 /**
+ * Copyright (c) 22 Giugno anno 0, 2021, SafJNest and/or its affiliates. All rights reserved.
+ * SAFJNEST PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+
+/**
  * {@code dati utenti} e' una classe che si occupa di memorizzare tutti i dati di un singolo utente:
  * <p><ul>
  * <li> {@link UserData#userName username}
@@ -6,7 +16,7 @@
  * <li> {@link UserData#online stato di online}
  * <li> {@link UserData#publicKey chiave pubblica }
  * </ul><p>
- * @author Sanseverino Lorenzo
+ * @author <a href="https://github.com/NeutronSun">NeutronSun</a>
  * @version 1
  * @since 2021-12-1(aaaa-mm-gg)
  */

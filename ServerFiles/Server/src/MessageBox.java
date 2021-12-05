@@ -1,3 +1,13 @@
+/**
+ * Copyright (c) 22 Giugno anno 0, 2021, SafJNest and/or its affiliates. All rights reserved.
+ * SAFJNEST PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+
 import java.util.*;
 
 /**
@@ -9,8 +19,8 @@ import java.util.*;
  * <p>Allo stesso modo ogni volta che un client vuole inviare un messaggio sara' il {@link ServerThread} 
  * a salvare il messaggio tramite il metodo {@link MessageBox#writeMessage writeMessage()}.
  * 
- * 
- * @author Sanseverino Lorenzo
+ * @author <a href="https://github.com/NeutronSun">NeutronSun</a>
+ * @author <a href="https://github.com/XOShu4">XOShu4</a>
  * @since 2021-11-29 (aaaa-mm-gg)
  * @version 1
  */

@@ -1,9 +1,19 @@
+/**
+ * Copyright (c) 22 Giugno anno 0, 2021, SafJNest and/or its affiliates. All rights reserved.
+ * SAFJNEST PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+
 import java.util.HashMap;
 /**
  * Classe che si occupa di gestire tutti i client collegati al server. 
  * I dati saranno memorizzati in una mappa(con chiave il numero del thread istanziato dalla classe {@link Server}) e come
  * valore un oggetto di tipo {@link UserData}.
- * @author Lorenzo Sanseverino
+ * @author <a href="https://github.com/NeutronSun">NeutronSun</a>
  * @version 1
  * @since 2021-11-30 (aaaa-mm-gg)
  */

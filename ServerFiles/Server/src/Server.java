@@ -1,4 +1,14 @@
- import java.io.BufferedReader;
+/**
+ * Copyright (c) 22 Giugno anno 0, 2021, SafJNest and/or its affiliates. All rights reserved.
+ * SAFJNEST PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -10,7 +20,7 @@ import java.lang.StringBuilder;
 
 public class Server {
     public static void main(String[] args) throws Exception {
-        int portNumber = 11700;
+        int portNumber = 11701;
         ServerSocket serverSocket = new ServerSocket(portNumber);
         FileManager fm = new FileManager();
         System.out.println(serverSocket.getInetAddress().getHostAddress());

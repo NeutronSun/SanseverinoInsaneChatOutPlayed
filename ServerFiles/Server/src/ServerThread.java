@@ -1,7 +1,18 @@
+/**
+ * Copyright (c) 22 Giugno anno 0, 2021, SafJNest and/or its affiliates. All rights reserved.
+ * SAFJNEST PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+
 import java.io.*;
 import java.net.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.Pattern;
 
 
 public class ServerThread implements Runnable{
@@ -31,10 +42,17 @@ public class ServerThread implements Runnable{
              * input dati utente
              * --------------------------
              */
-            String n,p;
+            String n = " ", p = " ", e = " ";
             boolean check = true;
-            out.println("Do you have already an account?");
-            if(in.readLine().equalsIgnoreCase("yes")) {
+            String answer = "";
+            if(!fileManager.isEmpty()){
+            out.println("Do you already have an account?");
+            answer = in.readLine();
+            }else{
+                out.println("No account registered, create a new one.");
+                answer = "no";
+            }
+            if(answer.equalsIgnoreCase("yes")) {
                 do{
                     check = true;
                     out.println("Enter UserName");
@@ -54,9 +72,11 @@ public class ServerThread implements Runnable{
                         check = false;
                     }
                 }while(!check);
-            }else{
+            }else if(answer.equalsIgnoreCase("no")){
                 do{
                     check = true;
+                    out.println("Enter your mail");
+                    e = in.readLine();
                     out.println("Enter UserName");
                     n = in.readLine();
                     out.println("Enter Password");
@@ -68,9 +88,20 @@ public class ServerThread implements Runnable{
                     if(!fileManager.checkUser(n)){
                         out.println(n + " already exists as user");
                         check = false;
-                    }else{fileManager.addUser(n, p, "000");}
+                    }
+                    if(!Pattern.matches("[\\w]+@[\\w]+\\.[a-zA-Z]{2,3}", e)){
+                        out.println("wrong format email");
+                        check = false;
+                    }
+                    if(!Pattern.matches("^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$", n)){
+                        out.println("wrong format unsername");
+                        check = false;
+                    }
+                    if(check)
+                    fileManager.addUser(n, p, e);
+                
                 }while(!check);
-            }
+            }else{out.println("Invalid answer");}
             /**
              * -----------------------------
              * settings data user
@@ -86,7 +117,7 @@ public class ServerThread implements Runnable{
              * now the user can send messages or digits commands
              */
             String line = "";
-            out.println("Welcome in, digits /help for more infomation");
+            out.println("Welcome in, digit /help for more infomation");
             out.println("/ready");
             notifyAll("server", (um.getName(String.valueOf(cont)) + " is now online"));
             while (!(line = in.readLine()).equals("quit")) {
@@ -139,8 +170,6 @@ public class ServerThread implements Runnable{
 
     public void getListCommand(){
         out.println("LIST     get a full list of online users");
-        out.println("OFFLINE      set your current state to offline");
-        out.println("ONLINE       set your current state to online");
         out.println("@user      send a message to @user");
         out.println("@user@user1@user2    send a message to more users");
     }
@@ -174,23 +203,14 @@ public class ServerThread implements Runnable{
         msg = "@dec-" + msg; 
         DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
         mailBox.writeMessage(new Message(um.getName(String.valueOf(cont)), msg,dtf.format(LocalDateTime.now())), ss[1]);
-        //msg = msg.replaceAll("<3", new StringBuilder().appendCodePoint(0x1F62C).toString());
-        /*
-        for(String name : names){
-            if(um.isConnected(name)){
-                DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
-                mailBox.writeMessage(new Message(um.getName(String.valueOf(cont)), msg,dtf.format(LocalDateTime.now())), name);
-                System.out.println("log<" + um.getName(String.valueOf(cont)) + "> SEND CORRECTLY THE MESSAGE TO " + name);
-            }else{
-                out.println(name + " not exists");
-                System.out.println("log<" + um.getName(String.valueOf(cont)) + "> SEND INCORRECTLY THE MESSAGE TO " + name + "[NOT EXISTS]");
-            }
-        }
-        */
     }
 
 
-    
+    /**
+     * @author <a href="https://github.com/NeutronSun">NeutronSun</a>
+     * @author <a href="https://github.com/XOShu4">XOShu4</a>
+     * @param msg
+     */
 
     public void divideandconquer(String msg){
         msg = msg.substring(msg.indexOf(" ")+1);
@@ -251,6 +271,14 @@ public class ServerThread implements Runnable{
         } catch (NumberFormatException e) {out.println("digit a number");}
     }
 
+    /**
+     * Il metodo piu' veloce per calcolare la radice quadrata inversa
+     * @author <a href="https://github.com/NeutronSun">NeutronSun</a>
+     * @author <a href="https://github.com/Leon412">Leon412</a> 
+     * @param x
+     * @return
+     * the fastest float ever
+     */
     public static float invSqrt(float x) {
         float xhalf = 0.5f * x;
         int i = Float.floatToIntBits(x);
