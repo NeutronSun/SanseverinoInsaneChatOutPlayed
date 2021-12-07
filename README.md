@@ -1,27 +1,8 @@
 # Chat Client e Server
-## Disclaimers
-* Questo è un esempio di partenza e ha lo scopo di dimostrare un'applicazione-tipo per affrontare un'implementazione di una connessione con successiva comunicazione di più utenti (client) tramite messaggi criptati con l'algoritmo RSA. Ci sono potenzialmente altri modi per affrontarlo e potrebbero essere prese in considerazione alternative.
-* È possibile che il repository non venga mantenuto attivamente.
 
 ## Panoramica
-Il seguente repository contiene un programma che rappresenta l'invio di messaggi tramite più utenti (Client) e gestiti da un Server, crittografati tramite l'algoritmo RSA.
 
-## Linee Guida
-Run the example of connecting to OpenFin and creating applications
-
-1. Clone this repository
-
-2. Go to release directory and start run.bat
-
-3. Once the java app starts, click on Start button, which should start OpenFin Runtime.  The java app will wait and try to connect to OpenFin Runtime.
-
-4. Once OpenFin Runtime is started and Java app connects successfully,  "Create Application" button is enabled.  You can click on the button to bring up a dialog for entering configuration of any HTML5 app.  By default, the dialog is pre-populated with configuration for Hello OpenFin demo app.
-
-5. You can use buttons in Window Control section to move and re-size HTML5 window of Hello OpenFin app.
-
-6. Click "Create Application" button, which should start a dialog with all the fields pre-populated for our Hello OpenFin demo HTML5 application.  Just click on "Create" button.
-
-7. After Hello OpenFin starts, you can use the buttons under Window Control of Java app to control Hello OpenFin window.
+# Descrizioni classi
 
 ## Source Code Review
 
