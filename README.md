@@ -1,20 +1,5 @@
 # Chat Client e Server
-<details>
-  <summary>Tabella dei contenuti</summary>
-  <ol>
-    <li>
-      <a href="#panoramica">Panoramica</a>
-      <ul>
-        <li><a href="#comandi">Costruito con</a></li>
-      </ul>
-    </li>
-    <li><a href="#documentazione-classi-java">Documentazione classi</a></li>
-    <li><a href="#faker">Roadmap</a></li>
-    <li><a href="#contatti">Contatti</a></li>
-  </ol>
-</details>
 
-<!-- Panoramica  -->
 ## Panoramica
 Il software consente ai vari utenti collegati di chattare tra di loro.
 Gli utenti saranno in grado di effettuare il login o, in caso non ne avessero uno, di creare un nuovo profilo.
@@ -30,7 +15,7 @@ Il client dispone in oltre di comodi comandi tra cui:
 - /@user@user... --> il messaggio sarà inviato a tutti gli utenti selezionati.
 
 In oltre sono presenti due **EASTER EGG** molto divertenti e dal significato profondo.
-
+![ffewfe](REALFAKER.png)
 # ***Descrizioni classi***
 In questo progetto sono presenti 12 classi (8 lato server e 4 lato client) dove ognuna svolge uno specifico compito e sono sincronizzate per evitare problemi di concorrenza e di inconsistenza dei dati, vista la natura multithreading del server.
 
@@ -105,9 +90,21 @@ Classe sincronizzata con l'unico scopo di mettere in condivisione le chiavi lett
 
 ## License
 Copyright (c) 22 Giugno anno 0, 2021, SafJNest and/or its affiliates. All rights reserved. SAFJNEST PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
-## Contacts
+
+## ***Contacts***
 ### Lorenzo Sanseverino
 - lorenzosanseverino2003@gmail.com
-- Git NeutronSun
+- Git <a href="https://github.com/NeutronSun">NeutronSun</a> 
 - Discord Sun#7606.
+
+### Galantini Corrado
+- galantini.corrado@istitutomontani.edu.it
+- Git <a href="https://github.com/XOShu4">XOShu4</a> 
+- Discord Mario Giordano#3698
+
+### Panichi Leonardo
+- panichileonardo4@gmail.com
+- Git <a href="https://github.com/Leon412">Leon412</a> 
+- Discord Leon_#7949
+
 
