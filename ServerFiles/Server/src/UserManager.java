@@ -94,6 +94,14 @@ public class UserManager {
         } catch (Exception e) {return false;}
     }
 
+
+    /**
+     * Setta la chiave pubblica del client all'interno della {@link UserManager#users mappa}
+     * @param key
+     * chiave della {@link UserManager#users mappa}
+     * @param pk
+     * chiave pubblica dell'utente
+     */
     public void setPk(String key, String pk){
         try {
             while(!canRead) {wait();}
@@ -110,6 +118,13 @@ public class UserManager {
         }
     }
 
+    /**
+     * Restituisce la specifica chiave pubblica di un utente.
+     * @param name
+     * chiave della {@link UserManager#users mappa}
+     * @return
+     * {@code Stringa} contenente la chiave pubblica
+     */
     public String getPk(String name) {
         try {
             while(!canRead) {wait();}
@@ -154,6 +169,13 @@ public class UserManager {
         } catch (Exception e) {}
     }
 
+    /**
+     * Restituisce il nome di un utente
+     * @param key
+     * chiave della {@link UserManager#users mappa}
+     * @return
+     * {@code Stringa} contenente il nome
+     */
     public String getName(String key){
         try {
             while(!canRead) {wait();}
@@ -163,7 +185,12 @@ public class UserManager {
             return null;
         }
     }
-
+    
+    /**
+     * Restiuisce un {@code array} di {@link UserData}
+     * @return
+     * {@link UserData UserData[]}
+     */
     public UserData[] toArray(){
         try {
             while(!canRead) {wait();}
@@ -171,7 +198,14 @@ public class UserManager {
         } catch (Exception e) {return null;}
         
     }
-
+    /**
+     * Restiuisce un {@code array di stringhe} contenenti tutti i nomi
+     * di tutti gli utenti connessi tranne chi ha effettuato il metodo
+     * @param except
+     * nome che non sarà presente nell' array
+     * @return
+     * {@code array di stringhe}
+     */
     public String[] namesToArray(String except){
         try {
             while(!canRead) {wait();}
@@ -186,6 +220,33 @@ public class UserManager {
         } catch (Exception e) {return null;}
     }
 
+    /**
+     * Restiuisce un {@code array di stringhe} contenenti tutti i nomi
+     * di tutti gli utenti connessi
+     * @return
+     * {@code array di stringhe}
+     */
+    public String[] namesToArray(){
+        try {
+            while(!canRead) {wait();}
+            String[] names = new String[users.size()-1];
+            int cont = 0;
+            for(UserData user : toArray()){
+                names[cont] = user.getName();
+                cont++;
+            }
+            return names;
+        } catch (Exception e) {return null;}
+    }
+
+
+    /**
+     * Restituisce un {@code oggetto} {@link UserData userdata} data una chiave della mappa
+     * @param key
+     * chiave della {@link UserManager#users mappa}
+     * @return
+     * {@link UserData userdata}
+     */
     public UserData toObject(String key){
         try {
             while(!canRead) {wait();}
@@ -193,6 +254,11 @@ public class UserManager {
         } catch (Exception e) {return null;}
     }
 
+    /**
+     * Rimuove un utente dalla {@link UserManager#users mappa}
+     * @param key
+     * {@code String}, utente da rimuovere
+     */
     public synchronized void remove(String key){
         try {
             while(contReader > 0) {wait();}
