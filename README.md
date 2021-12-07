@@ -15,7 +15,7 @@ Il client dispone in oltre di comodi comandi tra cui:
 - /@user@user... --> il messaggio sarà inviato a tutti gli utenti selezionati.
 
 In oltre sono presenti due **EASTER EGG** molto divertenti e dal significato profondo.
-![ffewfe](REALFAKER.png)
+![ffewfe](t1faker.png)
 # ***Descrizioni classi***
 In questo progetto sono presenti 12 classi (8 lato server e 4 lato client) dove ognuna svolge uno specifico compito e sono sincronizzate per evitare problemi di concorrenza e di inconsistenza dei dati, vista la natura multithreading del server.
 
