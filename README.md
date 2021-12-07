@@ -101,7 +101,7 @@ Classe sincronizzata con l'unico scopo di mettere in condivisione le chiavi lett
 - [x] In caso di utente inesistente notificare il client dell'errore.
 - [x] Evitare la presenza di più client con lo stesso nome collegati contemporaneamente.
 - [x] Creare i file/cartelle in caso della loro mancanza o corruzzione.
-- [] Programma funzionante su MacOs :(
+- [ ] Programma funzionante su MacOs :(
 
 ## License
 Copyright (c) 22 Giugno anno 0, 2021, SafJNest and/or its affiliates. All rights reserved. SAFJNEST PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
