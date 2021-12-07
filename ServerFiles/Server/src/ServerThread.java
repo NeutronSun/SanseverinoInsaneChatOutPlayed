@@ -169,7 +169,7 @@ public class ServerThread implements Runnable{
 
 
     public void getListCommand(){
-        out.println("LIST     get a full list of online users");
+        out.println("/LIST     get a full list of online users");
         out.println("@user      send a message to @user");
         out.println("@user@user1@user2    send a message to more users");
     }

@@ -60,6 +60,7 @@ public class Encryptor {
      * Default constructor
      */
     public Encryptor() {
+        
         p = newPrime(lastPrime);
         q = newPrime(lastPrime);
         n = p.multiply(q);
@@ -73,7 +74,7 @@ public class Encryptor {
      * <p>
      * La funzione restituisce i<l {@code numero} dei numeri {@code coprimi} con n.
      * Nel caso in cui n sia primo, allora il l {@code numero} dei numeri {@code coprimi} con n e'
-     * semplicemente {@code n-1}
+     * semplicemente n - 1
      * @param n
      * bigInteger da analizzare
      * @return
@@ -103,6 +104,12 @@ public class Encryptor {
         return n.toString();
     }
 
+    /**
+     * @param ss
+     * @param keyFriend
+     * @return
+     * @throws UnsupportedEncodingException
+     */
     public String encrypt(String ss, String keyFriend) throws UnsupportedEncodingException {
         String[] supOne = keyFriend.split("/");
         BigInteger publicExp = new BigInteger(supOne[0]);
