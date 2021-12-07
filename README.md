@@ -145,8 +145,4 @@ Source code for the example is located in /src/main/java/com/openfin/desktop/dem
 ```
 
 ## Ulteriori informazioni
-Inserisci un problema nel repository per qualsiasi domanda o problema.
-<br> In alternativa, contattaci all'indirizzo: 
-capriotti.bernadette@istitutomontani.edu.it
-cococcioni.mattia@istitutomontani.edu.it
 sanseverino.lorenzo@istitutomontani.edu.it
