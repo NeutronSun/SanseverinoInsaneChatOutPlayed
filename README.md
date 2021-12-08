@@ -15,6 +15,7 @@ Il client dispone in oltre di comodi comandi tra cui:  (￣^￣)
 - /ALL --> il messaggio viene inviato a tutti
 - /@user msg --> il messaggio sarà inviato ad un singolo utente
 - /@user@user... --> il messaggio sarà inviato a tutti gli utenti selezionati.
+- /SET --> l'utente potrà selezionare il suo stato su ONLINE o OFFLINE.
 
 In oltre sono presenti due **EASTER EGG** molto divertenti e dal significato profondo.
 # ***Descrizioni classi*** (＋´ω｀)

@@ -38,12 +38,17 @@ public class MessageBox {
      * il messaggio che ricevera'
      */
     private  HashMap<String, ArrayList<Message>> messageMap;
+    /**
+     * Flag che diventa {@code TRUE} o {@code FALSE} a seconda della disponibilita' della {@link MessageBox#messageMap mappa}
+     */
+    private boolean canRead;
 
     /**
      * Defaul constructor
      */
     public MessageBox(){
         contReader = 0;
+        canRead = true;
         messageMap = new HashMap<String, ArrayList<Message>>();
     }
 
@@ -55,7 +60,13 @@ public class MessageBox {
      */
 
     public synchronized void addUser(String name){
-        messageMap.put(name, new ArrayList<Message>());
+        try{
+            while(contReader > 0){wait();}
+            canRead = false;
+            messageMap.put(name, new ArrayList<Message>());
+            canRead = true;
+            notifyAll();
+        }catch(Exception e){e.getCause();}
     }
 
     /**
@@ -64,13 +75,15 @@ public class MessageBox {
      * messaggio di tipo {@link Message}
      * @param recivier
      * ricevente del messaggio, chiave/indice della mappa {@link MessageBox#messageMap messageMap}
-     * @throws InterruptedException
-     * non deve succedere e.e
      */
-    public synchronized void writeMessage(Message msg, String recivier) throws InterruptedException{
-        while(contReader > 0){wait();}
-        messageMap.get(recivier).add(msg);
-        notifyAll();
+    public synchronized void writeMessage(Message msg, String recivier){
+        try{
+            while(contReader > 0){wait();}
+            canRead = false;
+            messageMap.get(recivier).add(msg);
+            canRead = true;
+            notifyAll();
+        }catch(Exception e){e.printStackTrace();}
     }
     
     /**
@@ -86,7 +99,7 @@ public class MessageBox {
      */
     public Message[] getMessage(String receiver) throws InterruptedException{
         synchronized(this){
-            while(messageMap.get(receiver).size() == 0){wait();}
+            while(messageMap.get(receiver).size() == 0 && !canRead){wait();}
         }
         
         synchronized(this){

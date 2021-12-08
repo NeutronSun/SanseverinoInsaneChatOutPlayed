@@ -212,12 +212,15 @@ public class UserManager {
             String[] names = new String[users.size()-1];
             int cont = 0;
             for(UserData user : toArray()){
-                if(!user.getName().equals(getName(except)))
-                names[cont] = user.getName();
-                cont++;
+                if(!user.getName().equals(getName(except))){
+                    names[cont] = user.getName();
+                    cont++;
+                }
             }
             return names;
-        } catch (Exception e) {return null;}
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;}
     }
 
     /**
@@ -264,6 +267,25 @@ public class UserManager {
             while(contReader > 0) {wait();}
             canRead = false;
             users.remove(key);
+            canRead = true;
+            notifyAll();
+        }catch (Exception e) {
+            return;
+        }
+    }
+
+    /**
+     * Setta lo stato corrente di un utente su {@code ONLINE} o {@code OFFLINE}
+     * @param key
+     * {@code String}, utente da rimuovere
+     * @param status
+     * {@code Boolean}, true se si vuole impostarlo su {@code ONLINE} o false per {@code OFFLINE}
+     */
+    public synchronized void setStatus(String key, boolean status){
+        try {
+            while(contReader > 0) {wait();}
+            canRead = false;
+            users.get(key).setOnline(status);
             canRead = true;
             notifyAll();
         }catch (Exception e) {

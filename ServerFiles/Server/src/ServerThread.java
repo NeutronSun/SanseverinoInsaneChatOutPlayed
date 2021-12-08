@@ -12,16 +12,26 @@ import java.io.*;
 import java.net.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 
 public class ServerThread implements Runnable{
+    /** Consente la connessione client-server*/ 
     private Socket socket;
+    /**Consente la scrittura del server sul buffer del client */
     private PrintWriter out;
+    /**Consente la lettura del proprio buffer per leggere i messaggi da parte del client */
     private BufferedReader in;
+    /**Oggetto condiviso di tipo {@link MessageBox} dove saranno scritti i messaggi */
     private MessageBox mailBox;
+    /**Oggetto condiviso di tipo {@link UserManager} dove saranno gestiti tutti gli utenti */
     private UserManager um;
+    /**Oggetto condiviso di tipo {@link FileManager} dove saranno gestiti tutti i file del server*/
     private FileManager fileManager;
+    /**{@code Mappa} contenente una descrizione dettagliata dei comandi */
+    private HashMap<String, String> commandList;
+    /**Contatore autoincrementante che identifica tutti i vari client/ServerThread */
     private int cont;
 
     public ServerThread(Socket sck, MessageBox mailBox, UserManager um, FileManager fm, int contT){
@@ -30,7 +40,15 @@ public class ServerThread implements Runnable{
         this.um = um;
         fileManager = fm;
         cont = contT;
-        System.out.println(cont);
+        commandList = new HashMap<String, String>();
+
+        commandList.put("list", "Get the list of all the online users.\r\n\r\nLIST");
+        commandList.put("all", "Send a message to all the users.\r\n\r\nALL [message]\r\n\r\n\tmessage - text to be sent");
+        commandList.put("@send", "Send a message to one/more specific user/s.\r\n\r\n@user@user1@user2...@userN [message]\r\n\r\n\tmessage - text to be sent");
+        commandList.put("quit", "Terminate the program.\r\n\r\nQUIT");
+        commandList.put("help", "Get a specific description of a command.\r\n\r\nHELP [command]\r\n\r\n\t");
+        commandList.put("set", "Set the current status to offline or online.\r\n\r\nSET [OFFLINE/ONLINE]\r\n\r\nONLINE - Every one can see you as connected and text to you\r\n\r\nOFFLINE - No one can see you as connected or text to you but you can\r\n\r\n\t");
+       
     }
 
     public void run() {
@@ -121,8 +139,19 @@ public class ServerThread implements Runnable{
             out.println("/ready");
             notifyAll("server", (um.getName(String.valueOf(cont)) + " is now online"));
             while (!(line = in.readLine()).equals("quit")) {
-                if(line.equals("/help"))
-                    getListCommand();
+                if(line.equals("/help")){
+                    out.println("Per ulteriori informazioni su uno specifico comando, digitare HELP nome comando.\r\n"
+                                    + "LIST\tGet a list of users\r\n"
+                                    + "ALL\tSend a message to all the users\r\n"
+                                    + "@SEND\tSend a message to a specific user\r\n"
+                                    + "QUIT\tTerminate the program\r\n"
+                                    + "HELP\tGet a more specific guide for the commands\r\n"
+                                    + "SET\tSet the current status to offline or online.\r\n");
+                }
+                else if(line.startsWith("/help"))
+                    command(line);
+                else if(line.equalsIgnoreCase("basta"))
+                    basta();
                 else if(line.equals("/list"))
                     getListUser();
                 else if(line.startsWith("/all"))
@@ -137,9 +166,30 @@ public class ServerThread implements Runnable{
                     um.setPk(String.valueOf(cont), line.substring(2));
                 else if(line.startsWith("msg"))
                     sendMessage(line);
+                else if(line.equalsIgnoreCase("/set offline")){
+                    if(um.isConnected(um.getName(String.valueOf(cont)))){
+                        out.println("your current status has been changed to offline, now you are a ghost ;D");
+                        System.out.println("log<" + um.getName(String.valueOf(cont)) + "> SETTED IS STATUS TO OFFLINE");
+                        notifyAll("server", (um.getName(String.valueOf(cont)) + " has left the chat"));
+                        um.setStatus(String.valueOf(cont), false);
+                    }else
+                        out.println("Your status already is offline.");
+                }
+                else if(line.equalsIgnoreCase("/set online")){
+                    if(!um.isConnected(um.getName(String.valueOf(cont)))){
+                        out.println("your current status has been changed to online");
+                        notifyAll("server", (um.getName(String.valueOf(cont)) + " joined the chat"));
+                        System.out.println("log<" + um.getName(String.valueOf(cont)) + "> SETTED IS STATUS TO ONLINE");
+                        um.setStatus(String.valueOf(cont), true);
+                    }else
+                        out.println("Your status already is online");
+                }
+                else
+                    out.println("Wrong command, for more information please digit '/help'.");
             }
         } catch (Exception e) {
             notifyAll("server", (um.getName(String.valueOf(cont)) + " has left the chat"));
+            System.out.println("log<" + um.getName(String.valueOf(cont)) + "> HAS LEFT THE CHAT");
             um.remove(String.valueOf(cont));
         }
     }
@@ -153,7 +203,7 @@ public class ServerThread implements Runnable{
             names = um.namesToArray(String.valueOf(cont));
         }else
              names = line.substring(1, line.indexOf(" ")).split("@");
-        
+        System.out.println(names);
         System.out.println(line);
         for(String name : names){
             if(name.equals(um.getName(String.valueOf(cont))))
@@ -168,14 +218,15 @@ public class ServerThread implements Runnable{
     }
 
 
-    public void getListCommand(){
-        out.println("/LIST     get a full list of online users");
-        out.println("@user      send a message to @user");
-        out.println("@user@user1@user2    send a message to more users");
+    public void command(String line){
+        String[] s  = line.split(" ");
+        if(commandList.get(s[1]) != null)
+            out.println(commandList.get(s[1]));
+        else
+            out.println("Commnand not found");
     }
 
     public void notifyAll(String sender, String msg){
-        try{
             for(UserData dt : um.toArray()){
                 if(!dt.getName().equals("@") && !dt.getName().equals(um.getName(String.valueOf(cont)))){
                     DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
@@ -183,7 +234,6 @@ public class ServerThread implements Runnable{
                 }
             }
             System.out.println("log<" + um.getName(String.valueOf(cont)) + "> SENT CORRECTLY THE MESSAGE.");
-        }catch(InterruptedException e) {return;}
     }
 
     public void getListUser() throws InterruptedException{
@@ -286,6 +336,35 @@ public class ServerThread implements Runnable{
         x = Float.intBitsToFloat(i);
         x *= (1.5f - xhalf * x * x);
         return x;
+    }
+
+    public void basta() throws InterruptedException{
+        Thread.sleep(1000);
+        out.println("bastaa");
+        Thread.sleep(1000);
+        out.println("BASTAAA");
+        Thread.sleep(2000);
+        out.println("Vedi nel parchetto");
+        Thread.sleep(1500);
+        out.println("Spaccio");
+        Thread.sleep(500);
+        out.println("Cocainhnhh");
+        Thread.sleep(2000);
+        out.println("Mannaggia u culo");
+        Thread.sleep(1000);
+        out.println("Mannaggia a cardarella");
+        Thread.sleep(2000);
+        out.println("La vicina");
+        Thread.sleep(1000);
+        out.println("nel mio lavandino");
+        Thread.sleep(500);
+        out.println("si affaccia");
+        Thread.sleep(1500);
+        out.println("Oh mio dio");
+        Thread.sleep(1500);
+        out.println("Che bel");
+        Thread.sleep(500);
+        out.println("Pompinhnhn");
     }
 
 }
