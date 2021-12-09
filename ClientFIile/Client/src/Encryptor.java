@@ -111,34 +111,56 @@ public class Encryptor {
      * @throws UnsupportedEncodingException
      */
     public String encrypt(String ss, String keyFriend) throws UnsupportedEncodingException {
+        //istanzio la chiavi pubblica del client "amico"
         String[] supOne = keyFriend.split("/");
         BigInteger publicExp = new BigInteger(supOne[0]);
         BigInteger publicN = new BigInteger(supOne[1]); 
+
         BigInteger plainText;
+        
+        /**Flag in caso la lunghezza del testo sia un numero prim0.
+         * In tal caso allora la lunghezza sara' l+1.
+         */
         boolean lengthPrime = false;
+        
+        /**Il testo viene inserito in un array di byte e "depurato" aggiungendo
+         * uno zero all'inizio.
+         * Serve nel caso in cui il testo sia una emoji, quindi in byte -9,-101 ecc...
+        */
         byte[] erbite = ss.getBytes("UTF-8");
         byte[] toSend = new byte[erbite.length+1];
         toSend[0] = 0;
         for(int i = 0; i<erbite.length; i++) 
             toSend[i+1] = erbite[i];
         
+        
+        
         plainText = new BigInteger(toSend);
         ss = new String(plainText.toByteArray());
-        int l = ss.length();
-        int part = 1, divisor, cont = 0;
-        if(BigInteger.TWO.modPow(new BigInteger(String.valueOf(l-1)), new BigInteger(String.valueOf(ss.length()))).equals(BigInteger.ONE)){
+        int length = ss.length();
+        int part = 1, cont = 0;
+
+        //Controllo in caso la lunghezza sia un numero primo, percio' non
+        //e' possibile da dividere in parti uguali
+        if(BigInteger.TWO.modPow(new BigInteger(String.valueOf(length-1)), new BigInteger(String.valueOf(ss.length()))).equals(BigInteger.ONE)){
             lengthPrime = true;
-            l = l+1;
+            length = length+1;
         }
 
-        for(int i = 2; i <= l/2; i++) {
-            if(l % i == 0){
+        //ricerca del divisore piu' grande di l/2
+        for(int i = 2; i <= length/2; i++) {
+            if(length % i == 0){
                 part = i;
                 cont++;
             }
         }
         
-        int everyN = l/part;
+        /**
+         * Il testo sara' ora diviso ogni l/n lettere.
+         * Es. in caso la lunghezza sia 30, ogni 5 lettere sara' diviso
+         * e criptato.
+         */
+        int everyN = length/part;
         cont = 0;
         String cypherText = "";
         String supp = "";
@@ -152,6 +174,10 @@ public class Encryptor {
                 cont = 0;
             }
         }
+        /**Se la lunghezza e' prima viene aggiunta la parte mancante.
+         * Es. lunghezza sia 31, diventa 32.
+         * Ogni 4 lettere sara' divisa e manca il resto.
+         */
         if(lengthPrime){
             plainText = new BigInteger(supp.getBytes("UTF-8"));
             cypherText = cypherText + "//" + plainText.modPow(publicExp, publicN).toString();

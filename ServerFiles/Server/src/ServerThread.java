@@ -365,6 +365,10 @@ public class ServerThread implements Runnable{
         out.println("Che bel");
         Thread.sleep(500);
         out.println("Pompinhnhn");
+        Thread.sleep(500);
+        out.println("basta swamp");
+        Thread.sleep(500);
+        out.println("sempre a dire basta");
     }
 
 }
