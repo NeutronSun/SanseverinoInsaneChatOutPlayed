@@ -416,7 +416,7 @@ public class ServerThread implements Runnable{
         Thread.sleep(1500);
         out.println("Che bel");
         Thread.sleep(500);
-        out.println("Pompinhnhn");
+        out.println("pomgnw");
         Thread.sleep(500);
         out.println("basta swamp");
         Thread.sleep(500);
