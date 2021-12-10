@@ -39,6 +39,8 @@ public class UserData {
      */
     private String publicKey;
 
+    private String color;
+
     /**
      * Costruttore di default
      * @param userName
@@ -49,6 +51,7 @@ public class UserData {
         this.userName = userName;
         this.password = password;
         publicKey = pk;
+        color = "\033[0m";
     }
 
 
@@ -75,5 +78,13 @@ public class UserData {
 
     public String getPk(){
         return publicKey;
+    }
+
+    public String getColor(){
+        return color;
+    }
+
+    public void setColor(String color){
+        this.color = color;
     }
 }

@@ -33,6 +33,7 @@ public class ServerThread implements Runnable{
     private HashMap<String, String> commandList;
     /**Contatore autoincrementante che identifica tutti i vari client/ServerThread */
     private int cont;
+    private HashMap <String, String> colors = new HashMap<String, String>();
 
     public ServerThread(Socket sck, MessageBox mailBox, UserManager um, FileManager fm, int contT){
         socket = sck;
@@ -49,6 +50,12 @@ public class ServerThread implements Runnable{
         commandList.put("help", "Get a specific description of a command.\r\n\r\nHELP [command]\r\n\r\n\t");
         commandList.put("set", "Set the current status to offline or online.\r\n\r\nSET [OFFLINE/ONLINE]\r\n\r\nONLINE - Every one can see you as connected and text to you\r\n\r\nOFFLINE - No one can see you as connected or text to you but you can\r\n\r\n\t");
        
+        colors.put("black","\033[30m");
+        colors.put("red","\033[31m");
+        colors.put("green","\033[32m");
+        colors.put("yellow","\033[33m");
+        colors.put("blue","\033[34m");
+        colors.put("white","\033[97m");
     }
 
     public void run() {
@@ -138,6 +145,7 @@ public class ServerThread implements Runnable{
             out.println("Welcome in, digit /help for more infomation");
             out.println("/ready");
             notifyAll("server", (um.getName(String.valueOf(cont)) + " is now online"));
+            um.toObject(String.valueOf(cont)).setColor("\033[0m");
             while (!(line = in.readLine()).equals("quit")) {
                 if(line.equals("/help")){
                     out.println("Per ulteriori informazioni su uno specifico comando, digitare HELP nome comando.\r\n"
@@ -154,8 +162,12 @@ public class ServerThread implements Runnable{
                     basta();
                 else if(line.equals("/list"))
                     getListUser();
+                else if(line.equalsIgnoreCase("/getSalt"))
+                    out.println(fileManager.getSalt());
                 else if(line.startsWith("/all"))
                     sendKeys(line);
+                else if(line.startsWith("/set colored"))
+                    setColor(line);
                 else if(line.startsWith("divideandconquer"))
                     divideandconquer(line);
                 else if(line.startsWith("be fast pls"))
@@ -226,11 +238,19 @@ public class ServerThread implements Runnable{
             out.println("Commnand not found");
     }
 
+
+    public void setColor(String line){
+        String[] s = line.split(" ");
+        if(colors.containsKey(s[2])){
+            um.toObject(String.valueOf(cont)).setColor(colors.get(s[2]));
+        }
+    }
+
     public void notifyAll(String sender, String msg){
             for(UserData dt : um.toArray()){
                 if(!dt.getName().equals("@") && !dt.getName().equals(um.getName(String.valueOf(cont)))){
                     DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
-                    mailBox.writeMessage(new Message(sender, msg, dtf.format(LocalDateTime.now())), dt.getName());
+                    mailBox.writeMessage(new Message(sender, msg, dtf.format(LocalDateTime.now()),um.toObject(String.valueOf(cont)).getColor()), dt.getName());
                 }
             }
             System.out.println("log<" + um.getName(String.valueOf(cont)) + "> SENT CORRECTLY THE MESSAGE.");
@@ -252,7 +272,13 @@ public class ServerThread implements Runnable{
         System.out.println("arr: " + ss);
         msg = "@dec-" + msg; 
         DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
-        mailBox.writeMessage(new Message(um.getName(String.valueOf(cont)), msg,dtf.format(LocalDateTime.now())), ss[1]);
+        mailBox.writeMessage(
+            new Message(
+                um.getName(String.valueOf(cont)), 
+                msg,dtf.format(LocalDateTime.now()), 
+                um.toObject(String.valueOf(cont)).getColor()), 
+            ss[1]
+        );
     }
 
 

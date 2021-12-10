@@ -237,7 +237,7 @@ public class FileManager {
      * @return
      * il sale
      */
-    private String getSalt() {
+    public String getSalt() {
         try {
             SecureRandom random = new SecureRandom();
             byte bytes[] = new byte[20];

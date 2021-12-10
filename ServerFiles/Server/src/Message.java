@@ -33,6 +33,8 @@ public class Message {
      */
     private String data;
 
+    private String color;
+
     /**
      * Costruttore default
      * @param receiver
@@ -42,10 +44,11 @@ public class Message {
      * @param data
      * {@code Date} data di invio
      */
-    public Message(String receiver, String msg, String data) {
+    public Message(String receiver, String msg, String data, String color) {
         this.receiver = receiver;
         this.msg = msg;
         this.data = data;
+        this.color = color;
     }
 
     
@@ -65,6 +68,6 @@ public class Message {
      * {@code String}
      */
     public String getPerfectMessage() {
-        return ("[" + data + "]<" + this.receiver + ">" + ":" + this.msg);
+        return (color + "[" + data + "]<" + this.receiver + ">" + ":" + this.msg);
     }
 }

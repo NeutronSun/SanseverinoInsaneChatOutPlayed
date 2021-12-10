@@ -42,13 +42,27 @@ public class ClientThreadReader implements Runnable {
                     String start = s.substring(0, s.indexOf("@dec"));
                     String[] shit = s.split("-");
                     String msgToDec = shit[1];
-                    System.out.println(start+encr.decrypt(msgToDec));
+                    printDibEraRdini(start+encr.decrypt(msgToDec)+"\033[0m");
                 }else
-                System.out.println(s);
+                printDibEraRdini(s);
             } catch (Exception e) {
                 return;
             }
         }
+    }
+
+
+    /**
+     * @author <a href="https://github.com/ "
+     * @param line
+     * @throws InterruptedException
+     */
+    public void printDibEraRdini(String line) throws InterruptedException{
+        for(char c : line.toCharArray()){
+            System.out.print(c);
+            Thread.sleep(14);
+        }
+        System.out.println();
     }
     
 }

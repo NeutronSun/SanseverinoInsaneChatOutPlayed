@@ -105,6 +105,47 @@ public class MessageBox {
         synchronized(this){
             contReader++;
         }
+        /**
+         *QUANDO L'UTENTE LEFTA ROMPERE LA MAPPA 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         */
         
         Message[] message = new Message[messageMap.get(receiver).size()];
         message = messageMap.get(receiver).toArray(message);
