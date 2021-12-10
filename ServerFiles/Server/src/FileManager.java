@@ -96,7 +96,7 @@ public class FileManager {
      * @param name
      * nome da controllare
      * @return
-     * true se l'utente e' presente nel file
+     * true se l'utente non e' presente nel file
      */
     public boolean checkUser(String name) {
         String line;
@@ -159,12 +159,13 @@ public class FileManager {
                 if(name.equals(data[0])){
                     System.out.println(data[3]);
                     password = get_SHA_512_SecurePassword(password, data[3]);
-                    if(password.equals(data[1]))
-                    synchronized(this){
-                        contReaders--;
-                        notifyAll();
+                    if(password.equals(data[1])){
+                        synchronized(this){
+                            contReaders--;
+                            notifyAll();
+                        }
+                        return true;
                     }
-                    return true;
                 }
                 
             }

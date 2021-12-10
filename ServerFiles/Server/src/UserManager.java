@@ -195,7 +195,7 @@ public class UserManager {
         try {
             while(!canRead) {wait();}
             return users.values().toArray(new UserData[users.size()]);
-        } catch (Exception e) {return null;}
+        } catch (Exception e) {e.printStackTrace();return null;}
         
     }
     /**
@@ -209,6 +209,8 @@ public class UserManager {
     public String[] namesToArray(String except){
         try {
             while(!canRead) {wait();}
+            if(users.size() == 1)
+            return null;
             String[] names = new String[users.size()-1];
             int cont = 0;
             for(UserData user : toArray()){

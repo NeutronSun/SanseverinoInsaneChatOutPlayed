@@ -67,9 +67,7 @@ public class TheWaiter implements Runnable {
                 for (Message m : msg) {
                     out.println(m.getPerfectMessage());
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            } catch (Exception e) {return;}
         }
     }
 

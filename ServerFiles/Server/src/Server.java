@@ -24,7 +24,6 @@ public class Server {
         ServerSocket serverSocket = new ServerSocket(portNumber);
         FileManager fm = new FileManager();
         System.out.println(serverSocket.getInetAddress().getHostAddress());
-        System.out.println("\033[34mThis is cyan\033[0m");
         System.out.println("ip: " + Inet4Address.getLocalHost().getHostAddress());
         System.out.println("port: " + portNumber);
         System.out.println("Waiting for user..." +  new StringBuilder().appendCodePoint(0x1F920).toString());

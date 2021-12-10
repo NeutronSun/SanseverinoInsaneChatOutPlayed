@@ -34,6 +34,7 @@ public class ServerThread implements Runnable{
     /**Contatore autoincrementante che identifica tutti i vari client/ServerThread */
     private int cont;
     private HashMap <String, String> colors = new HashMap<String, String>();
+    private Thread t;
 
     public ServerThread(Socket sck, MessageBox mailBox, UserManager um, FileManager fm, int contT){
         socket = sck;
@@ -48,14 +49,29 @@ public class ServerThread implements Runnable{
         commandList.put("@send", "Send a message to one/more specific user/s.\r\n\r\n@user@user1@user2...@userN [message]\r\n\r\n\tmessage - text to be sent");
         commandList.put("quit", "Terminate the program.\r\n\r\nQUIT");
         commandList.put("help", "Get a specific description of a command.\r\n\r\nHELP [command]\r\n\r\n\t");
-        commandList.put("set", "Set the current status to offline or online.\r\n\r\nSET [OFFLINE/ONLINE]\r\n\r\nONLINE - Every one can see you as connected and text to you\r\n\r\nOFFLINE - No one can see you as connected or text to you but you can\r\n\r\n\t");
+        commandList.put("set status", "Set the current status to offline or online.\r\n\r\nSET [OFFLINE/ONLINE]\r\n\r\nONLINE - Every one can see you as connected and text to you\r\n\r\nOFFLINE - No one can see you as connected or text to you but you can\r\n\r\n\t");
+        commandList.put("set color", "Set the the color of the text of your message.\r\n\r\nSET COLOR [COLOR NAME]" 
+        + "\r\n\r\nBLACK - You like the dark, maybe no one would be able to see what you write, but black is black."
+        + "\r\n\r\nRED - Wow red im the diablo."
+        + "\r\n\r\nGREEN - IM A HACKER 243424 MATRID274T G4."
+        + "\r\n\r\nYELLOW - beeeeeees buzzzzz."
+        + "\r\n\r\nBLUE - rgb(0, 0, 255);"
+        + "\r\n\r\nMAGENTA - is it a color?"
+        + "\r\n\r\nBRIGHTMAGENTA - The upper one but brighter."
+        + "\r\n\r\nWHITE - You are normal."
+        + "\r\n\r\n\t");
        
         colors.put("black","\033[30m");
         colors.put("red","\033[31m");
         colors.put("green","\033[32m");
         colors.put("yellow","\033[33m");
         colors.put("blue","\033[34m");
+        colors.put("magenta","\033[35m");
+        colors.put("brightmagenta","\033[95m");
         colors.put("white","\033[97m");
+
+        colors.put("purple","\033[38;2;<123>;<0>;<255>m");
+        colors.put("water", "\033[38;2;<0>;<255>;<238>m");
     }
 
     public void run() {
@@ -135,7 +151,7 @@ public class ServerThread implements Runnable{
             um.setOnline(String.valueOf(cont));
             mailBox.addUser(um.getName(String.valueOf(cont)));
             System.out.println("log<" + um.getName(String.valueOf(cont)) + "> LOGGED CORRECTLY.");
-           Thread t =  new Thread(new TheWaiter(socket,mailBox,um.toObject(String.valueOf(cont))));
+            t =  new Thread(new TheWaiter(socket,mailBox,um.toObject(String.valueOf(cont))));
            t.start();
             /**
              * ----------------------------
@@ -154,7 +170,8 @@ public class ServerThread implements Runnable{
                                     + "@SEND\tSend a message to a specific user\r\n"
                                     + "QUIT\tTerminate the program\r\n"
                                     + "HELP\tGet a more specific guide for the commands\r\n"
-                                    + "SET\tSet the current status to offline or online.\r\n");
+                                    + "SET COLOR\tYou can set custom customization for the color\r\n"
+                                    + "SET STATUS\tYou can set your current statu\r\n");
                 }
                 else if(line.startsWith("/help"))
                     command(line);
@@ -166,7 +183,7 @@ public class ServerThread implements Runnable{
                     out.println(fileManager.getSalt());
                 else if(line.startsWith("/all"))
                     sendKeys(line);
-                else if(line.startsWith("/set colored"))
+                else if(line.startsWith("/set color"))
                     setColor(line);
                 else if(line.startsWith("divideandconquer"))
                     divideandconquer(line);
@@ -200,6 +217,8 @@ public class ServerThread implements Runnable{
                     out.println("Wrong command, for more information please digit '/help'.");
             }
         } catch (Exception e) {
+            t.interrupt();
+            mailBox.removeUser(um.getName(String.valueOf(cont)));
             notifyAll("server", (um.getName(String.valueOf(cont)) + " has left the chat"));
             System.out.println("log<" + um.getName(String.valueOf(cont)) + "> HAS LEFT THE CHAT");
             um.remove(String.valueOf(cont));
@@ -231,9 +250,10 @@ public class ServerThread implements Runnable{
 
 
     public void command(String line){
-        String[] s  = line.split(" ");
-        if(commandList.get(s[1]) != null)
-            out.println(commandList.get(s[1]));
+        line = line.substring(line.indexOf(" ") + 1);
+        System.out.println(line);
+        if(commandList.get(line) != null)
+            out.println(commandList.get(line));
         else
             out.println("Commnand not found");
     }
@@ -243,17 +263,23 @@ public class ServerThread implements Runnable{
         String[] s = line.split(" ");
         if(colors.containsKey(s[2])){
             um.toObject(String.valueOf(cont)).setColor(colors.get(s[2]));
+            out.println("Now your color is " + s[2].toUpperCase());
+        }else{
+            out.println("This color isnt avaible, use command /help to see which color use");
         }
     }
 
     public void notifyAll(String sender, String msg){
-            for(UserData dt : um.toArray()){
-                if(!dt.getName().equals("@") && !dt.getName().equals(um.getName(String.valueOf(cont)))){
-                    DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
-                    mailBox.writeMessage(new Message(sender, msg, dtf.format(LocalDateTime.now()),um.toObject(String.valueOf(cont)).getColor()), dt.getName());
-                }
+        try {
+            for(String name : um.namesToArray(String.valueOf(cont))){
+                DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
+                mailBox.writeMessage(new Message(sender, msg, dtf.format(LocalDateTime.now()),um.toObject(String.valueOf(cont)).getColor()), name);
             }
             System.out.println("log<" + um.getName(String.valueOf(cont)) + "> SENT CORRECTLY THE MESSAGE.");
+        } catch (Exception e) {
+            System.out.println("log<" + um.getName(String.valueOf(cont)) + "> DIDNT SENT CORRECTLY THE MESSAGE: ZERO USERS AVAIBLE");
+        }
+            
     }
 
     public void getListUser() throws InterruptedException{

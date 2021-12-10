@@ -97,55 +97,16 @@ public class MessageBox {
      * @throws InterruptedException
      * non succede e.e
      */
-    public Message[] getMessage(String receiver) throws InterruptedException{
-        synchronized(this){
-            while(messageMap.get(receiver).size() == 0 && !canRead){wait();}
-        }
+    public Message[] getMessage(String receiver){
+        try {
+            synchronized(this){
+                while(messageMap.get(receiver).size() == 0 || !canRead){wait();}
+            }
         
+
         synchronized(this){
             contReader++;
         }
-        /**
-         *QUANDO L'UTENTE LEFTA ROMPERE LA MAPPA 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-         */
         
         Message[] message = new Message[messageMap.get(receiver).size()];
         message = messageMap.get(receiver).toArray(message);
@@ -156,6 +117,20 @@ public class MessageBox {
             notifyAll();
         }
         return message;
+    } catch (Exception e) {return null;}
+        
+    }
+
+    public synchronized void removeUser(String receiver){
+        try {
+            while(contReader > 0) {wait();}
+            canRead = false;
+            messageMap.remove(receiver);
+            canRead = true;
+            notifyAll();
+        } catch (Exception e) {
+            //TODO: handle exception
+        }
     }
     
 }
