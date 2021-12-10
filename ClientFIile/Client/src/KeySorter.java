@@ -20,14 +20,6 @@ import java.util.HashMap;
  */
 public class KeySorter {
     /**
-     * numero totali di chiavi che servono per criptare il messaggio
-     */
-    private int numberKeys;
-    /**
-     * numero di chiavi attualmente presenti nella {@code mappa} {@link KeySorter#keys}
-    */
-    private int actualKeys;
-    /**
      * mappa contenente le chiavi pubbliche degli utenti
      * @param <String>
      * nome del client
@@ -36,7 +28,10 @@ public class KeySorter {
      */
     private HashMap<String, String> keys;
     /**
-     * variabile booleana che diventa true quando <p>{@link KeySorter#numberKeys} = {@link KeySorter#actualKeys}
+     * variabile booleana che diventa true quando } tutte le chiavi saranno pronte
+     * <p>Una volta che tutte le chiavi saranno state inviate dal {@link ServerThread server} 
+     * il {@link ClientThread client} richiamera' il {@code metodo} {@link KeySorter#isReady isReady} e 
+     * setta il flag a {@code true}.
      */
     private boolean ready;
 

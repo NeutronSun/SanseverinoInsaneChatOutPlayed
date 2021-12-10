@@ -23,6 +23,7 @@ public class ClientThreadReader implements Runnable {
     }
 
     public void run() {
+        loadingBee();
         while (true) {
             String s;
             try {
@@ -42,9 +43,9 @@ public class ClientThreadReader implements Runnable {
                     String start = s.substring(0, s.indexOf("@dec"));
                     String[] shit = s.split("-");
                     String msgToDec = shit[1];
-                    printDibEraRdini(start+encr.decrypt(msgToDec)+"\033[0m");
+                    printDibEraRdini(start+encr.decrypt(msgToDec)+"\033[0m", 12);
                 }else
-                printDibEraRdini(s);
+                printDibEraRdini(s, 12);
             } catch (Exception e) {
                 return;
             }
@@ -57,12 +58,31 @@ public class ClientThreadReader implements Runnable {
      * @param line
      * @throws InterruptedException
      */
-    public void printDibEraRdini(String line) throws InterruptedException{
-        for(char c : line.toCharArray()){
-            System.out.print(c);
-            Thread.sleep(14);
+    public void printDibEraRdini(String line, int speed){
+        try {
+            for(char c : line.toCharArray()){
+                System.out.print(c);
+                Thread.sleep(speed);
+            }
+            System.out.println();
+        } catch (Exception e) {
+            //TODO: handle exception
         }
-        System.out.println();
     }
-    
+
+    public void loadingBee(){
+        printDibEraRdini("\033[46;30m "
+                + "                                                      __            \t\n"
+                + "                                                      // \\           \t\n"
+                + "                                                      \\\\_/ //        \t\n"
+                + "                                     '-.._.-''-.._.. -(||)(')        \t\n"
+                + "                                                       '''           \t", 8);
+        printDibEraRdini(""
+                + "\033[90m███████╗\033[93m █████╗ \033[90m███████╗\033[93m   ██╗    \033[90m███╗   ██╗\033[93m███████╗\033[90m███████╗\033[93m████████╗\033[40m\n"
+                + "\033[90m██╔════╝\033[93m██╔══██╗\033[90m██╔════╝\033[93m   ██║    \033[90m████╗  ██║\033[93m██╔════╝\033[90m██╔════╝\033[93m╚══██╔══╝\n"
+                + "\033[90m███████╗\033[93m███████║\033[90m█████╗  \033[93m   ██║    \033[90m██╔██╗ ██║\033[93m█████╗  \033[90m███████╗\033[93m   ██║   \n"
+                + "\033[90m╚════██║\033[93m██╔══██║\033[90m██╔══╝\033[93m██   ██║    \033[90m██║╚██╗██║\033[93m██╔══╝  \033[90m╚════██║\033[93m   ██║   \n"
+                + "\033[90m███████║\033[93m██║  ██║\033[90m██║   \033[93m╚█████╔╝    \033[90m██║ ╚████║\033[93m███████╗\033[90m███████║\033[93m   ██║   \n"
+                + "\033[90m╚══════╝\033[93m╚═╝  ╚═╝\033[90m╚═╝   \033[93m ╚════╝     \033[90m╚═╝  ╚═══╝\033[93m╚══════╝\033[90m╚══════╝\033[93m   ╚═╝\n\033[0m", 8);
+    }   
 }

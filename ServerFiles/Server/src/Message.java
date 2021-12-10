@@ -32,7 +32,9 @@ public class Message {
      * data di invio del messaggio
      */
     private String data;
-
+    /**
+     * {@code Stringa} rappresentante il colore che sara' interpretato dal cmd.
+     */
     private String color;
 
     /**
@@ -63,7 +65,9 @@ public class Message {
     /**
      * Stampa di tuti i dati del messaggio in uno specifico modo:
      * <p>
-     * {@code [data]<sender>:messaggio}
+     * {@code color[data]<sender>:messaggio}
+     * <p>Il colore non sara' visibe nel testo nel messaggio ma sara' solo
+     * un effetto grafico interpretato dal cmd.
      * @return
      * {@code String}
      */

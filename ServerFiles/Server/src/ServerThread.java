@@ -175,8 +175,6 @@ public class ServerThread implements Runnable{
                 }
                 else if(line.startsWith("/help"))
                     command(line);
-                else if(line.equalsIgnoreCase("basta"))
-                    basta();
                 else if(line.equals("/list"))
                     getListUser();
                 else if(line.equalsIgnoreCase("/getSalt"))
@@ -282,14 +280,11 @@ public class ServerThread implements Runnable{
             
     }
 
-    public void getListUser() throws InterruptedException{
-        for(UserData dt : um.toArray()){
-            if(!dt.getName().equals("@") && dt.isOnline() && !dt.getName().equals(um.getName(String.valueOf(cont)))){
-                String msg = dt.getName() + " is online";
-                DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
-                out.println("<Server>" + msg);
-            }
-        }
+    public void getListUser(){
+        try{
+            for(UserData dt : um.toArray(String.valueOf(cont)))
+                out.println("<Server>" + dt.getName() + " is online");
+        }catch (Exception e) {out.println("You are the only one connected.");}
     }
 
     public void sendMessage(String line) throws InterruptedException, IOException{
@@ -388,39 +383,6 @@ public class ServerThread implements Runnable{
         x = Float.intBitsToFloat(i);
         x *= (1.5f - xhalf * x * x);
         return x;
-    }
-
-    public void basta() throws InterruptedException{
-        Thread.sleep(1000);
-        out.println("bastaa");
-        Thread.sleep(1000);
-        out.println("BASTAAA");
-        Thread.sleep(2000);
-        out.println("Vedi nel parchetto");
-        Thread.sleep(1500);
-        out.println("Spaccio");
-        Thread.sleep(500);
-        out.println("Cocainhnhh");
-        Thread.sleep(2000);
-        out.println("Mannaggia u culo");
-        Thread.sleep(1000);
-        out.println("Mannaggia a cardarella");
-        Thread.sleep(2000);
-        out.println("La vicina");
-        Thread.sleep(1000);
-        out.println("nel mio lavandino");
-        Thread.sleep(500);
-        out.println("si affaccia");
-        Thread.sleep(1500);
-        out.println("Oh mio dio");
-        Thread.sleep(1500);
-        out.println("Che bel");
-        Thread.sleep(500);
-        out.println("pomgnw");
-        Thread.sleep(500);
-        out.println("basta swamp");
-        Thread.sleep(500);
-        out.println("sempre a dire basta");
     }
 
 }

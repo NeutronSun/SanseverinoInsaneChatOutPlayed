@@ -198,6 +198,36 @@ public class UserManager {
         } catch (Exception e) {e.printStackTrace();return null;}
         
     }
+
+    /**
+     * Restiuisce un {@code array} di {@link UserData}
+     * @param except
+     * nome che non sarà presente nell' array
+     * @return
+     * {@link UserData UserData[]}
+     */
+    public UserData[] toArray(String except){
+        try {
+            while(!canRead) {wait();}
+            if(users.size() == 1)
+            return null;
+
+            String name = getName(except);
+            UserData[] arr = new UserData[users.size()];
+            arr = toArray();
+            UserData[] arrEx = new UserData[users.size()-1];
+            int cont = 0;
+            for(UserData user : arr){
+                if(!user.getName().equals(name)){
+                    arrEx[cont] = user;
+                    cont++;
+                }
+            }
+            return arrEx;
+            
+        } catch (Exception e) {e.printStackTrace();return null;}
+        
+    }
     /**
      * Restiuisce un {@code array di stringhe} contenenti tutti i nomi
      * di tutti gli utenti connessi tranne chi ha effettuato il metodo
