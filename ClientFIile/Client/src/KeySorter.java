@@ -68,9 +68,12 @@ public class KeySorter {
         keys.put(user, key);
     }
 
-    
-
-
+    /**
+     * Funzione che restituisce un array contenente tutti i nomi presenti 
+     * nella {@link KeySorter#keys mappa}
+     * @return
+     * {@code String[]}
+     */
     public String[] getNames(){
         try {
             synchronized(this){
