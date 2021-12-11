@@ -84,6 +84,15 @@ public class Encryptor {
         return n.subtract(BigInteger.ONE);
     }
 
+    /**
+     * Dato un numero primo p, il metodo si occupa di trocare il prossimo numero 
+     * primo, o pseudoprimo, partendo da p.
+     * @param prime
+     * numero primo di partenza.
+     * @return
+     * next(p)
+     */
+
     public BigInteger newPrime(BigInteger prime) {
         BigInteger a = new BigInteger("2");
         if(prime.mod(BigInteger.TWO).equals(BigInteger.ZERO))
@@ -105,9 +114,23 @@ public class Encryptor {
     }
 
     /**
+     * Metodo che si occupa di criptare un messaggio data una chiave 
+     * pubblica.
+     * <p>La stringa da criptare viene "depurata" da qualsiasi impurita' che
+     * darebbero errore durante la fase di encryption(Es. le emoji).
+     * Dopo viene effettuato il controllo della lunghezza della parola e, nel caso sia primo, 
+     * arrotondata aggiungendo 1.
+     * <p>Viene calcolato il piu' grande divisore di {@code lunghezza/2} "part" ed adesso
+     * ogni {@code lunghezza/part} parole il messaggio viene spezzato e criptato.
+     * <p>In caso la lunghezza del testo sia prima, la restante parte di testo non criptata viene aggiunta.
+     * <p>Questo procedimento serve per dividere la stringa in parti uguali e proporzionate alla lunghezza del messaggio
+     * in modo dale che non importa la lunghezza del testo ma non sara mai maggiore di {@link Encryptor#n n}.
      * @param ss
+     * Stringa da criptare
      * @param keyFriend
+     * chiave pubblica da utilizzare, scritta nel formato -> e/n
      * @return
+     * String
      * @throws UnsupportedEncodingException
      */
     public String encrypt(String ss, String keyFriend) throws UnsupportedEncodingException {

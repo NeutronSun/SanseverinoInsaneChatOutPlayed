@@ -10,6 +10,28 @@
 
 import java.io.*;
 
+/**
+ * Thread principale del {@link Client} che si occupa di leggere i messaggi inviati dal 
+ * Server e scriverli a schermo.
+ * <p> La classe serve per rendere dinamica la comunicazione, così mentre 
+ * l'utente scrive allo stesso tempo e' capace di ricevere messaggi o notizie dal server.
+ * <p> I {@code protocolli di comunicazione} sono svariati, diversi in base al compito da svolgere:
+ * <p><ul>
+ * <li> {@code "pk"} -> [pk][user][key], la chiave viene inviata insieme al nome utente 
+ * del proprietario.
+ * <li>{@code "@end"} -> tutte le chiavi sono state inviate correttamente ed il client
+ * ora puo' crittografare i messaggi e inviarli.
+ * <li>{@code "/ready"} -> il server e' pronto a ricevere la chiave pubblica del client.
+ * <li>{@code "@dec"} -> [colore][data][mit][@dec][messaggio da crittografare], messaggio da decriptare.
+ * </ul></p>
+ * Tutti questi messaggi iniziano, o contengono, simboli privati (@,/,#) in quanto
+ * i nomi utenti non contengono simboli, i messaggi in arrivo sono crittografati e quindi
+ * e' garantita integrita'.
+ * @author <a href="https://github.com/NeutronSun">NeutronSun</a> 
+ * @author <a href="https://github.com/Leon412">Leon412</a> 
+ * @version 1
+ * @since 2021-11-29 (aaaa-mm-gg)
+ */
 public class ClientThreadReader implements Runnable {
     private BufferedReader in;
     private KeySorter ks;
@@ -54,9 +76,12 @@ public class ClientThreadReader implements Runnable {
 
 
     /**
+     * Metodo che si occupa di simulare l'effetto di una macchina da scrivere.
      * @author <a href="https://github.com/ "
      * @param line
-     * @throws InterruptedException
+     * messaggio
+     * @param speed
+     * velocita' di stampa.
      */
     public void typeWriterEffect(String line, int speed){
         try {
