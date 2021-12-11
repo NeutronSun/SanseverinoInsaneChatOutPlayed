@@ -31,14 +31,20 @@ public class UserData {
      */
     private String password;
     /**
-     * Stato di {@code online} dell'utente, con cui sara' visualizzato da tutti gli altri client
+     * Stato di {@code online} dell'utente, con cui sara' visualizzato da tutti gli altri client.
+     * <p>Se online tutti i client potranno vederlo mentre se offline nessuno potra'.
+     * Cio' non implica che non sia connesso al server, per quanto ne sanno gli altri client
+     * puo' non esiste, essere disconnesso o in modalita' fantasma(connesso ma offline).
      */
     private Boolean online = false;
     /**
      * {@code publicKey} dell'utente, condivisa con tutti
      */
     private String publicKey;
-
+    /**
+     * {@code Stringa} contenente il codice del colore dell'utente. Di
+     * default il colore e' impostato sul bianco, il cui codice e' {@code "\033[0m"}
+     */
     private String color;
 
     /**

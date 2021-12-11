@@ -43,9 +43,9 @@ public class ClientThreadReader implements Runnable {
                     String start = s.substring(0, s.indexOf("@dec"));
                     String[] shit = s.split("-");
                     String msgToDec = shit[1];
-                    printDibEraRdini(start+encr.decrypt(msgToDec)+"\033[0m", 12);
+                    printDibEraRdini(start+encr.decrypt(msgToDec)+"\033[0m", 8);
                 }else
-                printDibEraRdini(s, 12);
+                printDibEraRdini(s, 8);
             } catch (Exception e) {
                 return;
             }
@@ -70,6 +70,10 @@ public class ClientThreadReader implements Runnable {
         }
     }
 
+    /**
+     * THE SAFJNEST LOADING SCREEN
+     * @author <a href="https://github.com/orgs/SafJNes">SafJNest</a>
+     */
     public void loadingBee(){
         printDibEraRdini("\033[46;30m "
                 + "                                                      __            \t\n"

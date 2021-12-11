@@ -23,40 +23,51 @@ import java.util.Base64.Encoder;
 
 /**
  * 
- * Classe sincronizzato 
+ * Classe che si occupa di gestire l'accesso concorrente di tutte le istanze del {@link Server server}
+ * sui vari file necessari al corretto funzionamento.
+ * <p>Attualmente i vari file presenti sono:{@code data.txt} nella directory {@code Files/UsersData}.
  * @author <a href="https://github.com/NeutronSun">NeutronSun</a> 
  * @author <a href="https://github.com/Leon412">Leon412</a> 
  * @version 1
  * @since 2021-11-29 (aaaa-mm-gg)
  */
 public class FileManager {
-    File userFile;
-    //BufferedReader readerUser;
-    BufferedWriter writeUser;
+    /**
+     * Oggetto contente il file {@code data.txt} nella directory {@code Files/UsersData}.
+     */
+    private File userFile;
+    /**
+     * Oggetto che scrive nel file {@link FileManager#userFile dataUser.txt}
+     */
+    private BufferedWriter writeUser;
+    /**
+     * Contatore che indica il numero di thread lettori sull'istanza del file
+     */
     private int contReaders;
+    /**
+     * Flag che blocca tutti i lettori in quanto gli scrittori stanno effettundo modifiche
+     */
     private boolean canRead;
-    private String salt;
-    Random rnd;
+
 
     public FileManager() throws IOException{
-        rnd = new Random();
         String pathF = "./ServerFiles/Files";
         String pathUD = "./ServerFiles/Files/UsersData";
         String pathFile = "./ServerFiles/Files/UsersData/data.txt";
         File directory = new File(pathF);
         File directoryUD = new File(pathUD);
 
-        if(!directory.exists()){
+        if(!directory.exists())
             directory.mkdir();
-        }
-        if(!directoryUD.exists()){
+
+        if(!directoryUD.exists())
             directoryUD.mkdir();
-        }
+
         userFile = new File("./ServerFiles/Files/UsersData/data.txt");
-        if(!userFile.exists()){
+        
+        if(!userFile.exists())
             userFile.createNewFile();
-        }
-        //readerUser = new BufferedReader(new FileReader(userFile));
+    
         writeUser = new BufferedWriter(new FileWriter(userFile, true));
         contReaders = 0;
         canRead = true;
@@ -133,7 +144,10 @@ public class FileManager {
     }
 
     /**
-     * Metodo che controlla che nel file {@code data.txt} l'utente selezionato corrisponda la password inserita
+     * Metodo che controlla che nel file {@code data.txt} l'utente selezionato corrisponda la password inserita.
+     * <p>Essendo la password crittografata tramite l'algoritmo di hashign {@code sha512}, appena 
+     * l'utente digita la password e la stessa viene crittografata insieme al {@code sale},
+     * preso dal file, e nel caso corrispondano restituisce {@code true}.
      * @param name
      * nome dell'utente
      * @param password

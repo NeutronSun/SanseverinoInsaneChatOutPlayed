@@ -13,6 +13,7 @@ import java.util.HashMap;
  * Classe che si occupa di gestire tutti i client collegati al server. 
  * I dati saranno memorizzati in una mappa(con chiave il numero del thread istanziato dalla classe {@link Server}) e come
  * valore un oggetto di tipo {@link UserData}.
+ * <p>Il chiave della {@link UserManager#users mappa} e' il codice con cui il {@link Server server} istanzia i vari thread. 
  * @author <a href="https://github.com/NeutronSun">NeutronSun</a>
  * @version 1
  * @since 2021-11-30 (aaaa-mm-gg)
@@ -179,7 +180,13 @@ public class UserManager {
     public String getName(String key){
         try {
             while(!canRead) {wait();}
+            synchronized(this){
+                contReader++;
+            }
+            synchronized(this){
+                contReader--;
                 return users.get(key).getName();
+            }
             
         } catch (Exception e) {
             return null;
@@ -194,7 +201,13 @@ public class UserManager {
     public UserData[] toArray(){
         try {
             while(!canRead) {wait();}
-            return users.values().toArray(new UserData[users.size()]);
+            synchronized(this){
+                contReader++;
+            }
+            synchronized(this){
+                contReader--;
+                return users.values().toArray(new UserData[users.size()]);
+            }
         } catch (Exception e) {e.printStackTrace();return null;}
         
     }
@@ -209,8 +222,15 @@ public class UserManager {
     public UserData[] toArray(String except){
         try {
             while(!canRead) {wait();}
-            if(users.size() == 1)
-            return null;
+            synchronized(this){
+                contReader++;
+            }
+            if(users.size() == 1){
+                synchronized(this){
+                    contReader--;
+                    return null;
+                }
+            }
 
             String name = getName(except);
             UserData[] arr = new UserData[users.size()];
@@ -222,6 +242,9 @@ public class UserManager {
                     arrEx[cont] = user;
                     cont++;
                 }
+            }
+            synchronized(this){
+                contReader--;
             }
             return arrEx;
             
@@ -239,8 +262,15 @@ public class UserManager {
     public String[] namesToArray(String except){
         try {
             while(!canRead) {wait();}
-            if(users.size() == 1)
-            return null;
+            synchronized(this) {
+                contReader++;
+            }
+            if(users.size() == 1){
+                synchronized(this){
+                    contReader--;
+                    return null;
+                }
+            }
             String[] names = new String[users.size()-1];
             int cont = 0;
             for(UserData user : toArray()){
@@ -248,6 +278,9 @@ public class UserManager {
                     names[cont] = user.getName();
                     cont++;
                 }
+            }
+            synchronized(this){
+                contReader--;
             }
             return names;
         } catch (Exception e) {
@@ -285,7 +318,14 @@ public class UserManager {
     public UserData toObject(String key){
         try {
             while(!canRead) {wait();}
-            return users.get(key);
+            synchronized(this){
+                contReader++;
+            }
+            synchronized(this){
+                contReader--;
+                return users.get(key);
+            }
+            
         } catch (Exception e) {return null;}
     }
 

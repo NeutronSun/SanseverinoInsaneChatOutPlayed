@@ -15,7 +15,8 @@ Il client dispone in oltre di comodi comandi tra cui:  (￣^￣)
 - /ALL --> il messaggio viene inviato a tutti
 - /@user msg --> il messaggio sarà inviato ad un singolo utente
 - /@user@user... --> il messaggio sarà inviato a tutti gli utenti selezionati.
-- /SET --> l'utente potrà selezionare il suo stato su ONLINE o OFFLINE.
+- /SET STATUS--> l'utente potrà selezionare il suo stato su ONLINE o OFFLINE.
+- /SET COLOR--> l'utente potrà selezionare un colore con cui gli altri utenti vedranno i suoi messaggi.
 
 In oltre sono presenti due **EASTER EGG** molto divertenti e dal significato profondo.
 # ***Descrizioni classi*** (＋´ω｀)
@@ -88,6 +89,7 @@ Classe sincronizzata con l'unico (・ω<) scopo di mettere in condivisione le ch
 - [x] In caso di utente inesistente notificare il client dell'errore.
 - [x] Evitare la presenza di più client con lo stesso nome collegati contemporaneamente.
 - [x] Creare i file/cartelle in caso della loro mancanza o corruzzione.
+- [x] Errori durante la disconnessione di un utente(piu' o meno).
 - [ ] Programma funzionante su MacOs 凸(>皿<)凸
 
 ## License
