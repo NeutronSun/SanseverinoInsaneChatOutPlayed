@@ -1,6 +1,6 @@
 # Chat Client e Server
 
-![ffewfe](REALFAKER.png)
+![ffewfe](logo.png)
 
 ## Panoramica (≧ڡ≦*)
 Il software consente ai vari utenti collegati di chattare tra di loro.
