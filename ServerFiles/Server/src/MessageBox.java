@@ -66,7 +66,11 @@ public class MessageBox {
             messageMap.put(name, new ArrayList<Message>());
             canRead = true;
             notifyAll();
-        }catch(Exception e){e.getCause();}
+        }catch(Exception e){
+            canRead = true;
+            notifyAll();
+            e.getCause();
+        }
     }
 
     /**
@@ -83,7 +87,11 @@ public class MessageBox {
             messageMap.get(recivier).add(msg);
             canRead = true;
             notifyAll();
-        }catch(Exception e){e.printStackTrace();}
+        }catch(Exception e){
+            canRead = true;
+            notifyAll();
+            e.printStackTrace();
+        }
     }
     
     /**
@@ -117,7 +125,13 @@ public class MessageBox {
             notifyAll();
         }
         return message;
-    } catch (Exception e) {return null;}
+    } catch (Exception e) {
+        synchronized(this){
+            contReader--;
+            notifyAll();
+            return null;
+        }
+    }
         
     }
 
@@ -129,7 +143,8 @@ public class MessageBox {
             canRead = true;
             notifyAll();
         } catch (Exception e) {
-            //TODO: handle exception
+            canRead = true;
+            notifyAll();
         }
     }
     

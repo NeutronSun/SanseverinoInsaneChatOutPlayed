@@ -33,7 +33,9 @@ public class ServerThread implements Runnable{
     private HashMap<String, String> commandList;
     /**Contatore autoincrementante che identifica tutti i vari client/ServerThread */
     private int cont;
+    /**{@code mappa} contenente tutti i colori utilizzabili dagli utenti */
     private HashMap <String, String> colors = new HashMap<String, String>();
+    /**Thread, {@link TheWaiter}, che sara' istanziato una volta ricevuti tutti i dati */
     private Thread t;
 
     public ServerThread(Socket sck, MessageBox mailBox, UserManager um, FileManager fm, int contT){
@@ -223,10 +225,23 @@ public class ServerThread implements Runnable{
         }
     }
 
+
+    /**
+     * Metodo che viene richiamato ogni volta che l'utente desidera
+     * inviare un messaggio a qualcuno.
+     * <p>Nel caso in cui il messaggio sia {@code /all} il server inviare tutte
+     * le chiavi disponibili. Se invece il messaggio inizia con {@code "@user..."} saranno inviate
+     * solo le chiavi degi utenti desiderati.
+     * <p>Il metodo si occupa in oltre di controllare che i nomi siano corretti/esistenti e
+     * che lo stesso sia collegato al server.
+     * <p>Se tutti i controlli sono stati passati positivamente
+     * viene inviata una chiave si utilizza la sintassi {@code [pk][nome]-[key]} e,
+     * una volta inviate tutte quante, il server manda "@end" in modo tale che il client
+     * sappia che ha tutte le chiavi necessarie.
+     * @param line
+     * Messaggio inviato dal client contenenti i nomi.
+     */
     public void sendKeys(String line){
-        /**
-         * contorllo he eisdstani tutti i nomu
-         */
         String[] names;
         if(line.startsWith("/all")){
             names = um.namesToArray(String.valueOf(cont));
@@ -246,7 +261,12 @@ public class ServerThread implements Runnable{
         out.println("@end");
     }
 
-
+    /**
+     * Metodo che si occupa di stampare a schermo la descrizione del comando
+     * specifico contenuto dentro {@link ServerThread#commandList commandList}.
+     * @param line
+     * Messaggio contente il nome del comando.
+     */
     public void command(String line){
         line = line.substring(line.indexOf(" ") + 1);
         System.out.println(line);
@@ -256,7 +276,14 @@ public class ServerThread implements Runnable{
             out.println("Commnand not found");
     }
 
-
+    /**
+     * Il metodo si occupa di settare il colore deciso dall'utente.
+     * <p>Il messaggio ricevuto e' del tipo {@code [/set][color]["colore"]}.
+     * Il codice del colore viene preso dalla {@link ServerThread#colors mappa} e, se
+     * esiste, viene impostato nel oggetto condiviso {@link ServerThread#um UsersManager}.
+     * @param line
+     * Messaggio contente il colore.
+     */
     public void setColor(String line){
         String[] s = line.split(" ");
         if(colors.containsKey(s[2])){
@@ -267,6 +294,15 @@ public class ServerThread implements Runnable{
         }
     }
 
+    /**
+     * IL metodo si occupa di inviare un messaggio a tutti i client collegati escluso chi
+     * ha effettuato il metodo.
+     * <p>Viene in oltre utilizzato dal server per inviare messaggi di sistema.
+     * @param sender
+     * Nome di chi manda i messaggio
+     * @param msg
+     * Messaggio
+     */
     public void notifyAll(String sender, String msg){
         try {
             for(String name : um.namesToArray(String.valueOf(cont))){
@@ -280,6 +316,13 @@ public class ServerThread implements Runnable{
             
     }
 
+    /**
+     * Metodo che invia al client che ne ha richiesto l'esecuzione una lista
+     * di tutti gli utenti collegati.
+     * <p>In caso in cui sia presente solamente un client il metodo {@link UserManager#toArray toArray}
+     * lanciera' un'eccezzione e restituisce un {@code null}. Allora il metodo entrera' in un catch che
+     * inviera' un messaggio all'utente dicendo che e' l'unico connesso. 
+     */
     public void getListUser(){
         try{
             for(UserData dt : um.toArray(String.valueOf(cont)))
@@ -304,6 +347,11 @@ public class ServerThread implements Runnable{
 
 
     /**
+     * EASTER EGG. 
+     * <p>Una volta ricevuto il messaggio [divideandconquer][numero] il metodo
+     * dira' il numero di cifre del numero.
+     * <p>In oltre, il {@code divideandconquer}, e' il metodo piu'
+     * veloce che esista per contare il numero di cifre.
      * @author <a href="https://github.com/NeutronSun">NeutronSun</a>
      * @author <a href="https://github.com/XOShu4">XOShu4</a>
      * @param msg
