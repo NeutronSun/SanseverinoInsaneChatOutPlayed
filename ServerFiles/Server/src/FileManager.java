@@ -118,6 +118,7 @@ public class FileManager {
      * nome da controllare
      * @return
      * true se l'utente non e' presente nel file
+     *XOShu4: che fa sta roba? nn o cpt!
      */
     public boolean checkUser(String name) {
         String line;
