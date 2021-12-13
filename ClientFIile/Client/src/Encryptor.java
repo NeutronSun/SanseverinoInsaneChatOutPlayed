@@ -100,7 +100,6 @@ public class Encryptor {
         do {
             prime = prime.add(BigInteger.TWO);
         } while (!a.modPow(prime.subtract(BigInteger.ONE), prime).equals(BigInteger.ONE));
-        lastPrime = prime;
         return prime;
     }
 

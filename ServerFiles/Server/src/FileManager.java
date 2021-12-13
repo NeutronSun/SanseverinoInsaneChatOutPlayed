@@ -51,9 +51,19 @@ public class FileManager {
 
 
     public FileManager() throws IOException{
-        String pathF = "./ServerFiles/Files";
-        String pathUD = "./ServerFiles/Files/UsersData";
-        String pathFile = "./ServerFiles/Files/UsersData/data.txt";
+        String pathF, pathUD, pathFile;
+        if(System.getProperty("os.name").startsWith("Windows")){
+            System.out.println("OS: " + System.getProperty("os.name"));
+            pathF = "./ServerFiles/Files";
+            pathUD = "./ServerFiles/Files/UsersData";
+            pathFile = "./ServerFiles/Files/UsersData/data.txt";
+        }else{
+            System.out.println("OS: " + System.getProperty("os.name"));
+            pathF = "../../Files";
+            pathUD = "../../Files/UsersData";
+            pathFile = "../../Files/UsersData/data.txt";
+        }
+        
         File directory = new File(pathF);
         File directoryUD = new File(pathUD);
 
@@ -63,7 +73,7 @@ public class FileManager {
         if(!directoryUD.exists())
             directoryUD.mkdir();
 
-        userFile = new File("./ServerFiles/Files/UsersData/data.txt");
+        userFile = new File(pathFile);
         
         if(!userFile.exists())
             userFile.createNewFile();
