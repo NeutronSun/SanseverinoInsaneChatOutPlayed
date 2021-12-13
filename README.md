@@ -95,7 +95,7 @@ Classe sincronizzata con l'unico (・ω<) scopo di mettere in condivisione le ch
 ## **License**
 Copyright (c) 22 Giugno anno 0, 2021, SafJNest and/or its affiliates. All rights reserved. SAFJNEST PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
 
-## ***Contacts***
+## ***Contatti***
 ### Lorenzo Sanseverino
 - lorenzosanseverino2003@gmail.com
 - Git <a href="https://github.com/NeutronSun">NeutronSun</a> 
