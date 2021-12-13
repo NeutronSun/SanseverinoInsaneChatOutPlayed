@@ -92,7 +92,7 @@ Classe sincronizzata con l'unico (・ω<) scopo di mettere in condivisione le ch
 - [x] Errori durante la disconnessione di un utente(piu' o meno).
 - [ ] Programma funzionante su MacOs 凸(>皿<)凸
 
-## **License**
+## **Licenza**
 Copyright (c) 22 Giugno anno 0, 2021, SafJNest and/or its affiliates. All rights reserved. SAFJNEST PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
 
 ## ***Contatti***
