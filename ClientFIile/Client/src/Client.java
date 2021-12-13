@@ -22,7 +22,9 @@ public class Client {
     
     private static PrintWriter putInServer;
     static Socket echoSocket;
-
+    /**
+    *main: la funzione main è il punto di inizio per l'esecuzione di un programma.
+    **/
     public static void main(String[] args) throws Exception{
         int portNumber = 11701;
         Encryptor encrypt = new Encryptor();
@@ -58,7 +60,7 @@ public class Client {
             inKey.close();
             t.interrupt();
         } catch (Exception e) {
-            System.out.println("you got banned");
+            System.out.println("you got banned"); //no way!1!!1! IMPOSSIBLE
             return;
         }
     }
