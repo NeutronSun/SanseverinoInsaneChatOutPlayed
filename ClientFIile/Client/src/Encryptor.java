@@ -137,7 +137,7 @@ public class Encryptor {
         String[] supOne = keyFriend.split("/");
         BigInteger publicExp = new BigInteger(supOne[0]);
         BigInteger publicN = new BigInteger(supOne[1]); 
-
+        //stringPlainTextNotYetDecriptedNotBigIntegher
         BigInteger plainText;
         
         /**Flag in caso la lunghezza del testo sia un numero prim0.
