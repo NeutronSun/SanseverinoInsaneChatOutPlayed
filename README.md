@@ -105,6 +105,10 @@ Copyright (c) 22 Giugno anno 0, 2021, SafJNest and/or its affiliates. All rights
 - cococcioni.mattia@gmail.com
 - Git <a href="https://github.com/CocochDSA">CocochDSA</a> 
 
+### Bernadette Capriotti
+- bernadette.capriotti@gmail.com
+- Git <a href="https://github.com/BernadetteCapriotti">BernadetteCapriotti</a>
+
 ### Galantini Corrado
 - galantini.corrado@istitutomontani.edu.it
 - Git <a href="https://github.com/XOShu4">XOShu4</a> 
