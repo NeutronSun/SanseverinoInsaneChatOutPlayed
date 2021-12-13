@@ -101,6 +101,10 @@ Copyright (c) 22 Giugno anno 0, 2021, SafJNest and/or its affiliates. All rights
 - Git <a href="https://github.com/NeutronSun">NeutronSun</a> 
 - Discord Sun#7606.
 
+### Mattia Cococcioni
+- cococcioni.mattia@gmail.com
+- Git <a href="https://github.com/CocochDSA">CocochDSA</a> 
+
 ### Galantini Corrado
 - galantini.corrado@istitutomontani.edu.it
 - Git <a href="https://github.com/XOShu4">XOShu4</a> 
