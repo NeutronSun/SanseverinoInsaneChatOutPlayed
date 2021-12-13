@@ -98,25 +98,25 @@ Copyright (c) 22 Giugno anno 0, 2021, SafJNest and/or its affiliates. All rights
 ## ***Contatti***
 ### Lorenzo Sanseverino
 - lorenzosanseverino2003@gmail.com
-- Git <a href="https://github.com/NeutronSun">NeutronSun</a> 
-- Discord Sun#7606.
+- Git: <a href="https://github.com/NeutronSun">NeutronSun</a> 
+- Discord: Sun#7606.
 
 ### Mattia Cococcioni
 - cococcioni.mattia@gmail.com
-- Git <a href="https://github.com/CocochDSA">CocochDSA</a> 
+- Git: <a href="https://github.com/CocochDSA">CocochDSA</a> 
 
 ### Bernadette Capriotti
 - bernadette.capriotti@gmail.com
-- Git <a href="https://github.com/BernadetteCapriotti">BernadetteCapriotti</a>
+- Git: <a href="https://github.com/BernadetteCapriotti">BernadetteCapriotti</a>
 
 ### Galantini Corrado
 - galantini.corrado@istitutomontani.edu.it
-- Git <a href="https://github.com/XOShu4">XOShu4</a> 
-- Discord Mario Giordano#3698
+- Git: <a href="https://github.com/XOShu4">XOShu4</a> 
+- Discord: Mario Giordano#3698
 
 ### Panichi Leonardo
 - panichileonardo4@gmail.com
-- Git <a href="https://github.com/Leon412">Leon412</a> 
-- Discord Leon_#7949
+- Git: <a href="https://github.com/Leon412">Leon412</a> 
+- Discord: Leon_#7949
 
 
