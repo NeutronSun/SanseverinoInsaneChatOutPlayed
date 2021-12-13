@@ -60,7 +60,7 @@ public class Client {
             inKey.close();
             t.interrupt();
         } catch (Exception e) {
-            System.out.println("you got banned"); //no way!1!!1! IMPOSSIBLE
+            System.out.println("connection lost."); //no way!1!!1! IMPOSSIBLE
             return;
         }
     }

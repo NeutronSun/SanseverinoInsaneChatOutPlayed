@@ -26,6 +26,7 @@ import java.util.Base64.Encoder;
  * Classe che si occupa di gestire l'accesso concorrente di tutte le istanze del {@link Server server}
  * sui vari file necessari al corretto funzionamento.
  * <p>Attualmente i vari file presenti sono:{@code data.txt} nella directory {@code Files/UsersData}.
+ * <p>La classe, in oltre, in base al sistema operativo cambia la formattazione della path.
  * @author <a href="https://github.com/NeutronSun">NeutronSun</a> 
  * @author <a href="https://github.com/Leon412">Leon412</a> 
  * @version 1
@@ -67,16 +68,23 @@ public class FileManager {
         File directory = new File(pathF);
         File directoryUD = new File(pathUD);
 
-        if(!directory.exists())
+        if(!directory.exists()){
             directory.mkdir();
-
-        if(!directoryUD.exists())
             directoryUD.mkdir();
+            System.out.println("Directory: " + pathF + " not found, recreated.The file might have been lost.");
+        }
+
+        if(!directoryUD.exists()){
+            directoryUD.mkdir();
+            System.out.println("Directory: " + pathUD + " not found, recreated.The file might have been lost.");
+        }
 
         userFile = new File(pathFile);
         
-        if(!userFile.exists())
+        if(!userFile.exists()){
             userFile.createNewFile();
+            System.out.println("File not found, recreated.");
+        }
     
         writeUser = new BufferedWriter(new FileWriter(userFile, true));
         contReaders = 0;
