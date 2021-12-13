@@ -100,6 +100,7 @@ public class ClientThreadReader implements Runnable {
     /**
      * THE SAFJNEST LOADING SCREEN
      * @author <a href="https://github.com/orgs/SafJNes">SafJNest</a>
+     *XShu4: ahhh, chi l'ha pensato questo metodo ehh? molto carino complimenti!
      */
     public void loadingBee(){
         typeWriterEffect("\033[46;30m "
