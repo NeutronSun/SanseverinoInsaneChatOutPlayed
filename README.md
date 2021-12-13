@@ -101,6 +101,11 @@ Copyright (c) 22 Giugno anno 0, 2021, SafJNest and/or its affiliates. All rights
 - Git: <a href="https://github.com/NeutronSun">NeutronSun</a> 
 - Discord: Sun#7606.
 
+### Galantini Corrado
+- galantini.corrado@istitutomontani.edu.it
+- Git: <a href="https://github.com/XOShu4">XOShu4</a> 
+- Discord: Mario Giordano#3698
+
 ### Mattia Cococcioni
 - cococcioni.mattia@gmail.com
 - Git: <a href="https://github.com/CocochDSA">CocochDSA</a> 
@@ -108,11 +113,6 @@ Copyright (c) 22 Giugno anno 0, 2021, SafJNest and/or its affiliates. All rights
 ### Bernadette Capriotti
 - bernadette.capriotti@gmail.com
 - Git: <a href="https://github.com/BernadetteCapriotti">BernadetteCapriotti</a>
-
-### Galantini Corrado
-- galantini.corrado@istitutomontani.edu.it
-- Git: <a href="https://github.com/XOShu4">XOShu4</a> 
-- Discord: Mario Giordano#3698
 
 ### Panichi Leonardo
 - panichileonardo4@gmail.com
