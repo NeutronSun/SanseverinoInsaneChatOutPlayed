@@ -40,7 +40,8 @@ public class ClientThreadReader implements Runnable {
     private PrintWriter out;
     public ClientThreadReader(BufferedReader in, PrintWriter out, KeySorter ks, Encryptor e)throws IOException{
         this.in = in;
-        this.ks = ks;
+        //mancha una y in mezzo.
+        this.ks = ks;              
         this.encr = e;
         this.out = out;
     }
