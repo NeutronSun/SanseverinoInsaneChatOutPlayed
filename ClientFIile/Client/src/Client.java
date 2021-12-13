@@ -15,7 +15,9 @@ import java.io.PrintWriter;
 import java.net.Inet4Address;
 import java.net.Socket;
 import java.util.ArrayList;
-
+/**
+* Client che prende in input, per il resto non fa nulla <3.
+**/
 public class Client {
     
     private static PrintWriter putInServer;
