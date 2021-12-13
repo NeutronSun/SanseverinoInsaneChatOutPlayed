@@ -59,7 +59,7 @@ public class FileManager {
             pathUD = "./ServerFiles/Files/UsersData";
             pathFile = "./ServerFiles/Files/UsersData/data.txt";
         }else{
-            System.out.println("OS: " + System.getProperty("os.name"));
+            System.out.println("OS: " + System.getProperty("os.name")); //Leon412: adesso le persone che usano linux (1) sono felici
             pathF = "../../Files";
             pathUD = "../../Files/UsersData";
             pathFile = "../../Files/UsersData/data.txt";
@@ -267,6 +267,8 @@ public class FileManager {
 
     /**
      * crea il sale
+     * <p>
+     * Leon412: che bestia il sale
      * @author <a href="https://github.com/Leon412">Leon412</a> 
      * @return
      * il sale
