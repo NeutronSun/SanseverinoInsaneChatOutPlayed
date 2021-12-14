@@ -8,9 +8,10 @@
  * 
  */
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Random;
 
 /**
@@ -54,17 +55,22 @@ public class Encryptor {
      */
     private BigInteger phi = new BigInteger("0");
 
-    {lastPrime = new BigInteger(lastPrime.bitLength(), new Random());}
 
     /**
      * Default constructor
+     * @throws NoSuchAlgorithmException
      */
-    public Encryptor() {
-        
+    public Encryptor() throws NoSuchAlgorithmException {
+        int bits = 2048;
+        int numBytes = (int)(((long)bits+7)/8);
+        byte[] bytes = new byte[numBytes];
+        SecureRandom.getInstanceStrong().nextBytes(bytes);
+        lastPrime = new BigInteger(1, bytes);
         p = newPrime(lastPrime);
-        q = newPrime(lastPrime);
+        q = newPrime(p);
         n = p.multiply(q);
-        e = newPrime(lastPrime);
+        e = newPrime(q);
+        lastPrime = e;
         phi = phi(p).multiply(phi(q));
         d = e.modInverse(phi);
     }
