@@ -57,14 +57,19 @@ public class Encryptor {
 
 
     /**
-     * Default constructor
-     * @throws NoSuchAlgorithmException
+     * Default constructor.
+     * <p>Le chiavi generate seguiranno lo standard {@code RSA 2048}, quindi
+     * le chiavi saranno composte da numeri a 2048 bits.
      */
-    public Encryptor() throws NoSuchAlgorithmException {
+    public Encryptor(){
         int bits = 2048;
         int numBytes = (int)(((long)bits+7)/8);
         byte[] bytes = new byte[numBytes];
-        SecureRandom.getInstanceStrong().nextBytes(bytes);
+        try {
+            SecureRandom.getInstanceStrong().nextBytes(bytes);
+        } catch (NoSuchAlgorithmException ex) {
+            ex.printStackTrace();
+        }
         lastPrime = new BigInteger(1, bytes);
         p = newPrime(lastPrime);
         q = newPrime(p);
@@ -74,6 +79,31 @@ public class Encryptor {
         phi = phi(p).multiply(phi(q));
         d = e.modInverse(phi);
     }
+
+    /**
+     * Le chiavi generate avranno una lunghezza di bits specificata
+     * dal parametro del costruttore.
+     * @param bits
+     * numero di bits con cui rappresentare i {@code BigInteger}.
+     */
+    public Encryptor(int bits){
+        int numBytes = (int)(((long)bits+7)/8);
+        byte[] bytes = new byte[numBytes];
+        try {
+            SecureRandom.getInstanceStrong().nextBytes(bytes);
+        } catch (NoSuchAlgorithmException ex) {
+            ex.printStackTrace();
+        }
+        lastPrime = new BigInteger(1, bytes);
+        p = newPrime(lastPrime);
+        q = newPrime(p);
+        n = p.multiply(q);
+        e = newPrime(q);
+        lastPrime = e;
+        phi = phi(p).multiply(phi(q));
+        d = e.modInverse(phi);
+    }
+    
 
     /**
      * Funzione toziente di {@code Eulero}.

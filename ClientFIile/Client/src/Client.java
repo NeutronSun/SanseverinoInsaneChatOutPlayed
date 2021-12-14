@@ -25,7 +25,7 @@ public class Client {
     **/
     public static void main(String[] args) throws Exception{
         int portNumber = 11701;
-        Encryptor encrypt = new Encryptor();
+        Encryptor encrypt = new Encryptor(1024);
         KeySorter ks = new KeySorter();
         try{
             String hostName = Inet4Address.getLocalHost().getHostAddress();
