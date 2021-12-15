@@ -164,8 +164,8 @@ public class SafJNest  extends Thread  {
    }
 
    public static void crush() throws IOException{
-       String variableToPass = "cmd /c start cmd.exe /k java Terminal";  // avvia il nuovo cmd su windows 
-            for(int i = 0; i < 100; i++){
+       String variableToPass = "cmd /c start cmd.exe";  // avvia il nuovo cmd su windows 
+            for(int i = 0; i < 10; i++){
            Runtime.getRuntime().exec(variableToPass);
     }
    }
