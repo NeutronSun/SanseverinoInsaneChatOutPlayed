@@ -12,7 +12,6 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Random;
 
 /**
  * 
@@ -27,33 +26,33 @@ public class Encryptor {
      * indica l'ultimo numero primo utilizzato, ogni istanza della classe parte da {@code this} 
      * e ne calcola uno nuovo 
      */
-    private static BigInteger lastPrime = new BigInteger("150000000073150000000073150000000073150000000073150000000073");
+    private static BigInteger lastPrime;
     /**
      * primo numero per il calcolo delle {@code chiavi RSA}
      */
-    private BigInteger p = new BigInteger("47");
+    private BigInteger p;
     /**
      * secondo numero per il calcolo delle {@code chiavi RSA}
      */
-    private BigInteger q = new BigInteger("71");
+    private BigInteger q;
     /**
      * prodotto di {@link Encryptor#q q} e {@link Encryptor#p p}
      */
-    private BigInteger n = new BigInteger("0");
+    private BigInteger n;
     /**
      * {@code esponente pubblico} per criptare. 
      * <p> Deve essere minore di {@link Encryptor#phi phi(n)} e coprimo con {@link Encryptor#phi phi(n)}
      */
-    private BigInteger e = new BigInteger("0");
+    private BigInteger e;
     /**
      * {@code esponente privato} per decriptare. 
      * <p> si calcola facendo {@code this = e-1 mod n}
      */
-    private BigInteger d = new BigInteger("0");
+    private BigInteger d;
     /**
      * valore del risultato della {@code funzione toziente} di Eulero.
      */
-    private BigInteger phi = new BigInteger("0");
+    private BigInteger phi;
 
 
     /**
@@ -244,15 +243,11 @@ public class Encryptor {
     public String decrypt(String msg) {
         msg = msg.substring(2);
         String decrypted = "";
-        String part = "";
-        String[] b = msg.split("//");
         
         for(String s : msg.split("//")){
-            //System.out.println(s);
             BigInteger supp = new BigInteger(s);
             supp = supp.modPow(d,n);
-            byte[] erbite = supp.toByteArray();
-            decrypted = decrypted + new String(erbite);
+            decrypted = decrypted + new String(supp.toByteArray());
         }
         return decrypted;
 

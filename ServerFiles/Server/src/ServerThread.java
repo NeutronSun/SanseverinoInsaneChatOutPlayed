@@ -41,12 +41,12 @@ public class ServerThread implements Runnable{
     private Thread t;
 
     public ServerThread(Socket sck, MessageBox mailBox, UserManager um, FileManager fm, int contT){
-        socket = sck;
+        this.socket = sck;
         this.mailBox = mailBox;
         this.um = um;
-        fileManager = fm;
-        cont = contT;
-        commandList = new HashMap<String, String>();
+        this.fileManager = fm;
+        this.cont = contT;
+        this.commandList = new HashMap<String, String>();
 
         commandList.put("list", "Get the list of all the online users.\r\n\r\nLIST");
         commandList.put("all", "Send a message to all the users.\r\n\r\nALL [message]\r\n\r\n\tmessage - text to be sent");
@@ -73,16 +73,13 @@ public class ServerThread implements Runnable{
         colors.put("magenta","\033[35m");
         colors.put("brightmagenta","\033[95m");
         colors.put("white","\033[97m");
-
-        colors.put("purple","\033[38;2;<123>;<0>;<255>m");
-        colors.put("water", "\033[38;2;<0>;<255>;<238>m");
     }
 
     public void run() {
         try {
+
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
             /**
              * input dati utente
              * --------------------------
@@ -91,7 +88,7 @@ public class ServerThread implements Runnable{
             boolean check = true;
             String answer = "";
             if(!fileManager.isEmpty()){
-            out.println("Do you already have an account?");
+            out.println("Do you already have an account? Yes - No");
             answer = in.readLine();
             }else{
                 out.println("No account registered, create a new one.");
@@ -156,7 +153,7 @@ public class ServerThread implements Runnable{
             mailBox.addUser(um.getName(String.valueOf(cont)));
             System.out.println("log<" + um.getName(String.valueOf(cont)) + "> LOGGED CORRECTLY.");
             t =  new Thread(new TheWaiter(socket,mailBox,um.toObject(String.valueOf(cont))));
-           t.start();
+            t.start();
             /**
              * ----------------------------
              * now the user can send messages or digits commands

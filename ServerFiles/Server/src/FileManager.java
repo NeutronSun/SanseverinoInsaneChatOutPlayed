@@ -232,10 +232,7 @@ public class FileManager {
             writeUser.flush();
             canRead = true;
             notifyAll();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        } catch (IOException e) {e.printStackTrace();}
     }
     /**
      * cripta la password utilizzando {@link FileManager#gtetSalt il sale}

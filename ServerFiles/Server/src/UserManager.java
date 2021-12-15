@@ -114,9 +114,7 @@ public class UserManager {
                 contReader--;
                 notifyAll();
             }
-        } catch (Exception e) {
-            //TODO: handle exception
-        }
+        } catch (Exception e) {e.printStackTrace();}
     }
 
     /**
