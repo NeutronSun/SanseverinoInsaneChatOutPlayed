@@ -223,7 +223,7 @@ public class FileManager {
      */
     public synchronized void addUser(String name, String password, String key) throws NoSuchAlgorithmException{
         canRead = false;
-        String salt = getSalt();
+        String salt = SafJNest.getJSalt(16);
         password = get_SHA_512_SecurePassword(password,salt);
         String data = (name + "/" + password + "/" + key + "/" + salt);
         try {
@@ -264,26 +264,4 @@ public class FileManager {
         return generatedPassword;
     }
 
-    /**
-     * crea il sale
-     * <p>
-     * Leon412: che bestia il sale
-     * @author <a href="https://github.com/Leon412">Leon412</a> 
-     * @return
-     * il sale
-     */
-    public String getSalt() {
-        try {
-            SecureRandom random = new SecureRandom();
-            byte bytes[] = new byte[20];
-            random.nextBytes(bytes);
-            Encoder encoder = Base64.getUrlEncoder().withoutPadding();
-            String salt = encoder.encodeToString(bytes);
-            System.out.println(salt);
-            return salt;
-        } catch (Exception e) {
-            return null;
-        }
-        
-    }
 }

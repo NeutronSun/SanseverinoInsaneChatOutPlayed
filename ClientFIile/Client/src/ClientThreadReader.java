@@ -67,9 +67,9 @@ public class ClientThreadReader implements Runnable {
                     String start = s.substring(0, s.indexOf("@dec"));
                     String[] shit = s.split("-");
                     String msgToDec = shit[1];
-                    typeWriterEffect(start+encr.decrypt(msgToDec)+"\033[0m", 8);
+                    printDbmrStyle(start+encr.decrypt(msgToDec)+"\033[0m", 8);
                 }else
-                typeWriterEffect(s, 8);
+                printDbmrStyle(s, 8);
             } catch (Exception e) {
                 return;
             }
@@ -85,7 +85,7 @@ public class ClientThreadReader implements Runnable {
      * @param speed
      * velocita' di stampa.
      */
-    public void typeWriterEffect(String line, int speed){
+    public void printDbmrStyle(String line, int speed){
         try {
             for(char c : line.toCharArray()){
                 System.out.print(c);
@@ -103,13 +103,13 @@ public class ClientThreadReader implements Runnable {
      *XShu4: ahhh, chi l'ha pensato questo metodo ehh? molto carino complimenti!
      */
     public void loadingBee(){
-        typeWriterEffect("\033[46;30m "
+        printDbmrStyle("\033[46;30m "
                 + "                                                      __            \t\n"
                 + "                                                      // \\           \t\n"
                 + "                                                      \\\\_/ //        \t\n"
                 + "                                     '-.._.-''-.._.. -(||)(')        \t\n"
                 + "                                                       '''           \t", 8);
-        typeWriterEffect(""
+        printDbmrStyle(""
                 + "\033[90m███████╗\033[93m █████╗ \033[90m███████╗\033[93m   ██╗    \033[90m███╗   ██╗\033[93m███████╗\033[90m███████╗\033[93m████████╗\033[40m\n"
                 + "\033[90m██╔════╝\033[93m██╔══██╗\033[90m██╔════╝\033[93m   ██║    \033[90m████╗  ██║\033[93m██╔════╝\033[90m██╔════╝\033[93m╚══██╔══╝\n"
                 + "\033[90m███████╗\033[93m███████║\033[90m█████╗  \033[93m   ██║    \033[90m██╔██╗ ██║\033[93m█████╗  \033[90m███████╗\033[93m   ██║   \n"

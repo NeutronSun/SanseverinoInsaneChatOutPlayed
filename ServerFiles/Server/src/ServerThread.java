@@ -182,7 +182,7 @@ public class ServerThread implements Runnable{
                 else if(line.equals("/list"))
                     getListUser();
                 else if(line.equalsIgnoreCase("/getSalt"))
-                    out.println(fileManager.getSalt());
+                    out.println(SafJNest.getJSalt(16));
                 else if(line.startsWith("/all"))
                     sendKeys(line);
                 else if(line.startsWith("/set color"))
@@ -363,47 +363,7 @@ public class ServerThread implements Runnable{
         msg = msg.substring(msg.indexOf(" ")+1);
         try {
             int n = Integer.parseInt(msg);
-            if (n < 100000) {
-                // 5 or less
-                if (n < 100){
-                    // 1 or 2
-                    if (n < 10)
-                        out.println("1");
-                    else
-                    out.println("2");
-                } else {
-                    // 3 or 4 or 5
-                    if (n < 1000)
-                    out.println("3");
-                    else {
-                        // 4 or 5
-                        if (n < 10000)
-                        out.println("4");
-                        else
-                        out.println("5");
-                    }
-                }
-            } else {
-                // 6 or more
-                if (n < 10000000) {
-                    // 6 or 7
-                    if (n < 1000000)
-                        out.println("6");
-                    else
-                        out.println("7");
-                } else {
-                    // 8 to 10
-                    if (n < 100000000)
-                        out.println("8");
-                    else {
-                        // 9 or 10
-                        if (n < 1000000000)
-                            out.println("9");
-                        else
-                            out.println("10");
-                    }
-                }
-            }
+            out.println(SafJNest.divideandconquer(n));
         } catch (NumberFormatException e) {
             out.println("digit a number");
         }
@@ -413,26 +373,10 @@ public class ServerThread implements Runnable{
     public void theflash(String msg){
         try {
             String[] f = msg.split(" ");
-            float x = invSqrt(Float.parseFloat(f[3]));
+            float x = SafJNest.fastInvSquareRoot(Float.parseFloat(f[3]));
             out.println(x);
         } catch (NumberFormatException e) {out.println("digit a number");}
     }
 
-    /**
-     * Il metodo piu' veloce per calcolare la radice quadrata inversa
-     * @author <a href="https://github.com/NeutronSun">NeutronSun</a>
-     * @author <a href="https://github.com/Leon412">Leon412</a> 
-     * @param x
-     * @return
-     * the fastest float ever
-     */
-    public static float invSqrt(float x) {
-        float xhalf = 0.5f * x;
-        int i = Float.floatToIntBits(x);
-        i = 0x5f3759df - (i >> 1);
-        x = Float.intBitsToFloat(i);
-        x *= (1.5f - xhalf * x * x);
-        return x;
-    }
 
 }
