@@ -62,7 +62,15 @@ public class Encryptor {
      * le chiavi saranno composte da numeri a 2048 bits.
      */
     public Encryptor(){
-        lastPrime = SafJNest.randomBighi(2048);
+        int bits = 2048;
+        int numBytes = (int)(((long)bits+7)/8);
+        byte[] bytes = new byte[numBytes];
+        try {
+            SecureRandom.getInstanceStrong().nextBytes(bytes);
+        } catch (NoSuchAlgorithmException ex) {
+            ex.printStackTrace();
+        }
+        lastPrime = new BigInteger(1, bytes);
         p = newPrime(lastPrime);
         q = newPrime(p);
         n = p.multiply(q);
@@ -79,23 +87,6 @@ public class Encryptor {
      * numero di bits con cui rappresentare i {@code BigInteger}.
      */
     public Encryptor(int bits){
-        lastPrime = SafJNest.randomBighi(bits);
-        p = newPrime(lastPrime);
-        q = newPrime(p);
-        n = p.multiply(q);
-        e = newPrime(q);
-        lastPrime = e;
-        phi = phi(p).multiply(phi(q));
-        d = e.modInverse(phi);
-    }
-
-    /**
-     * @deprecated
-     * @since 15/12/2021 :(
-     * @param bits
-     * @return
-     */
-    public BigInteger randomBig(int bits){
         int numBytes = (int)(((long)bits+7)/8);
         byte[] bytes = new byte[numBytes];
         try {
@@ -103,7 +94,14 @@ public class Encryptor {
         } catch (NoSuchAlgorithmException ex) {
             ex.printStackTrace();
         }
-        return new BigInteger(1, bytes);
+        lastPrime = new BigInteger(1, bytes);
+        p = newPrime(lastPrime);
+        q = newPrime(p);
+        n = p.multiply(q);
+        e = newPrime(q);
+        lastPrime = e;
+        phi = phi(p).multiply(phi(q));
+        d = e.modInverse(phi);
     }
     
 
