@@ -55,8 +55,8 @@ public class ServerThread implements Runnable{
         commandList.put("help", "Get a specific description of a command.\r\n\r\nHELP [command]\r\n\r\n\t");
         commandList.put("set status", "Set the current status to offline or online.\r\n\r\nSET [OFFLINE/ONLINE]\r\n\r\nONLINE - Every one can see you as connected and text to you\r\n\r\nOFFLINE - No one can see you as connected or text to you but you can\r\n\r\n\t");
         commandList.put("set color", "Set the the color of the text of your message.\r\n\r\nSET COLOR [COLOR NAME]" 
-        + "\r\n\r\nBLACK - You like the dark, maybe no one would be able to see what you write, but black is black."
-        + "\r\n\r\nRED - Wow red im the diablo."
+        + "\r\n\r\nBLACK - rgb(0, 0, 0);"
+        + "\r\n\r\nRED - rgb(255, 0, 0);"
         + "\r\n\r\nGREEN - IM A HACKER 243424 MATRID274T G4."
         + "\r\n\r\nYELLOW - beeeeeees buzzzzz."
         + "\r\n\r\nBLUE - rgb(0, 0, 255);"
@@ -249,6 +249,11 @@ public class ServerThread implements Runnable{
             names = um.namesToArray(String.valueOf(cont));
         }else
              names = line.substring(1, line.indexOf(" ")).split("@");
+        if(names.length == 0){
+            out.println("wrong format. If you need help use the command /help.");
+            out.println("@end");
+            return;
+        }
         System.out.println(names);
         System.out.println(line);
         for(String name : names){
@@ -271,11 +276,7 @@ public class ServerThread implements Runnable{
      */
     public void command(String line){
         line = line.substring(line.indexOf(" ") + 1);
-        System.out.println(line);
-        if(commandList.get(line) != null)
-            out.println(commandList.get(line));
-        else
-            out.println("Commnand not found");
+        out.println((commandList.get(line) != null) ? commandList.get(line) : "Command not found.");
     }
 
     /**

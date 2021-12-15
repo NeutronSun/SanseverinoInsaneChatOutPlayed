@@ -62,15 +62,7 @@ public class Encryptor {
      * le chiavi saranno composte da numeri a 2048 bits.
      */
     public Encryptor(){
-        int bits = 2048;
-        int numBytes = (int)(((long)bits+7)/8);
-        byte[] bytes = new byte[numBytes];
-        try {
-            SecureRandom.getInstanceStrong().nextBytes(bytes);
-        } catch (NoSuchAlgorithmException ex) {
-            ex.printStackTrace();
-        }
-        lastPrime = new BigInteger(1, bytes);
+        lastPrime = getRandomBigInteger(2048);
         p = newPrime(lastPrime);
         q = newPrime(p);
         n = p.multiply(q);
@@ -87,14 +79,7 @@ public class Encryptor {
      * numero di bits con cui rappresentare i {@code BigInteger}.
      */
     public Encryptor(int bits){
-        int numBytes = (int)(((long)bits+7)/8);
-        byte[] bytes = new byte[numBytes];
-        try {
-            SecureRandom.getInstanceStrong().nextBytes(bytes);
-        } catch (NoSuchAlgorithmException ex) {
-            ex.printStackTrace();
-        }
-        lastPrime = new BigInteger(1, bytes);
+        lastPrime = getRandomBigInteger(bits);
         p = newPrime(lastPrime);
         q = newPrime(p);
         n = p.multiply(q);
@@ -102,6 +87,19 @@ public class Encryptor {
         lastPrime = e;
         phi = phi(p).multiply(phi(q));
         d = e.modInverse(phi);
+    }
+
+    public BigInteger getRandomBigInteger(int bits){
+        bits--;
+        int numBytes = (int)(((long)bits+7)/8);
+        byte[] bytes = new byte[numBytes];
+        try {
+            SecureRandom.getInstanceStrong().nextBytes(bytes);
+        } catch (NoSuchAlgorithmException ex) {
+            ex.printStackTrace();
+        }
+        BigInteger a = new BigInteger(1, bytes);
+        return (a.bitLength() == (bits + 1)) ? a : a.add(BigInteger.TWO.pow(bits));
     }
     
 

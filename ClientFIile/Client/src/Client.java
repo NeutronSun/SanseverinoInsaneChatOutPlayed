@@ -45,10 +45,10 @@ public class Client {
                     putInServer.println(userInput);  
                     String[] names = ks.getNames();
                     if(ks.isOkay()){
-                    for(String name : names){
-                        putInServer.println("msg-" + name + "-" + encrypt.encrypt(msg, ks.getKey(name)));
+                        for(String name : names){
+                            putInServer.println("msg-" + name + "-" + encrypt.encrypt(msg, ks.getKey(name)));
+                        }
                     }
-                }
                 }else{
                     putInServer.println(userInput);
                 }
