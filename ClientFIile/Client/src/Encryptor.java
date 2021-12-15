@@ -244,11 +244,8 @@ public class Encryptor {
         msg = msg.substring(2);
         String decrypted = "";
         
-        for(String s : msg.split("//")){
-            BigInteger supp = new BigInteger(s);
-            supp = supp.modPow(d,n);
-            decrypted = decrypted + new String(supp.toByteArray());
-        }
+        for(String s : msg.split("//"))
+            decrypted += new String(new BigInteger(s).modPow(d,n).toByteArray());
         return decrypted;
 
     }
