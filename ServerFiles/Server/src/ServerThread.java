@@ -15,7 +15,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
-
+/**
+ * Classe insane
+ */
 public class ServerThread implements Runnable{
     /** Consente la connessione client-server*/ 
     private Socket socket;
