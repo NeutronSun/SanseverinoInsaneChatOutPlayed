@@ -93,7 +93,7 @@ public class ClientThreadReader implements Runnable {
             }
             System.out.println();
         } catch (Exception e) {e.printStackTrace();}
-    }
+    } 
 
     /**
      * THE SAFJNEST LOADING SCREEN

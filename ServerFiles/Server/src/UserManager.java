@@ -334,7 +334,7 @@ public class UserManager {
      */
     public synchronized void remove(String key){
         try {
-            while(contReader > 0) {wait();}
+            while(contReader > 0){wait();}
             canRead = false;
             users.remove(key);
             canRead = true;
