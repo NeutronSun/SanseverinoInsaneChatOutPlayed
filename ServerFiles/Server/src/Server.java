@@ -15,21 +15,22 @@ import java.lang.StringBuilder;
 
 public class Server {
     public static void main(String[] args) throws Exception {
-        int portNumber = 11701;
-        ServerSocket serverSocket = new ServerSocket(portNumber);
-        FileManager fm = new FileManager();
-        System.out.println("ip: " + Inet4Address.getLocalHost().getHostAddress());
-        System.out.println("port: " + portNumber);
-        System.out.println("Waiting for user..." +  new StringBuilder().appendCodePoint(0x1F920).toString());
-        MessageBox mailBox = new MessageBox();
-        UserManager um = new UserManager();
-        int contThread = 0;
-        while (true) {
-            Socket clientSocket = serverSocket.accept();
-            new Thread(new ServerThread(clientSocket, mailBox, um, fm, contThread)).start();
-            System.out.println("Connection Accepted with client-" + contThread);
-            contThread++;
-        }
+        int portNumber = 11701, contThread = 0;
+        try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
+            System.out.println("ip: " + Inet4Address.getLocalHost().getHostAddress());
+            System.out.println("port: " + portNumber);
+            System.out.println("Waiting for user..." +  new StringBuilder().appendCodePoint(0x1F920).toString());
+            
+            FileManager fm = new FileManager();
+            MessageBox mailBox = new MessageBox();
+            UserManager um = new UserManager();
+            while (true) {
+                Socket clientSocket = serverSocket.accept();
+                new Thread(new ServerThread(clientSocket, mailBox, um, fm, contThread)).start();
+                System.out.println("Connection Accepted with client-" + contThread);
+                contThread++;
+            }
+        }catch (Exception e) {e.printStackTrace();System.out.println("D:");}
     }
 
 }

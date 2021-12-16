@@ -92,11 +92,7 @@ public class Encryptor {
         bits--;
         int numBytes = (int)(((long)bits+7)/8);
         byte[] bytes = new byte[numBytes];
-        try {
-            SecureRandom.getInstanceStrong().nextBytes(bytes);
-        } catch (NoSuchAlgorithmException ex) {
-            ex.printStackTrace();
-        }
+        try {SecureRandom.getInstanceStrong().nextBytes(bytes);} catch (NoSuchAlgorithmException ex) {ex.printStackTrace();}
         BigInteger a = new BigInteger(1, bytes);
         return (a.bitLength() == (bits + 1)) ? a : a.add(BigInteger.TWO.pow(bits));
     }
@@ -128,8 +124,7 @@ public class Encryptor {
 
     public BigInteger newPrime(BigInteger prime) {
         BigInteger a = new BigInteger("2");
-        if(prime.mod(BigInteger.TWO).equals(BigInteger.ZERO))
-        prime = prime.add(BigInteger.ONE);
+        prime = (prime.mod(BigInteger.TWO).equals(BigInteger.ZERO)) ? prime.add(BigInteger.ONE) : prime.add(BigInteger.ZERO);
         do {
             prime = prime.add(BigInteger.TWO);
         } while (!a.modPow(prime.subtract(BigInteger.ONE), prime).equals(BigInteger.ONE));
