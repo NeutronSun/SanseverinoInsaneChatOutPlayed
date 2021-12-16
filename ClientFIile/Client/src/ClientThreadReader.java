@@ -31,7 +31,6 @@ import java.io.*;
  * @author <a href="https://github.com/Leon412">Leon412</a> 
  * @version 1
  * @since 2021-11-29 (aaaa-mm-gg)
- * ahhhhh, mmhh.... quindi l'hai fatta cosi!. un po schifo dai... <3
  */
 public class ClientThreadReader implements Runnable {
     private BufferedReader in;
@@ -40,7 +39,6 @@ public class ClientThreadReader implements Runnable {
     private PrintWriter out;
     public ClientThreadReader(BufferedReader in, PrintWriter out, KeySorter ks, Encryptor e)throws IOException{
         this.in = in;
-        //mancha una y in mezzo.
         this.ks = ks;              
         this.encr = e;
         this.out = out;
@@ -98,7 +96,6 @@ public class ClientThreadReader implements Runnable {
     /**
      * THE SAFJNEST LOADING SCREEN
      * @author <a href="https://github.com/orgs/SafJNes">SafJNest</a>
-     *XShu4: ahhh, chi l'ha pensato questo metodo ehh? molto carino complimenti!
      */
     public void loadingBee(){
         typeWriterEffect("\033[46;30m "

@@ -27,7 +27,7 @@ import java.util.Base64.Encoder;
  * <p>Attualmente i vari file presenti sono:{@code data.txt} nella directory {@code Files/UsersData}.
  * <p>La classe, in oltre, in base al sistema operativo cambia la formattazione della path.
  * @author <a href="https://github.com/NeutronSun">NeutronSun</a> 
- * @author <a href="https://github.com/Leon412">Leon412</a> 
+ * @author <a href="https://github.com/Leon412">Leon412</a> The inventor of Salt
  * @version 1
  * @since 2021-11-29 (aaaa-mm-gg)
  */
@@ -58,7 +58,7 @@ public class FileManager {
             pathUD = "./ServerFiles/Files/UsersData";
             pathFile = "./ServerFiles/Files/UsersData/data.txt";
         }else{
-            System.out.println("OS: " + System.getProperty("os.name")); //Leon412: adesso le persone che usano linux (1) sono felici
+            System.out.println("OS: " + System.getProperty("os.name"));
             pathF = "../../Files";
             pathUD = "../../Files/UsersData";
             pathFile = "../../Files/UsersData/data.txt";
@@ -125,7 +125,6 @@ public class FileManager {
      * nome da controllare
      * @return
      * true se l'utente non e' presente nel file
-     *XOShu4: che fa sta roba? nn o cpt!
      */
     public boolean checkUser(String name) {
         String line;

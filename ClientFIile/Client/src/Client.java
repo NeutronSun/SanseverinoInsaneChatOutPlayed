@@ -37,7 +37,7 @@ public class Client {
             Thread t = new Thread(read);
             t.start();
            // putInServer.println(encrypt.getKey());
-            String userInput;
+            String userInput; 
             while (!(userInput = inKey.readLine()).equals("quit")) {
                 if(userInput.startsWith("@") || userInput.startsWith("/all")) {
                     String msg = userInput.substring(userInput.indexOf(" ") + 1);
