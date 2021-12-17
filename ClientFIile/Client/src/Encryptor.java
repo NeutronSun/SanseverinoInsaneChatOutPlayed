@@ -214,14 +214,17 @@ public class Encryptor {
         cont = 0;
         String cypherText = "";
         String supp = "";
+        for(int i = 0; i < length; i++) {
+
+        }
         for(char c : ss.toCharArray()){
-            supp = supp + c;
+            supp += c;
             cont++;
-            if(cont == everyN){
+            if(cont % everyN == 0){
                 plainText = new BigInteger(supp.getBytes("UTF-8"));
-                cypherText = cypherText + "//" + plainText.modPow(publicExp, publicN).toString();
+                System.out.println(supp);
+                cypherText += "//" + plainText.modPow(publicExp, publicN).toString();
                 supp = "";
-                cont = 0;
             }
         }
         /**Se la lunghezza e' prima viene aggiunta la parte mancante.

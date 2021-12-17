@@ -16,7 +16,31 @@ import java.util.HashMap;
 import java.util.regex.Pattern;
 
 /**
- * Classe insane
+ * Istanza della classe {@link Server}.
+ * <p>Ogni volta che il {@code server} accetta una connessione con il
+ * {@code client} questa classe viene istanziata e le vengono passsati
+ * tutti gli oggetti condivisi ed il {@linl ServerThread#socket socket} con 
+ * cui effettua la connessione con il client.
+ * <p>La connessione nella fase iniziale avviene in maniera sequenziale: 
+ * fase di login o di registrazione, dove vengono estrapolati {@code username} e
+ * {@code password} dell'utente e vengono settati nei vari oggetti {@link FileManager} e
+ * {@link UserManager}.
+ * <p>Solo ora viene avviato il thread secondario {@link TheWaiter} che si occupera' di stare 
+ * in attesa e, una volta presente un nuovo messaggio, inviarli al client.
+ * La classe, in oltre, si occupa di gestire tutti i diversi protocolli, tra cui:
+ * <p><ul>
+ * <li>{@code /help} -> [/help](nome comando), viene richiesta una descrizione del comando
+ * <li> {@code /list} -> viene richiesta la lista di tutti gli utenti collegati
+ * <li> {@code /all} -> [/all][messaggio], il client desidera inviare un messaggio a tutti gli utenti connessi
+ * <li> {@code /set color} -> [/set][color][colore], il client desidera cambiare colore con cui sara' visto dagli altri
+ * <li> {@code @} -> [@user](@user2...userN)[messaggio], il client desidera inviare un messaggio a specifici utenti
+ * <li> {@code pk}, il client manda la {@code chiave pubblica} al server. [avviete in automatico] e
+ * viene settata nella {@code mappa} {@link UserManager}
+ * <li> {@code msg}, il client invia il messaggio criptato contenente il destinatario e corpo del messaggio
+ * <li> {@code /set offline|online} -> [/set][status], il client desidera cambiare il sui status di collegamento
+ * </ul><p>
+ * Se il messaggio inizia con "{@code /}" significa che e' un comando inviato dall'utente 
+ * altrimenti e' un protocollo stabilito tra client e server.
  */
 public class ServerThread implements Runnable{
     /** Consente la connessione client-server*/ 
@@ -256,8 +280,10 @@ public class ServerThread implements Runnable{
         for(String name : names){
             if(name.equals(um.getName(String.valueOf(cont))))
                 out.println("<Server> Avoid writing to yourself, not funny :L");
-            else if(um.isConnected(name))
+            else if(um.isConnected(name)){
                 out.println("pk" + name + "-" +  um.getPk(name));
+                System.out.println("send ki");
+            }
             else
                 out.println("<Server>" + name + " not exists");
             
