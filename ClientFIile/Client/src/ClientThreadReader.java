@@ -63,9 +63,10 @@ public class ClientThreadReader implements Runnable {
                     out.println(encr.getKey());
                 else if(s.contains("@dec")){
                     String start = s.substring(0, s.indexOf("@dec"));
-                    String[] shit = s.split("-");
-                    String msgToDec = shit[1];
-                    typeWriterEffect(start+encr.decrypt(msgToDec)+"\033[0m", 8);
+                    String[] ee = s.split("-");
+                    String msgToDec = ee[1];
+                    String msg = checkEmoji(encr.decrypt(msgToDec));
+                    typeWriterEffect(start+msg+"\033[0m", 8);
                 }else
                 typeWriterEffect(s, 8);
             } catch (Exception e) {
@@ -112,4 +113,22 @@ public class ClientThreadReader implements Runnable {
                 + "\033[90m███████║\033[93m██║  ██║\033[90m██║   \033[93m╚█████╔╝    \033[90m██║ ╚████║\033[93m███████╗\033[90m███████║\033[93m   ██║   \n"
                 + "\033[90m╚══════╝\033[93m╚═╝  ╚═╝\033[90m╚═╝   \033[93m ╚════╝     \033[90m╚═╝  ╚═══╝\033[93m╚══════╝\033[90m╚══════╝\033[93m   ╚═╝\n\033[0m", 8);
     }   
+
+    public static String checkEmoji(String msg){
+        msg = msg.replaceAll("<3", new StringBuilder().appendCodePoint(0x1F497).toString());
+        msg = msg.replaceAll(":143:", new StringBuilder().appendCodePoint(0x1F618).toString());
+        msg = msg.replaceAll(":pantano:", new StringBuilder().appendCodePoint(0x1F62C).toString());
+        msg = msg.replaceAll(":mario:", new StringBuilder().appendCodePoint(0x1F921).toString());
+        msg = msg.replaceAll(":safj:", new StringBuilder().appendCodePoint(0x1F41D).toString());
+        msg = msg.replaceAll(":skull:", new StringBuilder().appendCodePoint(0x1F480).toString());
+        msg = msg.replaceAll(":sad:", new StringBuilder().appendCodePoint(0x1F614).toString());
+        msg = msg.replaceAll(":merio:", new StringBuilder().appendCodePoint(0x1F533).toString());
+        msg = msg.replaceAll(":baco:", new StringBuilder().appendCodePoint(0x1F41B).toString());
+        msg = msg.replaceAll(":swag:", new StringBuilder().appendCodePoint(0x1F60E).toString());
+        msg = msg.replaceAll(":stonks:", new StringBuilder().appendCodePoint(0x1F4C8).toString());
+        msg = msg.replaceAll(":diablo:", new StringBuilder().appendCodePoint(0x1F608).toString());
+        msg = msg.replaceAll(":deltoide:", new StringBuilder().appendCodePoint(0x00394).toString());
+        msg = msg.replaceAll(":squidgame:", (new StringBuilder().appendCodePoint(0x1F991).toString() + new StringBuilder().appendCodePoint(0x1F3B2).toString()));
+        return msg;
+    }
 }

@@ -222,7 +222,6 @@ public class Encryptor {
             cont++;
             if(cont % everyN == 0){
                 plainText = new BigInteger(supp.getBytes("UTF-8"));
-                System.out.println(supp);
                 cypherText += "//" + plainText.modPow(publicExp, publicN).toString();
                 supp = "";
             }

@@ -41,7 +41,6 @@ public class Client {
             while (!(userInput = inKey.readLine()).equals("quit")) {
                 if(userInput.startsWith("@") || userInput.startsWith("/all")) {
                     String msg = userInput.substring(userInput.indexOf(" ") + 1);
-                    msg = checkEmoji(msg);
                     putInServer.println(userInput);  
                     String[] names = ks.getNames();
                     if(ks.isOkay()){
@@ -61,24 +60,6 @@ public class Client {
             System.out.println("connection lost."); //no way!1!!1! IMPOSSIBLE
             return;
         }
-    }
-
-    public static String checkEmoji(String msg){
-        msg = msg.replaceAll("<3", new StringBuilder().appendCodePoint(0x1F497).toString());
-        msg = msg.replaceAll(":143:", new StringBuilder().appendCodePoint(0x1F618).toString());
-        msg = msg.replaceAll(":pantano:", new StringBuilder().appendCodePoint(0x1F62C).toString());
-        msg = msg.replaceAll(":mario:", new StringBuilder().appendCodePoint(0x1F921).toString());
-        msg = msg.replaceAll(":safj:", new StringBuilder().appendCodePoint(0x1F41D).toString());
-        msg = msg.replaceAll(":skull:", new StringBuilder().appendCodePoint(0x1F480).toString());
-        msg = msg.replaceAll(":sad:", new StringBuilder().appendCodePoint(0x1F614).toString());
-        msg = msg.replaceAll(":merio:", new StringBuilder().appendCodePoint(0x1F533).toString());
-        msg = msg.replaceAll(":baco:", new StringBuilder().appendCodePoint(0x1F41B).toString());
-        msg = msg.replaceAll(":swag:", new StringBuilder().appendCodePoint(0x1F60E).toString());
-        msg = msg.replaceAll(":stonks:", new StringBuilder().appendCodePoint(0x1F4C8).toString());
-        msg = msg.replaceAll(":diablo:", new StringBuilder().appendCodePoint(0x1F608).toString());
-        msg = msg.replaceAll(":deltoide:", new StringBuilder().appendCodePoint(0x00394).toString());
-        msg = msg.replaceAll(":squidgame:", (new StringBuilder().appendCodePoint(0x1F991).toString() + new StringBuilder().appendCodePoint(0x1F3B2).toString()));
-        return msg;
     }
 
 }

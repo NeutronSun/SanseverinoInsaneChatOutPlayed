@@ -240,6 +240,7 @@ public class ServerThread implements Runnable{
                     out.println("Wrong command, for more information please digit '/help'.");
             }
         } catch (Exception e) {
+            e.printStackTrace();
             t.interrupt();
             mailBox.removeUser(um.getName(String.valueOf(cont)));
             notifyAll("server", (um.getName(String.valueOf(cont)) + " has left the chat"));
@@ -275,14 +276,12 @@ public class ServerThread implements Runnable{
             out.println("@end");
             return;
         }
-        System.out.println(names);
-        System.out.println(line);
         for(String name : names){
             if(name.equals(um.getName(String.valueOf(cont))))
                 out.println("<Server> Avoid writing to yourself, not funny :L");
             else if(um.isConnected(name)){
                 out.println("pk" + name + "-" +  um.getPk(name));
-                System.out.println("send ki");
+                System.out.println("LOG SENT " + name + " KEY");
             }
             else
                 out.println("<Server>" + name + " not exists");
