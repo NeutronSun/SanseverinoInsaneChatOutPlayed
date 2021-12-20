@@ -13,8 +13,8 @@ Ogni client genera le proprie chiavi e spedisce la pubblica al server che si occ
 Il client dispone in oltre di comodi comandi tra cui:  (￣^￣)
 - /LIST --> lista utenti collegati
 - /ALL --> il messaggio viene inviato a tutti
-- /@user msg --> il messaggio sarà inviato ad un singolo utente
-- /@user@user... --> il messaggio sarà inviato a tutti gli utenti selezionati.
+- @user msg --> il messaggio sarà inviato ad un singolo utente
+- @user@user... --> il messaggio sarà inviato a tutti gli utenti selezionati.
 - /SET STATUS--> l'utente potrà selezionare il suo stato su ONLINE o OFFLINE.
 - /SET COLOR--> l'utente potrà selezionare un colore con cui gli altri utenti vedranno i suoi messaggi.
 
