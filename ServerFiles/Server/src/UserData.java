@@ -36,7 +36,7 @@ public class UserData {
      * Cio' non implica che non sia connesso al server, per quanto ne sanno gli altri client
      * puo' non esiste, essere disconnesso o in modalita' fantasma(connesso ma offline).
      */
-    private Boolean online = false;
+    private Boolean online;
     /**
      * {@code publicKey} dell'utente, condivisa con tutti
      */
@@ -56,6 +56,7 @@ public class UserData {
     public UserData(String userName, String password, String pk){
         this.userName = userName;
         this.password = password;
+        online = false;
         publicKey = pk;
         color = "\033[0m";
     }
@@ -67,6 +68,10 @@ public class UserData {
 
     public String getName(){
         return userName;
+    }
+
+    public String getPassword(){
+        return password;
     }
 
     public void setOnline(boolean online){

@@ -189,7 +189,7 @@ public class ServerThread implements Runnable{
             um.toObject(String.valueOf(cont)).setColor("\033[0m");
             while (!(line = in.readLine()).equals("quit")) {
                 if(line.equals("/help")){
-                    out.println("Per ulteriori informazioni su uno specifico comando, digitare HELP nome comando.\r\n"
+                    out.println("FOR MORE INFOMATION DIGIT [/help][name-command]\r\n"
                                     + "LIST\tGet a list of users\r\n"
                                     + "ALL\tSend a message to all the users\r\n"
                                     + "@SEND\tSend a message to a specific user\r\n"

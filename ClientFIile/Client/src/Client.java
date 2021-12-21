@@ -21,9 +21,9 @@ public class Client {
     private static PrintWriter putInServer;
     static Socket echoSocket;
     /**
-    *main: la funzione main è il punto di inizio per l'esecuzione di un programma.
+    * main: la funzione main è il punto di inizio per l'esecuzione di un programma.
     **/
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args){
         int portNumber = 11701;
         Encryptor encrypt = new Encryptor(1024);
         KeySorter ks = new KeySorter();

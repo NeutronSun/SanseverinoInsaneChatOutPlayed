@@ -217,21 +217,20 @@ public class FileManager {
      * password dell'utente
      * @param key
      * chiave pubblica dell'utente
-     * @throws NoSuchAlgorithmException
-     * @throws IOException
      */
-    public synchronized void addUser(String name, String password, String key) throws NoSuchAlgorithmException{
-        canRead = false;
-        String salt = getSalt();
-        password = get_SHA_512_SecurePassword(password,salt);
-        String data = (name + "/" + password + "/" + key + "/" + salt);
+    public synchronized void addUser(String name, String password, String key){
         try {
+            while(contReaders > 0) {wait();}
+            canRead = false;
+            String salt = getSalt();
+            password = get_SHA_512_SecurePassword(password,salt);
+            String data = (name + "/" + password + "/" + key + "/" + salt);
             writeUser.write(data);
             writeUser.newLine();
             writeUser.flush();
             canRead = true;
             notifyAll();
-        } catch (IOException e) {e.printStackTrace();}
+        } catch (Exception e) {e.printStackTrace();}
     }
     /**
      * cripta la password utilizzando {@link FileManager#gtetSalt il sale}
