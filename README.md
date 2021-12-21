@@ -89,8 +89,10 @@ Classe sincronizzata con l'unico (・ω<) scopo di mettere in condivisione le ch
 - [x] In caso di utente inesistente notificare il client dell'errore.
 - [x] Evitare la presenza di più client con lo stesso nome collegati contemporaneamente.
 - [x] Creare i file/cartelle in caso della loro mancanza o corruzzione.
-- [x] Errori durante la disconnessione di un utente(piu' o meno).
-- [x] Programma funzionante su MacOs, mi sembra impossibile.(13/12/21) 凸(>皿<)凸
+- [x] Errori durante la disconnessione di un utente.
+- [x] Programma funzionante su MacOs.(13/12/21) 凸(>皿<)凸
+- [x] Crash in caso di invio di messaggi vuoti.
+- [ ] Emoji non funzionati su Windows.
 
 ## **Licenza**
 Copyright (c) 22 Giugno anno 0, 2021, SafJNest and/or its affiliates. All rights reserved. SAFJNEST PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.

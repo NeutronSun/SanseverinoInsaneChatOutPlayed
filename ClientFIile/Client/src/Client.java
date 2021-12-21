@@ -25,7 +25,9 @@ public class Client {
     **/
     public static void main(String[] args){
         int portNumber = 11701;
-        Encryptor encrypt = new Encryptor(1024);
+        int nbit = 1024;
+        System.out.println("generation RSA keys " + nbit + " bits");
+        Encryptor encrypt = new Encryptor(nbit);
         KeySorter ks = new KeySorter();
         try{
             String hostName = Inet4Address.getLocalHost().getHostAddress();
@@ -36,7 +38,6 @@ public class Client {
             ClientThreadReader read = new ClientThreadReader(in, putInServer, ks, encrypt);
             Thread t = new Thread(read);
             t.start();
-           // putInServer.println(encrypt.getKey());
             String userInput; 
             while (!(userInput = inKey.readLine()).equals("quit")) {
                 if(userInput.startsWith("@") || userInput.startsWith("/all")) {

@@ -184,6 +184,7 @@ public class ServerThread implements Runnable{
              */
             String line = "";
             out.println("Welcome in, digit /help for more infomation");
+            out.println("To send a message -> [@username][message]");
             out.println("/ready");
             notifyAll("server", (um.getName(String.valueOf(cont)) + " is now online"));
             um.toObject(String.valueOf(cont)).setColor("\033[0m");
@@ -240,7 +241,6 @@ public class ServerThread implements Runnable{
                     out.println("Wrong command, for more information please digit '/help'.");
             }
         } catch (Exception e) {
-            e.printStackTrace();
             t.interrupt();
             mailBox.removeUser(um.getName(String.valueOf(cont)));
             notifyAll("server", (um.getName(String.valueOf(cont)) + " has left the chat"));
@@ -266,26 +266,22 @@ public class ServerThread implements Runnable{
      * Messaggio inviato dal client contenenti i nomi.
      */
     public void sendKeys(String line){
-        String[] names;
-        if(line.startsWith("/all")){
-            names = um.namesToArray(String.valueOf(cont));
-        }else
-             names = line.substring(1, line.indexOf(" ")).split("@");
-        if(names.length == 0){
-            out.println("wrong format. If you need help use the command /help.");
-            out.println("@end");
-            return;
-        }
+        String[] names = null;
+        try {
+            if(line.startsWith("/all"))
+                names = um.namesToArray(String.valueOf(cont));
+            else
+                names = line.substring(1, line.indexOf(" ")).split("@");
+        }catch (Exception e) {out.println("Wrong syntax for sending messages");out.println("@end");return;}
         for(String name : names){
             if(name.equals(um.getName(String.valueOf(cont))))
                 out.println("<Server> Avoid writing to yourself, not funny :L");
             else if(um.isConnected(name)){
                 out.println("pk" + name + "-" +  um.getPk(name));
-                System.out.println("LOG SENT " + name + " KEY");
+                System.out.println("log<" + um.getName(String.valueOf(cont)) + ">RECIEVES " + name + " KEY");
             }
             else
-                out.println("<Server>" + name + " not exists");
-            
+                out.println("<Server>" + name + " not found.");
         }
         out.println("@end");
     }
@@ -365,7 +361,8 @@ public class ServerThread implements Runnable{
             new Message(
                 um.getName(String.valueOf(cont)), 
                 msg,dtf.format(LocalDateTime.now()), 
-                um.toObject(String.valueOf(cont)).getColor()), 
+                um.toObject(String.valueOf(cont)).getColor()
+            ), 
             ss[1]
         );
     }
