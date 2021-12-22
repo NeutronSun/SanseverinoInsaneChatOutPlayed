@@ -318,14 +318,14 @@ public class ServerThread implements Runnable{
                 String[] rgbCode = line.substring(line.indexOf("rgb")+4).split(" ");
                 new ArrayList<String>(Arrays.asList(rgbCode)).forEach(i ->{
                     if(!Pattern.matches("([01]?[0-9][0-9]?|2[0-4][0-9]|25[0-5])", i))
-                        throw new IllegalArgumentException("ez");
+                        throw new IllegalArgumentException("wrong syntax: use [/set][color][rgb][0-255][0-255][0-255]");
                 });
                 String prefix = "\033[38;2;" + rgbCode[0] + ";"+rgbCode[1]+";"+rgbCode[2]+"m";
                 um.toObject(String.valueOf(cont)).setColor(prefix);
                 out.println("Now your color is " + prefix + "this\033[0m");
                 return;
             }
-        } catch (Exception e) {out.println("wrong syntax: use [/set][color][rgb][0-255][0-255][0-255]");}
+        } catch (Exception e) {out.println(e.getMessage());}
         if(colors.containsKey(s[2])){
             um.toObject(String.valueOf(cont)).setColor(colors.get(s[2]));
             out.println("Now your color is " + s[2].toUpperCase());
@@ -474,6 +474,11 @@ public class ServerThread implements Runnable{
         return x;
     }
 
+    /**
+     * Consente di stampare tutte le combinazioni
+     * dei colori RGB -> {@code 255*255*255} combinazioni.
+     * <p>Non e' molto ma e' un lavoro onesto.
+     */
     public void colorPicker(){
         for(int r = 0; r < 255; r++){
             for(int g = 0; g < 255; g++){

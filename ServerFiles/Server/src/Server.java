@@ -13,6 +13,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.lang.StringBuilder;
 
+/**
+ * Server.
+ */
 public class Server {   
     public static void main(String[] args) throws Exception {
         int portNumber = 11701, contThread = 0;

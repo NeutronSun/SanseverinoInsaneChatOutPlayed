@@ -274,7 +274,6 @@ public class FileManager {
             random.nextBytes(bytes);
             Encoder encoder = Base64.getUrlEncoder().withoutPadding();
             String salt = encoder.encodeToString(bytes);
-            System.out.println(salt);
             return salt;
         } catch (Exception e) {
             return null;
