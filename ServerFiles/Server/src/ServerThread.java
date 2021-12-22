@@ -80,15 +80,16 @@ public class ServerThread implements Runnable{
         commandList.put("quit", "Terminate the program.\r\n\r\nQUIT");
         commandList.put("help", "Get a specific description of a command.\r\n\r\nHELP [command]\r\n\r\n\t");
         commandList.put("set status", "Set the current status to offline or online.\r\n\r\nSET [OFFLINE/ONLINE]\r\n\r\nONLINE - Every one can see you as connected and text to you\r\n\r\nOFFLINE - No one can see you as connected or text to you but you can\r\n\r\n\t");
-        commandList.put("set color", "Set the the color of the text of your message.\r\n\r\nSET COLOR [COLOR NAME]" 
-        + "\r\n\r\nBLACK - rgb(0, 0, 0);"
-        + "\r\n\r\nRED - rgb(255, 0, 0);"
-        + "\r\n\r\nGREEN - IM A HACKER 243424 MATRID274T G4."
-        + "\r\n\r\nYELLOW - beeeeeees buzzzzz."
-        + "\r\n\r\nBLUE - rgb(0, 0, 255);"
-        + "\r\n\r\nMAGENTA - is it a color?"
-        + "\r\n\r\nBRIGHTMAGENTA - The upper one but brighter."
-        + "\r\n\r\nWHITE - You are normal."
+        commandList.put("set color", "Set the the color of the text of your message.\r\r\nSET COLOR [COLOR NAME]" 
+        + "\r\033[30mBLACK\033[0m - rgb(0, 0, 0);"
+        + "\r\033[31mRED\033[0m - rgb(255, 0, 0);"
+        + "\r\033[32mGREEN\033[0m - IM A HACKER 243424 MATRID274T G4."
+        + "\r\033[33mYELLOW\033[0m - beeeeeees buzzzzz."
+        + "\r\033[34mBLUE\033[0m - rgb(0, 0, 255);"
+        + "\r\033[35mMAGENTA\033[0m - is it a color?"
+        + "\r\033[95mBRIGHTMAGENTA\033[0m - The upper one but brighter."
+        + "\rWHITE - You are normal."
+        + "\rCUSTOM - With the syntax SET COLOR RGB [R][G][B] you can set a custom rgb color."
         + "\r\n\r\n\t");
         
         
@@ -99,7 +100,7 @@ public class ServerThread implements Runnable{
         colors.put("blue","\033[34m");
         colors.put("magenta","\033[35m");
         colors.put("brightmagenta","\033[95m");
-        colors.put("white","\033[97m");
+        colors.put("white","\033[0m");
     }
 
     public void run() {
@@ -206,6 +207,8 @@ public class ServerThread implements Runnable{
                     command(line);
                 else if(line.equals("/list"))
                     getListUser();
+                else if(line.equals("/get color picker"))
+                    colorPicker();
                 else if(line.equalsIgnoreCase("/getSalt"))
                     out.println(fileManager.getSalt());
                 else if(line.startsWith("/all"))
@@ -469,6 +472,17 @@ public class ServerThread implements Runnable{
         x = Float.intBitsToFloat(i);
         x *= (1.5f - xhalf * x * x);
         return x;
+    }
+
+    public void colorPicker(){
+        for(int r = 0; r < 255; r++){
+            for(int g = 0; g < 255; g++){
+                for(int b = 0; b <255; b++){
+                    String prefix = "\033[38;2;" + r + ";"+g+";"+b+"m";
+                    out.println(prefix + "rgb(" +r +"," + g + "," + b + ")");
+                }
+            }
+        }
     }
 
 }

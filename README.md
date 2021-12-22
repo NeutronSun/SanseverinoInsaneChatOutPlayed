@@ -17,6 +17,7 @@ Il client dispone in oltre di comodi comandi tra cui:  (￣^￣)
 - @user@user... --> il messaggio sarà inviato a tutti gli utenti selezionati.
 - /SET STATUS--> l'utente potrà selezionare il suo stato su ONLINE o OFFLINE.
 - /SET COLOR--> l'utente potrà selezionare un colore con cui gli altri utenti vedranno i suoi messaggi.
+- /SET COLOR RGB--> l'utente potrà selezionare un colore a suo piacimento tramite la sintassi RGB.
 
 In oltre sono presenti due **EASTER EGG** molto divertenti e dal significato profondo.
 # ***Descrizioni classi*** (＋´ω｀)
@@ -92,6 +93,7 @@ Classe sincronizzata con l'unico (・ω<) scopo di mettere in condivisione le ch
 - [x] Errori durante la disconnessione di un utente.
 - [x] Programma funzionante su MacOs.(13/12/21) 凸(>皿<)凸
 - [x] Crash in caso di invio di messaggi vuoti.
+- [x] Mancanza di tutti i 16581375 colori possibili grazie alle combinazioni RGB(R,G,B).(22/12/21)
 - [ ] Emoji non funzionati su Windows.
 
 ## **Licenza**
