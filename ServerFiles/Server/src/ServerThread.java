@@ -12,6 +12,8 @@ import java.io.*;
 import java.net.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
@@ -88,7 +90,8 @@ public class ServerThread implements Runnable{
         + "\r\n\r\nBRIGHTMAGENTA - The upper one but brighter."
         + "\r\n\r\nWHITE - You are normal."
         + "\r\n\r\n\t");
-       
+        
+        
         colors.put("black","\033[30m");
         colors.put("red","\033[31m");
         colors.put("green","\033[32m");
@@ -307,6 +310,19 @@ public class ServerThread implements Runnable{
      */
     public void setColor(String line){
         String[] s = line.split(" ");
+        try {
+            if(s[2].equals("rgb")){
+                String[] rgbCode = line.substring(line.indexOf("rgb")+4).split(" ");
+                new ArrayList<String>(Arrays.asList(rgbCode)).forEach(i ->{
+                    if(!Pattern.matches("([01]?[0-9][0-9]?|2[0-4][0-9]|25[0-5])", i))
+                        throw new IllegalArgumentException("ez");
+                });
+                String prefix = "\033[38;2;" + rgbCode[0] + ";"+rgbCode[1]+";"+rgbCode[2]+"m";
+                um.toObject(String.valueOf(cont)).setColor(prefix);
+                out.println("Now your color is " + prefix + "this\033[0m");
+                return;
+            }
+        } catch (Exception e) {out.println("wrong syntax: use [/set][color][rgb][0-255][0-255][0-255]");}
         if(colors.containsKey(s[2])){
             um.toObject(String.valueOf(cont)).setColor(colors.get(s[2]));
             out.println("Now your color is " + s[2].toUpperCase());
