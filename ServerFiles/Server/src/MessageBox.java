@@ -118,8 +118,7 @@ public class MessageBox {
      * in attesa.
      * 
      * @param receiver
-     *                 Stringa contente il nome del ricevente di cui leggere i
-     *                 messaggi
+     * Stringa contente il nome del ricevente di cui leggere i messaggi
      * @return
      *         restituisce un array di {@link Message messaggi} che l'utente ha
      *         ricevuto

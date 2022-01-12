@@ -46,7 +46,7 @@ public class Encryptor {
     private BigInteger e;
     /**
      * {@code esponente privato} per decriptare. 
-     * <p> si calcola facendo {@code this = e-1 mod n}
+     * <p> si calcola facendo {@code this = e^-1 mod n}
      */
     private BigInteger d;
     /**
@@ -215,7 +215,7 @@ public class Encryptor {
         String cypherText = "";
         String supp = "";
         for(int i = 0; i < length; i++) {
-
+            
         }
         for(char c : ss.toCharArray()){
             supp += c;

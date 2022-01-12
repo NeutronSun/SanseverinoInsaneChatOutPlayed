@@ -373,12 +373,14 @@ public class ServerThread implements Runnable{
     public void sendMessage(String line) throws InterruptedException, IOException{
         String[] ss = line.split("-");
         String msg = ss[2];
+        //@dec-RECIVEG-MESSAGGIO
         msg = "@dec-" + msg; 
         DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
         mailBox.writeMessage(
             new Message(
                 um.getName(String.valueOf(cont)), 
-                msg,dtf.format(LocalDateTime.now()), 
+                msg,
+                dtf.format(LocalDateTime.now()), 
                 um.toObject(String.valueOf(cont)).getColor()
             ), 
             ss[1]
