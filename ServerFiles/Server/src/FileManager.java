@@ -215,16 +215,16 @@ public class FileManager {
      * nome utente
      * @param password
      * password dell'utente
-     * @param key
-     * chiave pubblica dell'utente
+     * @param mail
+     * mail dell'utente
      */
-    public synchronized void addUser(String name, String password, String key){
+    public synchronized void addUser(String name, String password, String mail){
         try {
             while(contReaders > 0) {wait();}
             canRead = false;
             String salt = getSalt();
             password = get_SHA_512_SecurePassword(password,salt);
-            String data = (name + "/" + password + "/" + key + "/" + salt);
+            String data = (name + "/" + password + "/" + mail + "/" + salt);
             writeUser.write(data);
             writeUser.newLine();
             writeUser.flush();

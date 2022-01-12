@@ -373,7 +373,6 @@ public class ServerThread implements Runnable{
     public void sendMessage(String line) throws InterruptedException, IOException{
         String[] ss = line.split("-");
         String msg = ss[2];
-        System.out.println("arr: " + ss);
         msg = "@dec-" + msg; 
         DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
         mailBox.writeMessage(
