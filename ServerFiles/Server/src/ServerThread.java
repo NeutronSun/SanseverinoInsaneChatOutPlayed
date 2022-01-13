@@ -385,6 +385,7 @@ public class ServerThread implements Runnable{
             ), 
             ss[1]
         );
+        System.out.println("log<" + um.getName(String.valueOf(cont)) + "> SENT CORRECTLY THE MESSAGE");
     }
 
 
