@@ -51,7 +51,11 @@ public class KeySorter {
     }
 
     public synchronized boolean isOkay(){
-        return (keys.size() == 0) ? false : true;
+        if(keys.size() == 0){
+            ready = false;
+            return ready;
+        }
+        return true;
     }
 
     /**
