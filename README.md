@@ -25,7 +25,7 @@ In questo progetto sono presenti 12 classi (8 lato server e 4 lato client) dove 
 
 ## ***Comunicazione classi***  ♥w♥
 In questa sezione ci sarà solo una schema riassuntivo di come, dopo l'istante t<sub>0</sub> tutte le classi iniziano a collaborare:
-- Il server viene avviato, e tutti gli oggetti condivisi (messageBox, filemanager, usermanager) vengono istanziato.
+- Il server viene avviato, e tutti gli oggetti condivisi (messageBox, filemanager, usermanager) vengono istanziati.
   - In caso in cui ci siano problemi con i vari file del server, le cartelle o gli stessi mancanti verranno istanziati.
   - Ora il server rimane in attessa di una richiesta di collegamento (´ｖ｀)
 - Il client si avvia e vengono istanziati gli oggetti : 
