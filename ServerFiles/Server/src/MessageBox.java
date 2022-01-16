@@ -42,9 +42,9 @@ public class MessageBox {
      * Mappa contenente il messaggio e, come chiave, il ricevente.
      * 
      * @param <String>
-     *                              String key, il ricevente(es "client 1")
+     * String key, il ricevente(es "client 1")
      * @param <<ArrayList<Message>>
-     *                              il messaggio che ricevera'
+     * il messaggio che ricevera'
      */
     private HashMap<String, ArrayList<Message>> messageMap;
     /**
@@ -68,7 +68,7 @@ public class MessageBox {
      * aggiunto un indice con il suo nome
      * 
      * @param name
-     *             nome del ricevente a cui fare riferimento
+     * nome del ricevente a cui fare riferimento
      */
 
     public synchronized void addUser(String name) {
@@ -90,10 +90,10 @@ public class MessageBox {
      * {@link ServerThread} di un singolo messaggio alla volta
      * 
      * @param msg
-     *                 messaggio di tipo {@link Message}
+     *  messaggio di tipo {@link Message}
      * @param recivier
-     *                 ricevente del messaggio, chiave/indice della mappa
-     *                 {@link MessageBox#messageMap messageMap}
+     *  ricevente del messaggio, chiave/indice della mappa
+     *  {@link MessageBox#messageMap messageMap}
      */
     public synchronized void writeMessage(Message msg, String recivier) {
         try {
@@ -120,10 +120,7 @@ public class MessageBox {
      * @param receiver
      * Stringa contente il nome del ricevente di cui leggere i messaggi
      * @return
-     *         restituisce un array di {@link Message messaggi} che l'utente ha
-     *         ricevuto
-     * @throws InterruptedException
-     *                              non succede e.e
+     *  restituisce un array di {@link Message messaggi} che l'utente ha ricevuto
      */
     public Message[] getMessage(String receiver) {
         try {
@@ -154,6 +151,13 @@ public class MessageBox {
 
     }
 
+    /**
+     * Medoto che si occupa di rimuovere un {@link UserData utente} dalla
+     * {@link MessageBox#messageMap mappa} in maniere concorrente e sincronizzata.
+     * <p>Solitamente il metodo viene richiamato alla disconessione di un utente da parte del client.
+     * @param receiver
+     * stringa contente il nome del utente che sara' rimosso.
+     */
     public synchronized void removeUser(String receiver) {
         try {
             while (contReader > 0) {wait();}

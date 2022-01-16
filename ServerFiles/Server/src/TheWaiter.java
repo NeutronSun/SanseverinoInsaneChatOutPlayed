@@ -15,6 +15,8 @@ import java.net.*;
  * Classe che si occupa di "aspettare" una qualsiasi modifica dell'oggetto
  * {@link TheWaiter#mailBox mailbox}
  * e contattare poi il client corrispettivo
+ * <p> Non e' un cameriere ma {@code TheOneWhoWaits}.
+ * <p> O MAGARI E' UN CAMERIERE CHE SERVE AI CLIENT(I) I MESSAGGI?!?!?!?!
  * 
  * @author <a href="https://github.com/NeutronSun">NeutronSun</a>
  */

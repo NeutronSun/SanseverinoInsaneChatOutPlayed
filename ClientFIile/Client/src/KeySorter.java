@@ -44,12 +44,22 @@ public class KeySorter {
         ready = false;
     }
 
-    
+    /**
+     * Metodo che viene chiamato quando il {@link ClientThreadReader} ha ricevuto
+     * tutte le chiavi e le ha depositate al sicuro nella {@link KeySorter#keys mappa}
+      */
     public synchronized void isReady(){
         ready = true;
         notifyAll();
     }
 
+    /**
+     * Metodo che controlla che al client siano arrivate tutte le chiavi 
+     * correttamente.
+     * <p> In caso di utente digitato male, o non esistente, la {@link KeySorter#keys mappa}
+     * puo' essere vuota e cio' creerebbe non pochi problemi.
+     * @return
+     */
     public synchronized boolean isOkay(){
         if(keys.size() == 0){
             ready = false;
