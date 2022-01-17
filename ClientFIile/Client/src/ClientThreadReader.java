@@ -114,6 +114,16 @@ public class ClientThreadReader implements Runnable {
                 + "\033[90m╚══════╝\033[93m╚═╝  ╚═╝\033[90m╚═╝   \033[93m ╚════╝     \033[90m╚═╝  ╚═══╝\033[93m╚══════╝\033[90m╚══════╝\033[93m   ╚═╝\n\033[0m", 2);
     }   
 
+    /**
+     * Controlla che nel messaggio siano presenti delle emoji.
+     * <p>Funziona solo su Linux/MacOS.
+     * <p>Un tempo funzionava anche su windows poi la Microsoft ha fatto qualcosa di
+     * molto brutto.
+     * @param msg
+     * messaggio
+     * @return
+     * Stringa contenente le emoji.
+     */
     public static String checkEmoji(String msg){
         if(System.getProperty("os.name").startsWith("Windows"))
             return msg;

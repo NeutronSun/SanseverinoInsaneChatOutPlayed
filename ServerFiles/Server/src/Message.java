@@ -14,6 +14,7 @@
  * <li> {@link Message#receiver ricevente}
  * <li> {@link Message#msg il messggio}
  * <li> {@link Message#data la data}
+ * <li> {@link Message#color il colore}
  * </ul><p>
  * @author <a href="https://github.com/NeutronSun">NeutronSun</a>
  * @version 1

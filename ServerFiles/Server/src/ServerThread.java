@@ -370,10 +370,20 @@ public class ServerThread implements Runnable{
         }catch (Exception e) {out.println("You are the only one connected.");}
     }
 
+
+    /**
+     * Metodo che si occupa di inserire il {@link Message messaggio} criptato 
+     * all'interno della {@link MessageBox#messageMap mappa} 
+     * @param line
+     * stringa contenente il messaggio, il mittente ed altre informazioni
+     * @throws InterruptedException
+     * non succede
+     * @throws IOException
+     * mi metto a gridare
+     */
     public void sendMessage(String line) throws InterruptedException, IOException{
         String[] ss = line.split("-");
         String msg = ss[2];
-        //@dec-RECIVEG-MESSAGGIO
         msg = "@dec-" + msg; 
         DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("HH:mm");
         mailBox.writeMessage(

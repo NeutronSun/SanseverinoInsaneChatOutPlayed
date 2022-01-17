@@ -15,6 +15,20 @@ import java.lang.StringBuilder;
 
 /**
  * Server.
+ * The Server.
+ * A SafJNest server. 
+ * The Superior SafJNest server.
+ * <p>
+ * <pre>
+ * public static printName() {
+ *  String name = "SafJNest Server";
+ *  String compliment = "";
+ *  while(1>0){
+ *  compliment+= SafJNestClass.getRandomSuperiorCompliment()+" ";
+ *  print(compliment + name);
+ *  }
+ *}
+ * </pre>
  */
 public class Server {   
     public static void main(String[] args) throws Exception {

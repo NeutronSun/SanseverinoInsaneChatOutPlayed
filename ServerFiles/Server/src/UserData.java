@@ -15,6 +15,7 @@
  * <li> {@link UserData#password password}
  * <li> {@link UserData#online stato di online}
  * <li> {@link UserData#publicKey chiave pubblica }
+ * <li> {@link UserData#color codice del colore}
  * </ul><p>
  * @author <a href="https://github.com/NeutronSun">NeutronSun</a>
  * @version 1

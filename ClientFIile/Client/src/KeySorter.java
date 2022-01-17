@@ -11,11 +11,12 @@
 import java.util.HashMap;
 
 /**
- * Classe che si occupa di smistare le chiavi pubbliche tra l'istanza del {@code client} {@link Client} ed il 
+ * Lo smistatore supremo del client.
+ * <p>Classe che si occupa di smistare le chiavi pubbliche tra l'istanza del {@code client} {@link Client} ed il 
  * {@code ClientThreadReader} {@link ClientThreadReader}
  *  
- * @author Sanseverino Lorenzo
- * @version 1
+ * @author <a href="https://github.com/NeutronSun">NeutronSun</a> 
+ * @version 1.2
  * @since 2021-12-2 (aaaa-mm-gg)
  */
 public class KeySorter {

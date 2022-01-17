@@ -45,11 +45,11 @@ public class TheWaiter implements Runnable {
      * Defaul constructor
      * 
      * @param s
-     *                socket
+     * socket
      * @param mailBox
-     *                {@link MessageBox} condiviso dal thread principale
+     * {@link MessageBox} condiviso dal thread principale
      * @param data
-     *                {@link UserData}
+     * {@link UserData}
      * @throws IOException
      */
     public TheWaiter(Socket s, MessageBox mailBox, UserData data) throws IOException {

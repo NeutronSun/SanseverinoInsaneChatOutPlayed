@@ -237,6 +237,15 @@ public class Encryptor {
         return cypherText;
     }
 
+    /**
+     * Decripta le parti del messaggio divise dal 
+     * separatore {@code //}.
+     * <p>Insano.
+     * @param msg
+     * messaggio criptato
+     * @return
+     * messaggio decriptato
+     */
     public String decrypt(String msg) {
         msg = msg.substring(2);
         String decrypted = "";
