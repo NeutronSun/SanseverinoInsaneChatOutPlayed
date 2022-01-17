@@ -36,7 +36,7 @@ public class Server {
         try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
             System.out.println("ip: " + Inet4Address.getLocalHost().getHostAddress());
             System.out.println("port: " + portNumber);
-            System.out.println("Waiting for user..." +  new StringBuilder().appendCodePoint(0x1F920).toString());
+            System.out.println("Waiting for user...BEEEEE BZZZ BZZZZ");
             
             FileManager fm = new FileManager();
             MessageBox mailBox = new MessageBox();
